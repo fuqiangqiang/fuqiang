@@ -1,0 +1,679 @@
+{
+    "@platforms": [
+        "android",
+        "iPhone",
+        "iPad"
+    ],
+    "id": "drs",
+    /*应用的标识，创建应用时自动生成，勿手动修改*/
+    "name": "drs",
+    /*应用名称，程序桌面图标名称*/
+    "version": {
+        "name": "6.0.0",
+        /*应用版本名称*/
+        "code": "20102"
+    },
+    "description": "drs系统",
+    /*应用描述信息*/
+    "icons": {
+        "144": "icon.png"
+    },
+    "launch_path": "login.html",
+    /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+    "developer": {
+        "name": "",
+        /*开发者名称*/
+        "email": "",
+        /*开发者邮箱地址*/
+        "url": ""
+    },
+    "orientation": [
+        "portrait"
+    ],
+    "permissions": {
+        "Accelerometer": {
+            "description": "加速度传感器"
+        },
+        "Audio": {
+            "description": "音频录制与播放"
+        },
+        "Cache": {
+            "description": "缓存管理"
+        },
+        "Camera": {
+            "description": "摄像头"
+        },
+        "Console": {
+            "description": "调试输出日志"
+        },
+        "Contacts": {
+            "description": "系统通讯录"
+        },
+        "Device": {
+            "description": "设备信息"
+        },
+        "Downloader": {
+            "description": "文件下载"
+        },
+        "Events": {
+            "description": "扩展事件"
+        },
+        "File": {
+            "description": "本地文件系统"
+        },
+        "Gallery": {
+            "description": "系统相册"
+        },
+        "Geolocation": {
+            "description": "位置信息"
+        },
+        "Invocation": {
+            "description": "Native.js能力"
+        },
+        "Messaging": {
+            "description": "消息通讯"
+        },
+        "Orientation": {
+            "description": "方向传感器"
+        },
+        "Proximity": {
+            "description": "距离传感器"
+        },
+        "Storage": {
+            "description": "本地数据存储"
+        },
+        "Webview": {
+            "description": "窗口管理"
+        },
+        "NativeObj": {
+            "description": "原生控件"
+        },
+        "NativeUI": {
+            "description": "原生UI控件"
+        },
+        "Navigator": {
+            "description": "浏览器信息"
+        },
+        "Uploader": {
+            "description": "文件上传"
+        },
+        "Runtime": {
+            "description": "运行环境"
+        },
+        "XMLHttpRequest": {
+            "description": "跨域网络请求"
+        },
+        "Zip": {
+            "description": "压缩与解压"
+        },
+        "Barcode": {
+            "description": "二维码扫描"
+        },
+
+        "Speech": {
+            "description": "语音识别"
+        },
+        "UI": {},"Maps":{}
+    },
+    "plus": {
+        "splashscreen": {
+            "autoclose": false,
+            /*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+            "waiting": false
+        },
+        "statusbar": {
+            "immersed": false,
+            /*沉浸式状态栏样式*/
+            "background": "#17284F"
+        },
+        "popGesture": "close",
+        /*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+        "runmode": "liberate",
+        /*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+        "signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",
+        /*可选，保留给应用签名，暂不使用*/
+        "distribute": {
+            "apple": {
+                "appid": "",
+                /*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+                "mobileprovision": "",
+                /*iOS应用打包配置文件*/
+                "password": "",
+                /*iOS应用打包个人证书导入密码*/
+                "p12": "",
+                /*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+                "devices": "iphone",
+                /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+                "urlschemewhitelist": [
+                    /*iOS9调用第三方应用urlscheme白名单*/
+                    "baidumap",
+                    "iosamap"
+                ],
+                "shortcuts": [
+                    /*3D Touch快捷菜单项*/
+                    {
+                        "type": "share",
+                        "title": "分 享",
+                        "subtitle": "分享到微信、微博、QQ",
+                        "icontype": "UIApplicationShortcutIconTypeShare"
+                    }, {
+                        "type": "about",
+                        "title": "关 于",
+                        "subtitle": "www.neiwang.cn",
+                        "iconfile": "sa.png",
+                        "userinfo": {
+                            "key3": "value3"
+                        }
+                    }
+                ],
+                "frameworks": []
+            },
+            "google": {
+                "packagename": "",
+                /*Android应用包名，如io.dcloud.HelloH5*/
+                "keystore": "",
+                /*Android应用打包使用的密钥库文件*/
+                "password": "",
+                /*Android应用打包使用密钥库中证书的密码*/
+                "aliasname": "",
+                /*Android应用打包使用密钥库中证书的别名*/
+                "ImmersedStatusbar": true,
+                /*Android平台开启沉浸式状态栏样式*/
+                "permissions": ["<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.LOCATION_HARDWARE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission  android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\"/>","<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.CONTROL_LOCATION_UPDATES\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.INSTALL_LOCATION_PROVIDER\"/>","<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]
+            },
+            "orientation": [
+                "portrait-primary"
+            ],
+            /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+            "icons": {
+                "ios": {
+                    "prerendered": true,
+                    /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+                    "auto": "",
+                    /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+                    "iphone": {
+                        "normal": "",
+                        /*iPhone3/3GS程序图标，分辨率：57x57*/
+                        "retina": "",
+                        /*iPhone4程序图标，分辨率：114x114*/
+                        "retina7": "",
+                        /*iPhone4S/5/6程序图标，分辨率：120x120*/
+                        "retina8": "",
+                        /*iPhone6 Plus程序图标，分辨率：180x180*/
+                        "spotlight-normal": "",
+                        /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
+                        "spotlight-retina": "",
+                        /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
+                        "spotlight-retina7": "",
+                        /*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal": "",
+                        /*iPhone4设置页面程序图标，分辨率：29x29*/
+                        "settings-retina": "",
+                        /*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
+                        "settings-retina8": ""
+                    },
+                    "ipad": {
+                        "normal": "",
+                        /*iPad普通屏幕程序图标，分辨率：72x72*/
+                        "retina": "",
+                        /*iPad高分屏程序图标，分辨率：144x144*/
+                        "normal7": "",
+                        /*iPad iOS7程序图标，分辨率：76x76*/
+                        "retina7": "",
+                        /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+                        "spotlight-normal": "",
+                        /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+                        "spotlight-retina": "",
+                        /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+                        "spotlight-normal7": "",
+                        /*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+                        "spotlight-retina7": "",
+                        /*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal": "",
+                        /*iPad设置页面程序图标，分辨率：29x29*/
+                        "settings-retina": ""
+                    }
+                },
+                "android": {
+                    "mdpi": "",
+                    /*普通屏程序图标，分辨率：48x48*/
+                    "ldpi": "",
+                    /*大屏程序图标，分辨率：48x48*/
+                    "hdpi": "",
+                    /*高分屏程序图标，分辨率：72x72*/
+                    "xhdpi": "",
+                    /*720P高分屏程序图标，分辨率：96x96*/
+                    "xxhdpi": ""
+                }
+            },
+            "splashscreen": {
+                "ios": {
+                    "iphone": {
+                        "default": "",
+                        /*iPhone3启动图片选，分辨率：320x480*/
+                        "retina35": "",
+                        /*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+                        "retina40": "",
+                        /*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+                        "retina47": "",
+                        /*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
+                        "retina55": "",
+                        /*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+                        "retina55l": ""
+                    },
+                    "ipad": {
+                        "portrait": "",
+                        /*iPad竖屏启动图片，分辨率：768x1004*/
+                        "portrait-retina": "",
+                        /*iPad高分屏竖屏图片，分辨率：1536x2008*/
+                        "landscape": "",
+                        /*iPad横屏启动图片，分辨率：1024x748*/
+                        "landscape-retina": "",
+                        /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+                        "portrait7": "",
+                        /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+                        "portrait-retina7": "",
+                        /*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+                        "landscape7": "",
+                        /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+                        "landscape-retina7": ""
+                    }
+                },
+                "android": {
+                    "mdpi": "",
+                    /*普通屏启动图片，分辨率：240x282*/
+                    "ldpi": "",
+                    /*大屏启动图片，分辨率：320x442*/
+                    "hdpi": "",
+                    /*高分屏启动图片，分辨率：480x762*/
+                    "xhdpi": "",
+                    /*720P高分屏启动图片，分辨率：720x1242*/
+                    "xxhdpi": ""
+                }
+            },
+            "plugins": {
+                "maps": {
+                    "baidu": {
+                        "appkey_ios": "Zoj23p8EVKF2VQRwDKYQB2u7mEhaUnOn",
+                        "appkey_android": "Zoj23p8EVKF2VQRwDKYQB2u7mEhaUnOn",
+                        "appkey": "Zoj23p8EVKF2VQRwDKYQB2u7mEhaUnOn",
+                        "description": ""
+                    }
+                },
+                "statics": {},
+
+                "push": {},
+                "share": {},
+                "payment": {},
+                "oauth": {}
+            }
+        }
+    },
+    "dependencies": {
+		"pages": {
+			"setIp.html": {
+				"href": "setIp.html",
+				"resources": [
+					"js/mui/mui.min.js",
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf"
+				],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
+			},
+			"device-pending-sync.html": {
+				"href": "device-pending-sync.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"js/mui/mui.min.js"
+				],
+				"priority": 1,
+				"refer": [
+					"device-add.html"
+				]
+			},
+			"order.html": {
+				"href": "order.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"js/mui/mui.min.js"
+				],
+				"priority": 2,
+				"refer": []
+			},
+			"search.html": {
+				"href": "search.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"css/mui/mui.picker.min.css",
+					"css/iconfont/iconfont.css",
+					"css/iconfont/iconfont.eot",
+					"css/iconfont/iconfont.ttf",
+					"css/iconfont/iconfont.svg",
+					"css/search.css",
+					"js/mui/mui.min.js",
+					"js/mui/mui.picker.min.js",
+					"js/plugins/jquery-3.2.1.js",
+					"js/plugins/template-web.js",
+					"js/common.js",
+					"js/search.js"
+				],
+				"refer": [
+					"order.html"
+				],
+				"priority": 2
+			},
+			"device-sync.html": {
+				"href": "device-sync.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"js/mui/mui.min.js"
+				],
+				"priority": 3,
+				"refer": [
+					"device-detail.html",
+					"device-add.html"
+				]
+			},
+			"device-uncommitted.html": {
+				"href": "device-uncommitted.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"js/mui/mui.min.js",
+					"images/sinaweibo.png",
+					"images/camera/banqiuji.png",
+					"images/camera/weizhi.png",
+					"images/camera/qiuji.png",
+					"images/camera/gudingqiangji.png"
+				],
+				"priority": 4,
+				"refer": [
+					"device-detail.html",
+					"device-add.html"
+				]
+			},
+			"device-pending-checked.html": {
+				"href": "device-pending-checked.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"js/mui/mui.min.js"
+				],
+				"priority": 5,
+				"refer": [
+					"device-add.html"
+				]
+			},
+			"my.html": {
+				"href": "my.html",
+				"resources": [
+					"css/iconfont/iconfont.css",
+					"css/iconfont/iconfont.eot",
+					"css/iconfont/iconfont.ttf",
+					"css/iconfont/iconfont.svg",
+					"css/common.css",
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"js/mui/mui.min.js",
+					"js/plugins/jquery-3.2.1.js",
+					"js/plugins/template-web.js",
+					"js/common.js",
+					"js/main.js",
+					"images/policeman.png"
+				],
+				"refer": [
+					"device-pending-sync.html",
+					"search.html",
+					"device-sync.html",
+					"device-uncommitted.html",
+					"device-pending-checked.html",
+					"login.html",
+					"about.html",
+					"change-psd.html"
+				],
+				"priority": 1
+			},
+			"map.html": {
+				"href": "map.html",
+				"resources": [
+					"js/mui.min.js",
+					"images/user-photo.png",
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"map/map.css",
+					"images/camera/banqiuji.png",
+					"js/plugins/baidumapv2/images/m3.png",
+					"js/plugins/baidumapv2/images/blank.gif",
+					"js/plugins/baidumapv2/images/m2.png",
+					"js/plugins/baidumapv2/images/m1.png",
+					"js/plugins/baidumapv2/images/m0.png",
+					"js/plugins/jquery-3.2.1.js",
+					"js/plugins/template-web.js",
+					"js/mui/mui.min.js",
+					"js/common.js",
+					"js/plugins/baidumapv2/map_load.js",
+					"js/plugins/baidumapv2/tools/InfoBox_min.js",
+					"js/plugins/baidumapv2/tools/TextIconOverlay_min.js",
+					"js/plugins/baidumapv2/tools/MarkerClusterer_min.js",
+					"js/plugins/baidumapv2/images/openhand.cur",
+					"js/plugins/baidumapv2/images/panorama/indoor_exit.png",
+					"js/plugins/baidumapv2/images/panorama/close.png"
+				],
+				"priority": 2,
+				"refer": []
+			},
+			"device-add.html": {
+				"href": "device-add.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"css/device-add.css",
+					"js/mui/mui.min.js",
+					"js/plugins/jquery-3.2.1.js",
+					"js/plugins/template-web.js"
+				],
+				"priority": 3,
+				"refer": [
+					"location.html",
+					"camera-department.html",
+					"camera-position.html",
+					"camera-type.html",
+					"industry.html",
+					"about.html",
+					"device-choose.html"
+				]
+			},
+			"main.html": {
+				"href": "main.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"css/iconfont/iconfont.css",
+					"css/iconfont/iconfont.eot",
+					"css/iconfont/iconfont.ttf",
+					"css/iconfont/iconfont.svg",
+					"css/common.css",
+					"css/main.css",
+					"js/mui/mui.min.js",
+					"js/mui/webviewGroup.js",
+					"js/plugins/jquery-3.2.1.js",
+					"js/plugins/template-web.js",
+					"js/common.js",
+					"js/main.js",
+					"images/policeman.png",
+					"device-uncommitted.html",
+					"device-sync.html",
+					"device-pending-checked.html",
+					"device-pending-sync.html"
+				],
+				"refer": [
+					"device-add.html",
+					"search.html",
+					"barcode.html"
+				],
+				"priority": 3
+			},
+			"tab.html": {
+				"href": "tab.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"css/iconfont/iconfont.css",
+					"css/iconfont/iconfont.eot",
+					"css/iconfont/iconfont.ttf",
+					"css/iconfont/iconfont.svg",
+					"css/tools.css",
+					"js/mui/mui.min.js",
+					"js/tab.js",
+					"main.html"
+				],
+				"refer": [
+					"my.html",
+					"map.html"
+				],
+				"priority": 1
+			},
+			"login.html": {
+				"href": "login.html",
+				"resources": [
+					"css/mui/mui.min.css",
+					"css/fonts/mui.ttf",
+					"css/style.css",
+					"images/login/login_bg.jpg",
+					"images/login/user.png",
+					"images/login/user_focus.png",
+					"images/login/pwd.png",
+					"images/login/pwd_focus.png",
+					"js/mui/mui.min.js",
+					"js/plugins/jquery-3.2.1.min.js",
+					"images/login/logo.png",
+					"js/login.js"
+				],
+				"refer": [
+					"setIp.html",
+					"tab.html"
+				],
+				"priority": 0
+			},
+			"index.html": {
+				"resources": [
+					"js/mui/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"barcode.html": {
+				"resources": [],
+				"refer": [
+					"device-add.html"
+				],
+				"priority": 0
+			},
+			"location.html": {
+				"resources": [
+					"/images/qihoo.png",
+					"js/plugins/baidumapv2/images/blank.gif"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"zc/tab.html",
+				"maps_map.html",
+				"zc/login2.html",
+				"css/mui/mui.css",
+				"zc/setIp2.html",
+				"login2.html",
+				"images/a.png",
+				"css/iconfont/demo_unicode.html",
+				"map/common.js",
+				"forget_password.html",
+				"css/iconfont/iconfont.js",
+				"css/search.less",
+				"zc/submit.html",
+				"zc/main2.html",
+				"images/qihoo.png",
+				"js/mui/mui.locker.js",
+				"map-hb.html",
+				"setting-.html",
+				"zc/reg.html",
+				"js/mui.view.js",
+				"README.md",
+				"zc/setting.html",
+				"map/immersed.js",
+				"js/app.js",
+				"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+				"zc/unlock.html",
+				"fonts/mui.ttf",
+				"js/mui/mui.enterfocus.js",
+				"setting.html",
+				"zc/forget_password.html",
+				"setting2.html",
+				"zc/knowledge.html",
+				"js/mui.enterfocus.js",
+				"zc/index.html",
+				"css/device-add.less",
+				"js/immersed.js",
+				"css/main.less",
+				"unlock.html",
+				"maps_map_sub.html",
+				"css/order.css",
+				"css/feedback-page.css",
+				"js/feedback.js",
+				"css/tools.less",
+				"zc/my.html",
+				"zc/setting-.html",
+				"muihtml.html",
+				"map/map.js",
+				"submit.html",
+				"css/common.less",
+				"images/weixin.png",
+				"images/qq.png",
+				"css/iconfont/demo.css",
+				"images/iconfont-tianjia.png",
+				"zc/setting2.html",
+				"main-c.html",
+				"my--.html",
+				"css/iconfont/demo_fontclass.html",
+				"setIp2.html",
+				"libs/easymob-webim-sdk/json2.js",
+				"libs/easymob-webim-sdk/jquery-1.11.1.js",
+				"js/mui/mui.view.js",
+				"js/feedback-page.js",
+				"js/device-add.js",
+				"js/plugins/jquery.sticky.js",
+				"libs/easymob-webim-sdk/quickstart.md",
+				"reg.html",
+				"js/plugins/echarts.common.min.js",
+				"css/iconfont/demo_symbol.html",
+				"map/common.css",
+				"js/plugins/jquery-3.2.1.min.map",
+				"test-tab.html",
+				"knowledge.html",
+				"main2.html",
+				"css/iconfont/iconfont.woff",
+				"zc/main.html",
+				"zc/order.html",
+				"css/order.less",
+				"css/mui.min.css",
+				"map-map.html",
+				"js/mui.locker.js",
+				"images/login/login_bg.png",
+				"main-gf.html",
+				"libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
+			]
+		}
+	},
+    "unpackage": [
+        "js/update.json"
+    ]
+}

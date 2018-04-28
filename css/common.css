@@ -1,0 +1,51 @@
+/* ==========================================================================
+   公共样式
+   ========================================================================== */
+html,
+body {
+  font-size: 14px; background: #FFFFFF;
+}
+/*iconfont简写*/
+[class*="icon-"]:not([class*="mui-icon-"]) {
+  font-family: "iconfont";
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/*暂无数据*/
+.nodata {
+  height: 60px;
+  background-image: url(../images/nodata.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 80px;
+}
+/*mui覆写*/
+.mui-bar-nav {
+  height: 54px !important;
+}
+.mui-bar-nav ~ .mui-content {
+  padding-top: 54px !important;
+  background: #F7F7F7;
+}
+.mui-title {
+  line-height: 54px;
+}
+.mui-badge-warning {
+  background-color: #FAA46F;
+}
+.mui-badge-success {
+  background-color: #ADE08D;
+}
+.mui-bar-nav ~ .mui-content .mui-slider.mui-fullscreen {
+  top: 54px;
+}
+.mui-table-view-cell:after,
+.mui-input-group .mui-input-row:after {
+  left: 0;
+}
+.mui-bar .mui-icon {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}

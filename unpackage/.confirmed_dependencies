@@ -1,0 +1,235 @@
+{
+	"main.html": {
+		"resources": [
+			"device-uncommitted.html",
+			"css/mui/mui.min.css",
+			"css/iconfont/iconfont.css",
+			"css/common.css",
+			"css/main.css",
+			"js/mui/mui.min.js",
+			"js/mui/webviewGroup.js",
+			"js/plugins/jquery-3.2.1.js",
+			"js/plugins/template-web.js",
+			"js/common.js",
+			"js/main.js",
+			"images/policeman.png",
+			"device-pending-checked.html",
+			"device-pending-sync.html"
+		],
+		"refer": [
+			"device-uncommitted.html",
+			"device-add.html",
+			"device-pending-checked.html",
+			"device-pending-sync.html",
+			"device-sync.html",
+			"search.html",
+			"barcode.html"
+		]
+	},
+	"tab.html": {
+		"resources": [
+			"main.html",
+			"css/mui/mui.min.css",
+			"css/iconfont/iconfont.css",
+			"css/tools.css",
+			"js/mui/mui.min.js",
+			"js/tab.js"
+		],
+		"refer": [
+			"map.html",
+			"main.html",
+			"setting.html",
+			"my.html"
+		]
+	},
+	"login.html": {
+		"refer": [
+			"tab.html",
+			"setIp.html"
+		],
+		"resources": [
+			"css/mui/mui.min.css",
+			"css/style.css",
+			"images/login/login_bg.jpg",
+			"images/login/user.png",
+			"images/login/user_focus.png",
+			"images/login/pwd.png",
+			"images/login/pwd_focus.png",
+			"js/mui/mui.min.js",
+			"js/plugins/jquery-3.2.1.min.js",
+			"images/login/logo.png",
+			"js/login.js"
+		]
+	},
+	"map.html": {
+		"resources": [
+			"maps_map_sub.html",
+			"js/mui.min.js",
+			"images/user-photo.png",
+			"css/mui/mui.min.css",
+			"map/map.css",
+			"images/camera/banqiuji.png",
+			"js/plugins/baidumapv2/images/m3.png",
+			"js/plugins/baidumapv2/images/blank.gif",
+			"js/plugins/baidumapv2/images/m2.png",
+			"js/plugins/baidumapv2/images/m1.png",
+			"js/plugins/baidumapv2/images/m0.png",
+			"js/plugins/jquery-3.2.1.js",
+			"js/plugins/template-web.js",
+			"js/mui/mui.min.js",
+			"js/common.js",
+			"js/plugins/baidumapv2/map_load.js",
+			"js/plugins/baidumapv2/tools/InfoBox_min.js",
+			"js/plugins/baidumapv2/tools/TextIconOverlay_min.js",
+			"js/plugins/baidumapv2/tools/MarkerClusterer_min.js",
+			"js/plugins/baidumapv2/images/openhand.cur",
+			"js/plugins/baidumapv2/images/panorama/indoor_exit.png",
+			"js/plugins/baidumapv2/images/panorama/close.png"
+		],
+		"refer": [
+			"maps_map_sub.html"
+		]
+	},
+	"my.html": {
+		"refer": [
+			"login.html",
+			"search.html",
+			"device-pending-sync.html",
+			"device-sync.html",
+			"device-uncommitted.html",
+			"device-pending-checked.html",
+			"change-psd.html",
+			"about.html"
+		],
+		"resources": [
+			"css/iconfont/iconfont.css",
+			"css/common.css",
+			"css/mui/mui.min.css",
+			"js/mui/mui.min.js",
+			"js/plugins/jquery-3.2.1.js",
+			"js/plugins/template-web.js",
+			"js/common.js",
+			"js/main.js",
+			"images/policeman.png"
+		]
+	},
+	"setIp.html": {
+		"href": "setIp.html",
+		"resources": [
+			"js/mui/mui.min.js",
+			"css/mui/mui.min.css"
+		],
+		"refer": [
+			"login.html"
+		],
+		"priority": 0
+	},
+	"device-pending-sync.html": {
+		"href": "device-pending-sync.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"js/mui/mui.min.js"
+		],
+		"refer": [
+			"device-add.html"
+		],
+		"priority": 0
+	},
+	"order.html": {
+		"href": "order.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"js/mui/mui.min.js"
+		],
+		"refer": [],
+		"priority": 0
+	},
+	"search.html": {
+		"href": "search.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"css/mui/mui.picker.min.css",
+			"css/iconfont/iconfont.css",
+			"css/search.css",
+			"js/mui/mui.min.js",
+			"js/mui/mui.picker.min.js",
+			"js/plugins/jquery-3.2.1.js",
+			"js/plugins/template-web.js",
+			"js/common.js",
+			"js/search.js"
+		],
+		"refer": [
+			"order.html"
+		],
+		"priority": 0
+	},
+	"device-sync.html": {
+		"href": "device-sync.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"js/mui/mui.min.js"
+		],
+		"refer": [
+			"device-add.html"
+		],
+		"priority": 0
+	},
+	"device-uncommitted.html": {
+		"href": "device-uncommitted.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"js/mui/mui.min.js",
+			"images/sinaweibo.png",
+			"images/camera/banqiuji.png",
+			"images/camera/weizhi.png",
+			"images/camera/qiuji.png",
+			"images/camera/gudingqiangji.png"
+		],
+		"refer": [
+			"device-add.html"
+		],
+		"priority": 0
+	},
+	"device-pending-checked.html": {
+		"href": "device-pending-checked.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"js/mui/mui.min.js"
+		],
+		"refer": [
+			"device-add.html"
+		],
+		"priority": 0
+	},
+	"device-add.html": {
+		"href": "device-add.html",
+		"resources": [
+			"css/mui/mui.min.css",
+			"css/device-add.css",
+			"js/mui/mui.min.js",
+			"js/plugins/jquery-3.2.1.js",
+			"js/plugins/template-web.js"
+		],
+		"refer": [
+			"camera-type.html",
+			"camera-department.html",
+			"location.html",
+			"camera-position.html",
+			"industry.html",
+			"about.html",
+			"device-choose.html"
+		],
+		"priority": 0
+	},
+	"barcode.html": {
+		"refer": [
+			"device-add.html"
+		]
+	},
+	"location.html": {
+		"resources": [
+			"/images/qihoo.png",
+			"js/plugins/baidumapv2/images/blank.gif"
+		]
+	}
+}

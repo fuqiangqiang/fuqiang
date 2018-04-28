@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title></title>
+        <link href="css/mui/mui.min.css" rel="stylesheet" />
+        <style>
+            .ui-page-login,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                padding: 0px;
+            }
+
+            .mui-content {
+                height: 100%;
+            }
+
+            .login-bg {
+                background: url(images/login/login_bg.jpg) no-repeat left bottom;
+                height: 100%;
+                width: 100%;
+                background-size: 100% 100%;
+            }
+
+            .login-logo {
+                margin: 0 auto;
+                padding-top: 50px;
+                width: 100%;
+                height: 120px;
+                text-align: center;
+            }
+            .logintitle p{
+                font-size: 20px;
+                font-weight: bold;
+                color: #fff;
+            }
+
+            .login-btn {
+                border: 0px;
+                background: #08DAC4;
+                color: #FFFFFF;
+                width: 100%;
+                height: 40px;
+                font-size: 18px;
+                border-radius: 0;
+            }
+
+            #login-form input {
+                border-radius: 0;
+                color: #FFFFFF;
+                height: 45px;
+                background: #112036;
+                border: 1px solid #112036;
+                text-indent: 20px;
+            }
+
+            #login-form input:focus {
+                background-color: transparent;
+                border: 1px solid #125564;
+            }
+
+            .login-icon-user {
+                background: url(images/login/user.png) no-repeat left top;
+                width: 20px;
+                height: 20px;
+                background-size: 100% 100%;
+                position: absolute;
+                top: 12px;
+                left: 5px;
+            }
+
+            .login-icon-user-focus {
+                background: url(images/login/user_focus.png) no-repeat left top;
+                width: 20px;
+                height: 20px;
+                background-size: 100% 100%;
+                position: absolute;
+                top: 12px;
+                left: 5px;
+            }
+
+            .login-icon-pwd {
+                background: url(images/login/pwd.png) no-repeat left top;
+                width: 20px;
+                height: 20px;
+                background-size: 100% 100%;
+                position: absolute;
+                top: 12px;
+                left: 5px;
+            }
+
+            .login-icon-pwd-focus {
+                background: url(images/login/pwd_focus.png) no-repeat left top;
+                width: 20px;
+                height: 20px;
+                background-size: 100% 100%;
+                position: absolute;
+                top: 12px;
+                left: 5px;
+            }
+        </style>
+    </head>
+
+    <body onresize="document.activeElement.scrollIntoView(true);">
+        <header>
+            <button id='setIp' class=" mui-pull-right mui-btn-link" style="color: #FFFFFF; margin-top: 5px;"><span
+            class="mui-icon mui-icon-gear"></span></button>
+        </header>
+        <div class="mui-content login-bg">
+            <div style="background: #152844;">
+                <div class="login-logo">
+                    <img src="images/login/logo.png" style="width: 120px;height: 120px;">
+                    <!--<div class="logintitle">
+                        <p>全国公安视频监控摄像机</p>
+                        <p>基础信息采集建档系统</p>
+                    </div>-->
+                </div>
+                <div style=" margin:0 auto; margin-top: 100px;  width: 86%;">
+                    <form id='login-form'>
+                        <div style="position: relative;"><span class="login-icon-user"></span> <input id='username' class="input-user" type="text" autofocus="autofocus" placeholder="" value="">
+                        </div>
+                        <div style="position: relative;"><span class="login-icon-pwd"></span> <input id='password' type="password" placeholder=""></div>
+                    </form>
+                    <div style="margin-top: 20px;">
+                        <button id='login' class="login-btn">登 录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/mui/mui.min.js"></script>
+        <script src="js/plugins/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
+    </body>
+
+</html>

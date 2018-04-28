@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>详情</title>
+
+        <link href="css/mui/mui.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="css/mui/mui.picker.min.css" />
+        <link rel="stylesheet" href="css/mui/mui.poppicker.css" />
+        <link rel="stylesheet" href="css/mui/feedback.css" />
+        <link rel="stylesheet" type="text/css" href="css/iconfont/iconfont.css" />
+        <link rel="stylesheet" href="css/common.css" />
+        <link rel="stylesheet" type="text/css" href="css/device-add.css" />
+        <style>
+            .mui-content input {
+                border-radius: initial;
+                color: #333333;
+                background: #FFFFFF;
+                border: 1px solid #EFEFEF;
+            }
+
+            .login-btn {
+                border: 0px;
+                background: #08DAC4;
+                color: #FFFFFF;
+                width: 100%;
+                height: 40px;
+                font-size: 18px;
+                border-radius: 0;
+            }
+
+            .mui-btn-blue,
+            .mui-btn-primary,
+            input[type=submit] {
+                color: #fff;
+                border: 1px solid #00CDC5;
+                background-color: #00CDC5;
+            }
+
+            .editpen {
+                float: right;
+                line-height: 58px;
+                color: #08DAC4;
+                margin-right: 10px;
+                font-weight: bold;
+            }
+            .hidden{
+                display: none !important;
+            }
+            .getdata{
+                margin-top: 5px;
+            }
+            .getdata img.getshow{
+                width: 40px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+                <span class="mui-icon mui-icon-left-nav" style="color: #08DAC4;line-height: 54px;"></span>
+            </button>
+            <h1 class="mui-title detail-title">详情</h1>
+            <h1 class="mui-title edit-title hidden">编辑</h1>
+            <i class="icon-bianji editpen" id="editpen"></i>
+        </header>
+        <div class="mui-content" id="mui-content">
+            <script id="temp-ip-box" type="text/html">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>设备编码</label>
+                    <input name="SBBM" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="20" readonly value="{{SBBM}}">
+                </div>
+
+                <div class="mui-input-row">
+                    <label>设备名称</label>
+                    <input name="SBMC" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="100" readonly value="{{SBMC}}">
+                </div>
+
+                <div class="mui-input-row">
+                    <label>设备厂商</label>
+                    <input id="SBCS" name="SBCS" type="text" class="mui-input" placeholder="请选择设备厂商" readonly value="">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>行政区域</label>
+                    <input name="XZQY" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="6" readonly value="{{XZQY}}">
+                </div>
+
+                <div class="mui-input-row">
+                    <label>监控点位类型</label>
+                    <input id="JKDWLX" name="JKDWLX" type="text" class="mui-input" placeholder="请选择监控点位类型" readonly value="{{JKDWLX}}">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>设备型号</label>
+                    <input name="SBXH" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="50" readonly value="{{SBXH}}">
+                </div>
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>点位俗称</label>
+                    <input name="DWSC" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="100" readonly value="{{DWSC}}">
+                </div>
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>IPV4地址</label>
+                    <input name="IPV4" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="30" readonly value="{{IPV4}}">
+                </div>
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>IPV6地址</label>
+                    <input name="IPV6" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="64" readonly value="{{IPV6}}">
+                </div>
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>MAC地址</label>
+                    <input name="MACDZ" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="32" readonly value="{{MACDZ}}">
+                </div>
+                <div class="mui-input-row  row-auto feedback">
+                    <label>特写照片</label>
+                    <div class="getdata">
+                        <img src="../../../../res/drawable-hdpi/icon.png" alt=""  class="getshow"/>
+                    </div>
+                    <div id='image-list' class="row image-list"></div>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>摄像机类型</label>
+                    <input id="SXJLX" name="SXJLX" type="text" class="mui-input" placeholder="请选择摄像机类型" readonly value="{{SXJLX}}">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>摄像机功能类型</label>
+                    <input id="SXJGNLX" name="SXJGNLX" type="text" class="mui-input" placeholder="请选择摄像机功能类型" readonly value="{{SXJGNLX}}">
+                    <i class="mui-icon mui-icon-arrowright"></i>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>补光属性</label>
+                    <input id="BGSX" name="BGSX" type="text" class="mui-input" placeholder="请选择补光属性" readonly value="{{BGSX}}">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>摄像机编码格式</label>
+                    <input id="SXJBMGS" name="SXJBMGS" type="text" class="mui-input" placeholder="请选择摄像机编码格式" readonly value="{{SXJBMGS}}">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>安装地址</label>
+                    <input name="AZDZ" type="text" class="mui-input-clear addreadonly" placeholder="用:间隔" maxlength="100" readonly value="{{AZDZ}}">
+                </div>
+                <div class="mui-input-row  row-auto feedback">
+                    <label>实景照片</label>
+                    <div id='image-list2' class="row image-list"></div>
+                </div>
+                <div id="work_priority_box" class="mui-input-row location-box" style="height: auto;">
+                    <div class="location-row">
+                        <label>经度</label>
+                        <input name="JD" id="JD" type="text" class="mui-input-clear" placeholder="" readonly value="{{JD}}">
+                    </div>
+                    <div class="location-row">
+                        <label>纬度</label>
+                        <input name="WD" id="WD" type="text" class="mui-input-clear" placeholder="" readonly value="{{WD}}">
+                    </div>
+                    <i class="mui-icon mui-icon-location" id="btn_location"></i>
+                </div>
+
+                <!--<div id="work_priority_box" class="mui-input-row">
+                    <label>纬度</label>
+                    <input name="WD" type="text" class="mui-input-clear" placeholder="">
+                </div>-->
+
+                <div class="mui-input-row">
+                    <label>摄像机位置类型</label>
+                    <input id="SXJWZLX" name="SXJWZLX" type="text" class="mui-input" placeholder="请选择摄像机位置类型" readonly value="{{SXJWZLX}}">
+                    <i class="mui-icon mui-icon-arrowright"></i>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>监视方位</label>
+                    <input id="JSFW" name="JSFW" type="text" class="mui-input" placeholder="请选择监控方位" readonly value="">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>联网属性</label>
+                    <input id="LWSX" name="LWSX" type="text" class="mui-input" placeholder="请选择联网属性" readonly value="{{LWSX}}">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>所属辖区公安机关</label>
+                    <input name="SSXQGAJG" id="SSXQGAJG" type="text" class="mui-input-clear" placeholder="请选择所属辖区公安机关" readonly value="{{SSXQGAJG}}">
+                    <i class="mui-icon mui-icon-arrowright"></i>
+                </div>
+
+                <div class="mui-input-row">
+                    <label>安装时间</label>
+                    <input id="AZSJ" name="AZSJ" type="text" class="input-date" readonly value="{{AZSJ}}">
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>管理单位</label>
+                    <input name="GLDW" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="100" readonly value="{{GLDW}}">
+                </div>
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>管理单位联系方式</label>
+                    <input name="GLDWLXFS" type="text" class="mui-input-clear addreadonly" placeholder="" maxlength="30" readonly value="{{GLDWLXFS}}">
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>录像保存天数</label>
+                    <input name="LXBCTS" type="text" class="mui-input-clear addreadonly" placeholder="" readonly value="{{LXBCTS}}">
+                </div>
+
+                <div class="mui-input-row">
+                    <label>设备状态</label>
+                    <input id="SBZT" name="SBZT" type="text" class="mui-input" placeholder="请选择设备状态" readonly value="{{SBZT}}">
+                    <i class="mui-icon mui-icon-arrowdown"></i>
+                </div>
+
+                <div id="work_priority_box" class="mui-input-row">
+                    <label>所属部门/行业</label>
+                    <input id="SSBMHY" name="SSBMHY" type="text" class="mui-input-clear" placeholder="请选择所属部门/行业" readonly value="{{SSBMHY}}">
+                    <i class="mui-icon mui-icon-arrowright"></i>
+                </div>
+
+            </form>
+
+            </script>
+        </div>
+        <button id="btn_submit" type="button" class="mui-btn mui-btn-primary mui-btn-block btn-submit hidden">提交</button>
+        <script src="js/mui/mui.min.js"></script>
+        <script src="js/mui/mui.picker.min.js"></script>
+        <script src="js/mui/mui.poppicker.js"></script>
+        <script src="js/plugins/jquery-3.2.1.js"></script>
+        <script src="js/plugins/template-web.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script src="js/device-detail.js"></script>
+
+    </body>
+
+</html>

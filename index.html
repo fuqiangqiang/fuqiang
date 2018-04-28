@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" /> </head>
+
+<body>
+    <div id="allmap"></div>
+    <script src="js/plugins/jquery-3.2.1.js"></script>
+    <script src="js/mui/mui.min.js"></script>
+    <script type="text/javascript">
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");
+        var point = new BMap.Point(116.331398, 39.897445);
+        map.centerAndZoom(point, 12);
+        var cityName = '';
+        var myCity = new BMap.LocalCity();
+        var myGeo = new BMap.Geocoder();
+        myCity.get(myFun);
+
+        function myFun(result) {
+            cityName = result.name;
+            map.setCenter(cityName);
+            myGeo.getPoint(cityName, function(point) {
+                if(point) {
+                    alert(point.lng + "," + point.lat)
+                }
+            });
+        }
+    </script>
+</body>
+</html>

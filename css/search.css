@@ -1,0 +1,80 @@
+.mui-bar-nav ~ .mui-content {
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.mui-bar .mui-input-clear {
+  margin-bottom: 0;
+  height: 34px;
+  background: #EFF0F3;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.mui-bar .search-box {
+  margin-left: 36px;
+  margin-right: 36px;
+  margin-top: 5px;
+}
+.mui-bar .mui-icon-clear {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.filter-box .filter-title {
+  line-height: 40px;
+  font-size: 15px;
+  margin-left: 10px;
+}
+.filter-box .filter-item {
+  font-size: 14px;
+  background: #F3F5F9;
+  border: 1px solid #F3F5F9;
+  padding: 0 15px;
+  padding-top: 11px;
+  line-height: 0;
+  border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  box-sizing: border-box;
+  height: 24px;
+  width: 100%;
+}
+.filter-box .filter-item.mui-icon-checkmarkempty {
+  background: white;
+  color: #007AFF;
+  border: 1px solid #007AFF;
+}
+.filter-box .filter-item.mui-icon-checkmarkempty:before {
+  position: absolute;
+  left: -2px;
+  top: 11px;
+  font-size: 20px;
+}
+.date-box {
+  text-align: left !important;
+}
+.date-box .input-date {
+  margin-bottom: 0;
+  width: 50%;
+  background: #F3F5F9;
+  color: #C3C3C3;
+  border: none;
+  outline: none;
+  height: 26px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+}
+.date-box .split {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 1px;
+  background: #666;
+}
+.mui-table-view:before,
+.mui-table-view:after {
+  display: none;
+}

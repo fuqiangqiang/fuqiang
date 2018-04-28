@@ -1,0 +1,33 @@
+.mui-bar-nav ~ .mui-content {
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.mui-bar .mui-input-clear {
+  margin-bottom: 0;
+  height: 34px;
+  background: #EFF0F3;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+.mui-bar .search-box {
+  margin-left: 36px;
+  margin-right: 36px;
+  margin-top: 5px;
+}
+.mui-bar .mui-icon-clear {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.mui-table-view:before,
+.mui-table-view:after {
+  display: none;
+}
+.empty{
+	color:gray;
+	font-size: 16px;
+	text-align:center;
+	margin-top: 30%;
+}

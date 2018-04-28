@@ -1,0 +1,138 @@
+i {
+    font-style: normal;
+}
+
+.floatf {
+    float: right;
+}
+
+ul {
+    font-size: 14px;
+    color: #8f8f94;
+}
+
+.mui-btn {
+    padding: 10px;
+}
+
+.top-box {
+    height: 60px;
+    background: #17284F;
+    padding-top: 10px;
+}
+
+.top-box .left {
+    float: left;
+    padding-left: 10px;
+}
+
+.top-box .mid {
+    float: left;
+    color: #FFFFFF;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.top-box .mid li {
+    list-style: none;
+    margin-top: 5px;
+}
+
+.top-box .mid li.user {
+    font-size: 16px;
+    float: left;
+}
+
+.top-box .mid li.role {
+    font-size: 14px;
+    float: left;
+    padding-left: 10px;
+    padding-top: 1px;
+}
+
+.top-box .right {
+    float: right;
+    color: #FFFFFF;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.top-box .right span {
+    font-weight: 100;
+    padding-left: 20px;
+    font-size: 24px;
+}
+
+.img-radius {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    overflow: hidden;
+    float: left;
+    background: url(../images/policeman.png) center no-repeat;
+background-size: 40px;
+}
+
+header {
+    width: 100%;
+    height: 90px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.mui-slider {
+    background-color: #172F52;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+    color: #FFFFFF;
+}
+
+.m-top {
+    margin-top: 60px;
+}
+
+.mui-content input {
+    border-radius: initial;
+    color: #333333;
+    height: 45px;
+    background: #FFFFFF;
+    border: 1px solid #EFEFEF;
+}
+
+.login-btn {
+    border: 0px;
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 0;
+}
+
+.mui-btn {
+    padding: 10px;
+}
+
+.mui-table-view-cell {
+    color: #999;
+    font-size: 15px;
+    padding: 15px;
+}
+
+.mui-table-view-cell .iconfont {
+    color: #50E3C2 !important;
+    margin-right: 10px;
+    font-size: 22px;
+}
+
+.mui-badge-blue,
+.mui-badge-primary {
+    color: #9B9B9B;
+    background-color: #111F40;
+}
+
+.mui-pull-right {
+    color: #333333;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>服务器IP配置</title>
+        <script src="js/mui/mui.min.js"></script>
+        <link href="css/mui/mui.min.css" rel="stylesheet" />
+        <style>
+            .mui-content input {
+                border-radius: initial;
+                color: #333333;
+                height: 45px;
+                background: #FFFFFF;
+                border: 1px solid #EFEFEF;
+            }
+
+            .login-btn {
+                border: 0px;
+                background: #08DAC4;
+                color: #FFFFFF;
+                width: 100%;
+                height: 40px;
+                font-size: 18px;
+                border-radius: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+        <span class="mui-icon mui-icon-left-nav" style="color: #08DAC4;"></span>
+    </button>
+            <h1 class="mui-title">服务器IP配置</h1></header>
+        <div class="mui-content">
+            <div style="width: 90%; margin: 0 auto;">
+                <div style=" margin-top: 50px;"><input id='ip' class="ip-input" type="text" autofocus="autofocus" placeholder="请输入服务器IP"></div>
+                <div style="margin-top: 20px;">
+                    <button id='ipSave' class="login-btn">保 存</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            mui.init();
+            var drsIp = localStorage.getItem("drsIp");
+            document.getElementById("ip").value = drsIp;
+            //保存IP
+            document.getElementById('ipSave').addEventListener('tap', function() {
+                var ip = document.getElementById("ip").value;
+                var ipv4 = (/^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$/).test(ip);
+                if(ip == ""){
+                    mui.toast('请输入服务器Ip');
+                    return false;
+                }else if(!ipv4) {
+                    mui.toast('服务器IP格式错误');
+                    return false;
+                }else if(ip != '') {
+                    localStorage.setItem("drsIp", ip)
+                    drsIp = localStorage.getItem("drsIp");
+                    if(drsIp != '') {
+                        mui.toast("保存成功,正在验证IP连接",{ duration:500});
+                        var hostUrlip = 'http://' + ip + '/drs';
+                        mui.ajax(hostUrlip+'/VIID/version.action', {
+                            dataType: 'json',
+                            type: 'get',
+                            timeout: 10000,
+                            success: function(msg) {
+                                if(msg){
+                                    mui.toast("IP连接成功");
+                                    setTimeout(function(){
+                                        //关闭 splash
+                                        mui.openWindow({
+                                            url: 'login.html',
+                                            id: 'login',
+                                            show: {
+                                                aniShow: 'pop-in'
+                                            },
+                                            waiting: {
+                                                autoShow: false
+                                            }
+                                        });
+                                    },2500)
+                                }
+                            },
+                            error: function(xhr, type, errorThrown) {
+                                mui.toast("IP连接失败，请检查IP是否有误");
+                            }
+                        });
+                    }
+                    return;
+                }
+            });
+        </script>
+    </body>
+
+</html>

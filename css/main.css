@@ -1,0 +1,213 @@
+.top-box.mui-content {
+    height: 100%;
+}
+
+.mui-content .order-chart-box {
+    background: #FFFFFF;
+}
+
+.mui-content .order-chart-box .order-chart {
+    height: 76px;
+}
+
+.mui-content .navigate-right-subtitle {
+    margin-right: 15px !important;
+}
+
+.mui-content .mui-navigate-right:after {
+    margin-top: -1px;
+}
+
+.mui-content .list-title {
+    color: black;
+    font-size: 16px;
+}
+
+.mui-content .list-text {
+    color: #535876;
+}
+
+.mui-content .cell-footer-info {
+    display: flex;
+    align-items: center;
+    min-height: 33px;
+}
+
+.mui-content .mui-badge {
+    font-size: 14px;
+}
+
+.mui-content .mui-control-item {
+    position: relative;
+}
+
+.mui-content .mui-control-item .mui-badge {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 12px;
+}
+
+
+/*样式覆写*/
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+    line-height: 36px;
+    /*border-bottom: 2px solid transparent;*/
+    width: 25%;
+    padding: 0 10px;
+}
+
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+    background: #00CDC5;
+    color: #FFFFFF;
+}
+
+.mui-segmented-control.mui-scroll-wrapper .mui-scroll {
+    width: 100%;
+}
+
+.mui-table-view {
+    background: #F7F7F7;
+}
+
+.mui-table-view-cell {
+    background: white;
+    margin-bottom: 10px;
+}
+
+.mui-table-view-cell:last-child {
+    margin-bottom: 0;
+}
+
+.mui-content .mui-pull-top-pocket {
+    top: 120px !important;
+    /*90下拉刷新文字位置*/
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+    color: #00CDC5;
+    border-bottom: 2px solid #007aff;
+    background: 0 0;
+}
+
+.order-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4A4F70;
+}
+
+.order-color-a {
+    color: #4A4F70;
+}
+
+.c_btn_submit {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+}
+
+ul {
+    font-size: 14px;
+    color: #8f8f94;
+}
+
+.mui-btn {
+    padding: 10px;
+}
+
+.top-box {
+    height:60px;
+    background: #17284F;
+    padding-top: 10px;
+}
+
+.top-box .left {
+    float: left;
+    padding-left: 10px;
+}
+
+.top-box .mid {
+    float: left;
+    color: #FFFFFF;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.top-box .mid li {
+    list-style: none;
+    margin-top: 5px;
+}
+
+.top-box .mid li.user {
+    font-size: 16px;
+    float: left;
+}
+
+.top-box .mid li.role {
+    font-size: 14px;
+    float: left;
+    padding-left: 10px;
+    padding-top: 1px;
+}
+
+.top-box .right {
+    float: right;
+    color: #FFFFFF;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.top-box .right span {
+    font-weight: 100;
+    padding-left: 20px;
+    font-size: 24px;
+}
+
+.img-radius {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #eee;
+    overflow: hidden;
+    background: #EFEFEF;
+    float: left;
+}
+
+header {
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.mui-slider {
+    background-color: #FFFFFF;
+    height: 36px;
+    width: 95%;
+    margin: 0 auto;
+    border: 1px solid #00CDC5;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    /* Old Firefox */
+}
+
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+    color: #52E3C3;
+}
+
+.m-top {
+    margin-top: 65px;
+}
+
+.mui-content {
+    background: #FFFFFF;
+}
+
+.mui-badge-blue,
+.mui-badge-primary {
+    color: #9B9B9B;
+    background-color: #111F40;
+}

@@ -1,0 +1,27 @@
+    img {
+        background: #F4F4F4;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        padding: 5px;
+        /* Old Firefox */
+    }
+    
+    .mui-table-view .mui-media-object.mui-pull-left {
+        margin-left: -14px;
+    }
+    
+    .outer-box {
+        width: 95%;
+        margin: 0 auto;
+    }
+    
+    .list-row-left {
+        float: left;
+        width: 50%;
+    }
+    
+    .list-row-right {
+        float: right;
+        width: 50%;
+        text-align: right;
+    }

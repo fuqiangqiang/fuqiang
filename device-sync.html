@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>已审核</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link href="css/mui/mui.min.css" rel="stylesheet" />
+        <link href="css/common.css" rel="stylesheet" />
+        <link href="css/device-uncommitted.css" rel="stylesheet" /> </head>
+
+    <body>
+        <div id="pullrefresh" class="outer-box">
+            <ul class="mui-table-view" id="submit_order_list"> </ul>
+        </div>
+        <script id="temp_submit_order_list" type="text/html"> {{each CameraList}}
+            <li class="mui-table-view-cell mui-media"  data-id = "{{$value.SBBM}}">
+				<div class="mui-slider-right mui-disabled" >
+	                <a class="mui-btn mui-btn-grey copy-device"  data-id = "{{$value.SBBM}}">拷贝</a>
+	                <!--<a class="mui-btn mui-btn-red  del-device"  data-id = "{{$value.SBBM}}">删除</a>-->
+	            </div>
+                <div class="mui-slider-handle" data-id="{{$value.SBBM}}"> {{ if $value.SXJLX == '2'}} <img class="mui-media-object mui-pull-left" src="images/camera/banqiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '1'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '3'}} <img class="mui-media-object mui-pull-left" src="images/camera/gudingqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '4'}} <img class="mui-media-object mui-pull-left" src="images/camera/yaoganqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '5'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiangji{{$value.SBZT}}.png"> {{ else }} <img class="mui-media-object mui-pull-left" src="images/camera/weizhi{{$value.SBZT}}.png"> {{/if}}
+                    <div class="mui-media-body"> {{$value.SBMC}}
+                        <div>
+                            <p class="mui-ellipsis list-row-left"> {{$value.SBBM}} </p>
+                            <p class="list-row-right">{{$value.IPV4}}</p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            </li> {{/each}} </script>
+        <script src="js/mui/mui.min.js"></script>
+        <script src="js/plugins/jquery-3.2.1.js"></script>
+        <script src="js/plugins/template-web.js"></script>
+        <script src="js/common.js"></script>
+        <script>
+            var param = {
+                offset: 0, //起始页
+                limit: pageSize, //请求数量
+                username: localStorage.getItem("drsUserName"),
+                shzt: "4" //1、未提交状态；2、待审核状态3，待同步4，同步，9未通过
+            }
+            $("body").on("tap", "div.mui-slider-handle", function() {
+                var de_detail = this.getAttribute("data-id");
+                mui.openWindow({
+                    url: 'device-add.html',
+                    extras: {
+                        de_detail: de_detail,
+                        de_title: 2, //2详情 3 编辑
+                        de_status:4
+                    }
+                });
+            });
+            window.addEventListener('showsearch', function(event) {
+                $.extend(param, event.detail.id)
+                delete param.target; //删除target
+                pulldownRefresh();
+            });
+            $("body").on("tap", "a.copy-device", function() {
+			    var de_detail = this.getAttribute("data-id");
+			    mui.openWindow({
+			        url: 'device-add.html',
+			        extras: {
+			            de_detail: de_detail,
+			            de_title: 3, //1 新建 2详情 3 编辑
+			            de_status:4
+			        }
+			    });
+			});
+        </script>
+        <script src="js/device-uncommitted.js"></script>
+    </body>
+
+</html>
