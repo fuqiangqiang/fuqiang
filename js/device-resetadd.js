@@ -177,7 +177,7 @@ $(function() {
 			});
 			postData.czr = localStorage.getItem("drsUserName");
 			postData.shzt = 1;
-//			console.log(JSON.stringify(postData))
+			console.log(JSON.stringify(postData))
 			mui.each(postData, function(index, element) {
 				if(index !== 'images') {
 					uploader.addData(index, element)
@@ -249,6 +249,7 @@ function getGldw(){
                         text: val.Dict.ZDXMC
                 	}
                 	allgldw.push(ppgldw);
+                	console.log(JSON.stringify(allgldw))
         		}
         	});
 		},

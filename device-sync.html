@@ -21,7 +21,7 @@
 	                <a class="mui-btn mui-btn-grey copy-device"  data-id = "{{$value.SBBM}}">拷贝</a>
 	                <!--<a class="mui-btn mui-btn-red  del-device"  data-id = "{{$value.SBBM}}">删除</a>-->
 	            </div>
-                <div class="mui-slider-handle" data-id="{{$value.SBBM}}"> {{ if $value.SXJLX == '2'}} <img class="mui-media-object mui-pull-left" src="images/camera/banqiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '1'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '3'}} <img class="mui-media-object mui-pull-left" src="images/camera/gudingqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '4'}} <img class="mui-media-object mui-pull-left" src="images/camera/yaoganqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '5'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiangji{{$value.SBZT}}.png"> {{ else }} <img class="mui-media-object mui-pull-left" src="images/camera/weizhi{{$value.SBZT}}.png"> {{/if}}
+                <div class="mui-slider-handle" data-sbbm="{{$value.SBBM}}" data-id="{{$value.id}}"><div></div> {{ if $value.SXJLX == '2'}} <img class="mui-media-object mui-pull-left" src="images/camera/banqiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '1'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '3'}} <img class="mui-media-object mui-pull-left" src="images/camera/gudingqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '4'}} <img class="mui-media-object mui-pull-left" src="images/camera/yaoganqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '5'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiangji{{$value.SBZT}}.png"> {{ else }} <img class="mui-media-object mui-pull-left" src="images/camera/weizhi{{$value.SBZT}}.png"> {{/if}}
                     <div class="mui-media-body"> {{$value.SBMC}}
                         <div>
                             <p class="mui-ellipsis list-row-left"> {{$value.SBBM}} </p>
@@ -43,13 +43,15 @@
                 shzt: "4" //1、未提交状态；2、待审核状态3，待同步4，同步，9未通过
             }
             $("body").on("tap", "div.mui-slider-handle", function() {
-                var de_detail = this.getAttribute("data-id");
+                var de_sbbm = this.getAttribute("data-sbbm");
+                var de_id = this.getAttribute("data-id");
                 mui.openWindow({
-                    url: 'device-add.html',
+                    url: 'device-detail.html',
                     extras: {
-                        de_detail: de_detail,
+                        de_sbbm: de_sbbm,
                         de_title: 2, //2详情 3 编辑
-                        de_status:4
+                        de_status:4,
+                        de_id:de_id
                     }
                 });
             });

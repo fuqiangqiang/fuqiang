@@ -28,7 +28,11 @@ function pullupRefresh() {
     setTimeout(function() {
         var table = document.body.querySelector('.mui-table-view');
         var cells = document.body.querySelectorAll('.mui-table-view-cell');
-        param.offset = cells.length;
+        if(cells.length == 0){
+        	param.offset = 0;
+        }else{
+        	param.offset = (cells.length)/5;
+        }
         getAjax('/VIID/CamerasQuery.action', param, function(msg) {
         	var datalistval = [];
         	$.each(msg.CameraList,function(index,val){
@@ -37,7 +41,7 @@ function pullupRefresh() {
         	var dataall = {
         		CameraList:datalistval
         	}
-            if(msg.CameraList.length > 0) {
+            if(dataall.CameraList.length > 0) {
                 $('#submit_order_list').append($(template('temp_submit_order_list', dataall)));
                 mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
             } else {
