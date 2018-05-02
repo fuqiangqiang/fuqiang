@@ -3,7 +3,7 @@ mui.plusReady(function() {
 	mui.init({
 		beforeback: function() {
 			//			mui.fire(plus.webview.getWebviewById('device-uncommitted.html'), 'showsearch', {});
-			//			mui.fire(plus.webview.getWebviewById('barcode.html'), 'resetBarcode', {});
+			mui.fire(plus.webview.getWebviewById('barcode.html'), 'resetBarcode', {});
 		}
 	});
 	getGldw();

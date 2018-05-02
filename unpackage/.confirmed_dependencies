@@ -187,7 +187,8 @@
 			"images/camera/gudingqiangji.png"
 		],
 		"refer": [
-			"device-add.html"
+			"device-add.html",
+			"device-detail.html"
 		],
 		"priority": 0
 	},
@@ -224,7 +225,8 @@
 	},
 	"barcode.html": {
 		"refer": [
-			"device-add.html"
+			"device-add.html",
+			"device-detail.html"
 		]
 	},
 	"location.html": {
