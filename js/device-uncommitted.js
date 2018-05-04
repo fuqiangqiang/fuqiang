@@ -138,7 +138,7 @@ if(mui.os.plus) {
         }
     });
 });*/
-
+//左滑"发送审核"
 $("body").on("tap", "a.del-upload", function() {
     var de_detail = this.getAttribute("data-id");
     var btnArray = ['否', '是'];
@@ -158,6 +158,7 @@ $("body").on("tap", "a.del-upload", function() {
     })
 });
 
+//左滑"删除"
 $("body").on("tap", "a.del-device", function() {
     var de_detail = this.getAttribute("data-id");
     //删除

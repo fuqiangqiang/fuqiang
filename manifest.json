@@ -396,7 +396,8 @@
 				"priority": 4,
 				"refer": [
 					"device-detail.html",
-					"device-add.html"
+					"device-add.html",
+					"device-edit.html"
 				]
 			},
 			"device-pending-checked.html": {

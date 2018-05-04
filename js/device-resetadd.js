@@ -6,6 +6,16 @@ var imgFiles = []; //上传图片列表
 var fileTotalSize = 0; //上传文件总大小
 var imageList = null;
 var allgldw = [];
+var id = null;
+var sbbm = null;
+var shztStauts = null;
+mui.plusReady(function() {
+	mui.init();
+	var self = plus.webview.currentWebview();
+	id = self.de_id;
+	sbbm = self.de_sbbm;
+	shztStauts = self.de_status;
+})
 $(function() {
 	getDom();
 	getGldw();
@@ -56,9 +66,9 @@ $(function() {
 			var typeName = $(this).attr("name");
 			var dataArray = [];
 			$.each(dataDom, function(idx, val) {
-				if(typeName == "GLDW"){
+				if(typeName == "GLDW") {
 					dataArray = allgldw;
-				}else{
+				} else {
 					if(typeName == val.type) {
 						$.each(val.dictionaryDetails, function(i, value) {
 							dataArray.push({
@@ -113,7 +123,7 @@ $(function() {
 			});
 			cityPicker.setData(cityData3);
 			cityPicker.show(function(items) {
-				thisValue.val(_getParam(items[0], 'text') + "-" + _getParam(items[1], 'text') + "-" + _getParam(items[2], 'text')).attr("data-value",_getParam(items[2], 'value'));
+				thisValue.val(_getParam(items[0], 'text') + "-" + _getParam(items[1], 'text') + "-" + _getParam(items[2], 'text')).attr("data-value", _getParam(items[2], 'value'));
 				//返回 false 可以阻止选择框的关闭
 				//return false;
 			});
@@ -143,9 +153,9 @@ $(function() {
 			//			ruleVerification();
 			var postData = {};
 			for(var i = 0; i < $(".wind-content-input").length; i++) {
-				if($(".wind-content-input").eq(i).hasClass("wind-content-input-select") 
-				|| $(".wind-content-input").eq(i).hasClass("wind-content-input-choose")
-				||$(".wind-content-input").eq(i).hasClass("wind-content-input-city")) {
+				if($(".wind-content-input").eq(i).hasClass("wind-content-input-select") ||
+					$(".wind-content-input").eq(i).hasClass("wind-content-input-choose") ||
+					$(".wind-content-input").eq(i).hasClass("wind-content-input-city")) {
 					var name = $(".wind-content-input").eq(i).attr("name");
 					var value = $(".wind-content-input").eq(i).attr("data-value");
 					if(typeof value == "undefined") {
@@ -183,7 +193,7 @@ $(function() {
 					uploader.addData(index, element)
 				}
 			});
-//			console.log(JSON.stringify(uploader))
+			//			console.log(JSON.stringify(uploader))
 			/*for(var i = 0; i < $(".imgboxnum").length; i++) {
 				var imgList = $(".imgboxnum").eq(i).attr("id");
 				mui.each(imgFiles, function(index, element) {
@@ -230,28 +240,42 @@ function getDom() {
 				var imgList = $(".imgboxnum").eq(i).attr("id");
 				newPlaceholder($("#" + imgList)[0])
 			}
+			if(typeof id == "undefined" || id == null) {} else {
+				var dataArray = [];
+				$.each(msg.data, function(idx, val) {
+					$.each(val.dictionaryDetails, function(i, value) {
+						dataArray.push({
+							type: value.type,
+							value: value.value,
+							text: value.name
+						})
+					})
+				});
+				/*数据填充*/
+				getDeviceData(sbbm, shztStauts, dataArray)
+			}
 		},
 		error: function(xhr, type, errorThrown) {}
 	});
 }
 
 /*获取管理单位*/
-function getGldw(){
-	mui.ajax(app.host + '/VIID/Dicts.action?userName='+localStorage.getItem("drsUserName"), {
+function getGldw() {
+	mui.ajax(app.host + '/VIID/Dicts.action?userName=' + localStorage.getItem("drsUserName"), {
 		dataType: 'json',
 		type: 'get',
 		timeout: 10000,
 		success: function(data) {
-        	$.each(data.DictList, function(index,val) {
-        		if(val.Dict.LXBM == "GLDW"){
-        			var ppgldw = {
-                		value: val.Dict.ZDXBM,
-                        text: val.Dict.ZDXMC
-                	}
-                	allgldw.push(ppgldw);
-                	console.log(JSON.stringify(allgldw))
-        		}
-        	});
+			$.each(data.DictList, function(index, val) {
+				if(val.Dict.LXBM == "GLDW") {
+					var ppgldw = {
+						value: val.Dict.ZDXBM,
+						text: val.Dict.ZDXMC
+					}
+					allgldw.push(ppgldw);
+					//              	console.log(JSON.stringify(allgldw))
+				}
+			});
 		},
 		error: function(xhr, type, errorThrown) {}
 	});
@@ -347,4 +371,57 @@ function newPlaceholder(imageList) {
 	placeholder.appendChild(up);
 	placeholder.appendChild(fileInput);
 	imageList.appendChild(placeholder);
+}
+/*数据获取函数*/
+function getDeviceData(sbbm, shztStauts, dataArray) {
+	mui.ajax(app.host + '/VIID/Camera.action?SBBM=' + sbbm + "&shzt=" + shztStauts, {
+		dataType: 'json', //服务器返回json格式数据
+		type: 'get', //HTTP请求类型
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		success: function(data) {
+			//			alert(JSON.stringify(dataArray))
+			var chooseall = [];
+			$.each(data, function(idx, val) {
+				if($("input[name='" + idx + "']").hasClass("wind-content-input-select") ||
+					$("input[name='" + idx + "']").hasClass("wind-content-input-city") ||
+					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
+					if($("input[name='" + idx + "']").attr("namedep") === "department") {
+						$.each(allgldw, function(index, value) {
+							//console.log(idx +"=="+ value.type +"-----"+ val +"== "+value.value)
+							if(val == value.value) {
+								$("input[name='" + idx + "']").val(value.text);
+							}
+						})
+					} else {
+						$.each(dataArray, function(index, value) {
+							if($("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
+								if(idx == value.type) {
+									$.each(val.split("/"), function(i, v) {
+										if(v == value.value) {
+											chooseall.push(value.text);
+										}
+									});
+									$("input[name='" + idx + "']").val(chooseall.join("/"));
+								}
+							} else if(idx == value.type && val == value.value) {
+								$("input[name='" + idx + "']").val(value.text);
+							}
+						});
+					}
+
+				} else if($("input[name='" + idx + "']").hasClass("wind-content-input-radiodetail")) {
+					var valValue = val == 0 ? "已联网" : "未联网";
+					$("input[name='" + idx + "']").val(valValue)
+				} else {
+					$("input[name='" + idx + "']").val(val)
+				}
+			});
+		},
+		error: function(xhr, type, errorThrown) {
+			//异常处理；
+			mui.toast("获取失败");
+		}
+	});
 }

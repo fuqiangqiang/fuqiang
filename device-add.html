@@ -26,6 +26,7 @@
         <script src="js/plugins/baidumapv2/tools/TextIconOverlay_min.js"></script>
         <script src="js/plugins/baidumapv2/tools/MarkerClusterer_min.js"></script>
         <script src="js/device-resetadd.js"></script>
+        <!--<script src="js/device-edit.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
 
 	<body>
@@ -64,7 +65,7 @@
 			<!--单选下拉-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}"/>
+				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}"/>
 			</div>
 			
 			{{else if item.value=='area'}}

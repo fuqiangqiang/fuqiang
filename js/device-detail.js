@@ -54,7 +54,7 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
 					if($("input[name='" + idx + "']").attr("namedep") === "department") {
 						$.each(allgldw, function(index, value) {
-							//								console.log(idx +"=="+ value.type +"-----"+ val +"== "+value.value)
+							//console.log(idx +"=="+ value.type +"-----"+ val +"== "+value.value)
 							if(val == value.value) {
 								$("input[name='" + idx + "']").val(value.text);
 							}

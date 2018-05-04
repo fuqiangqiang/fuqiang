@@ -188,7 +188,8 @@
 		],
 		"refer": [
 			"device-add.html",
-			"device-detail.html"
+			"device-detail.html",
+			"device-edit.html"
 		],
 		"priority": 0
 	},

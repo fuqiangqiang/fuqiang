@@ -16,16 +16,17 @@
 		<div id="pullrefresh" class="outer-box">
 			<ul class="mui-table-view" id="submit_order_list"> </ul>
 		</div>
-		<script id="temp_submit_order_list" type="text/html"> 
+		<script id="temp_submit_order_list" type="text/html">
 			{{each CameraList}}
 			<li class="mui-table-view-cell mui-media" data-id="{{$value.SBBM}}">
 				<div class="mui-slider-right mui-disabled">
 					<!--<a class="mui-btn mui-btn-grey copy-device" data-id="{{$value.SBBM}}">拷贝</a>-->
-					<a class="mui-btn mui-btn-grey  del-upload" style="background-color: #899397;" data-id="{{$value.SBBM}}">发送审核</a>
-					<a class="mui-btn mui-btn-red  del-device" data-id="{{$value.SBBM}}">删除</a>
+					<a class="mui-btn mui-btn-grey del-upload" style="background-color: #899397;" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">发送审核</a>
+					<a class="mui-btn mui-btn-grey j-tap-edit" style="background-color: #2D82FF;" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">编辑</a>
+					<a class="mui-btn mui-btn-red del-device" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">删除</a>
 
 				</div>
-				<div class="mui-slider-handle" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}"> 
+				<div class="mui-slider-handle" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">
 					{{ if $value.SXJLX == '2'}} <img class="mui-media-object mui-pull-left" src="images/camera/banqiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '1'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiuji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '3'}} <img class="mui-media-object mui-pull-left" src="images/camera/gudingqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '4'}} <img class="mui-media-object mui-pull-left" src="images/camera/yaoganqiangji{{$value.SBZT}}.png"> {{ else if $value.SXJLX == '5'}} <img class="mui-media-object mui-pull-left" src="images/camera/qiangji{{$value.SBZT}}.png"> {{ else }} <img class="mui-media-object mui-pull-left" src="images/camera/weizhi{{$value.SBZT}}.png"> {{/if}}
 					<div class="mui-media-body"> {{$value.SBMC}}
 						<div>
@@ -35,8 +36,8 @@
 					</div>
 					</a>
 				</div>
-			</li> 
-			{{/each}} 
+			</li>
+			{{/each}}
 		</script>
 		<script src="js/mui/mui.min.js"></script>
 		<script src="js/plugins/jquery-3.2.1.js"></script>
@@ -50,18 +51,33 @@
 				shzt: "1" //1、未提交状态；2、待审核状态3，退回 4，已经审核，9未通过
 			}
 			$("body").on("tap", "div.mui-slider-handle", function() {
-				
+
 				var de_sbbm = this.getAttribute("data-sbbm");
-                var de_id = this.getAttribute("data-id");
-                mui.openWindow({
-                    url: 'device-detail.html',
-                    extras: {
-                        de_sbbm: de_sbbm,
-                        de_title: 2, //2详情 3 编辑
-                        de_status:1,
-                        de_id:de_id
-                    }
-                });
+				var de_id = this.getAttribute("data-id");
+				mui.openWindow({
+					url: 'device-detail.html',
+					extras: {
+						de_sbbm: de_sbbm,
+						de_title: 3, //2详情 3 编辑
+						de_status: 1,
+						de_id: de_id
+					}
+				});
+			});
+
+			//左滑"编辑"选项
+			$("body").on("tap", "a.j-tap-edit", function() {
+				var de_sbbm = this.getAttribute("data-sbbm");
+				var de_id = this.getAttribute("data-id");
+				mui.openWindow({
+					url: '/device-add.html', //'device-add.html',
+					extras: {
+						de_sbbm: de_sbbm,
+						de_title: 3, 
+						de_status: 1,
+						de_id: de_id
+					}
+				});
 			});
 			window.addEventListener('showsearch', function(event) {
 				$.extend(param, event.detail.id)
