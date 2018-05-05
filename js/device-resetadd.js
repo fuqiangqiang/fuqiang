@@ -6,19 +6,16 @@ var imgFiles = []; //上传图片列表
 var fileTotalSize = 0; //上传文件总大小
 var imageList = null;
 var allgldw = [];
-var id = null;
-var sbbm = null;
-var shztStauts = null;
 mui.plusReady(function() {
 	mui.init();
 	var self = plus.webview.currentWebview();
-	id = self.de_id;
-	sbbm = self.de_sbbm;
-	shztStauts = self.de_status;
+	var id = self.de_id;
+	var sbbm = self.de_sbbm;
+	var shztStauts = self.de_status;
+	getDom(id,sbbm,shztStauts);
+	getGldw();
 })
 $(function() {
-	getDom();
-	getGldw();
 	$(document)
 		//获取多选的
 		.on('getChooseData', function(e) {
@@ -228,7 +225,7 @@ function bd_encrypt(gg_lat, gg_lon) {
 }
 
 /*获取布局信息*/
-function getDom() {
+function getDom(id,sbbm,shztStauts) {
 	mui.ajax(app.host + '/deviceDictionary/getDeviceDictonary', {
 		dataType: 'json',
 		type: 'get',
@@ -240,6 +237,7 @@ function getDom() {
 				var imgList = $(".imgboxnum").eq(i).attr("id");
 				newPlaceholder($("#" + imgList)[0])
 			}
+//			alert(id)
 			if(typeof id == "undefined" || id == null) {} else {
 				var dataArray = [];
 				$.each(msg.data, function(idx, val) {
@@ -381,9 +379,10 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 			'Content-Type': 'application/json'
 		},
 		success: function(data) {
-			//			alert(JSON.stringify(dataArray))
+//			alert(JSON.stringify(dataArray))
 			var chooseall = [];
 			$.each(data, function(idx, val) {
+				console.log(idx + '--------' + val)
 				if($("input[name='" + idx + "']").hasClass("wind-content-input-select") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-city") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
@@ -412,6 +411,7 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 					}
 
 				} else if($("input[name='" + idx + "']").hasClass("wind-content-input-radiodetail")) {
+					alert(666666)
 					var valValue = val == 0 ? "已联网" : "未联网";
 					$("input[name='" + idx + "']").val(valValue)
 				} else {
