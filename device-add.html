@@ -20,13 +20,13 @@
 		<!--<script src="js/plugins/template.js"></script>-->
 		<script src="js/city.data-3.js"></script>
 		<script src="js/mui/mui.zoom.js"></script>
-        <script src="js/mui/mui.previewimage.js"></script>
-        <script src="js/plugins/baidumapv2/map_load.js"></script>
+		<script src="js/mui/mui.previewimage.js"></script>
+		<script src="js/plugins/baidumapv2/map_load.js"></script>
 		<script src="js/plugins/baidumapv2/tools/InfoBox_min.js"></script>
-        <script src="js/plugins/baidumapv2/tools/TextIconOverlay_min.js"></script>
-        <script src="js/plugins/baidumapv2/tools/MarkerClusterer_min.js"></script>
-        <script src="js/device-resetadd.js"></script>
-        <!--<script src="js/device-edit.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/plugins/baidumapv2/tools/TextIconOverlay_min.js"></script>
+		<script src="js/plugins/baidumapv2/tools/MarkerClusterer_min.js"></script>
+		<script src="js/device-resetadd.js"></script>
+		<!--<script src="js/device-edit.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
 
 	<body>
@@ -34,87 +34,83 @@
 			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
                 <span class="mui-icon mui-icon-left-nav" style="color: #08DAC4;line-height: 54px;"></span>
             </button>
-			<h1 class="mui-title new-title" id="pageTitle">录入</h1>
+			<h1 class="mui-title new-title" id="pageTitle"></h1>
 			<!--<i class="icon-bianji editpen hidden" id="editpen"></i>-->
 		</header>
 		<div class="mui-content" id="mui-openwind">
 		</div>
 		<div class="btn-upload">
-			<input type="button" class="btnclass" value="提交草稿" id="draft_btn"/>
-			<input type="button" class="btnclass" value="发送审核" id="examine_btn"/>
+			<input type="button" class="btnclass" value="提交草稿" id="draft_btn" />
+			<input type="button" class="btnclass" value="发送审核" id="examine_btn" />
 		</div>
 	</body>
 	<!--添加设备-->
 	<script id="device_add_wind" type="text/html">
 		<form action="">
-		{{each $data item}}
-			{{if item.value=='text' && item.type!='WD' && item.type!='JD'}}
+			{{each $data item}} {{if item.value=='text' && item.type!='WD' && item.type!='JD'}}
 			<!--text框-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input" name="{{item.type}}" />
+				<input type="text" class="wind-content-input" name="{{item.type}}" {{if item.type=='SBBM' }}maxlength="20" {{/if}}/>
 			</div>
 			{{else if item.value=='date'}}
 			<!--时间选择-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input wind-content-input-date {{if item.required==1}}required{{/if}}" name="{{item.type}}" readonly id="{{item.type}}"/>
+				<input type="text" class="wind-content-input wind-content-input-date {{if item.required==1}}required{{/if}}" name="{{item.type}}" readonly id="{{item.type}}" />
 			</div>
-			
+
 			{{else if item.value=='dropDownBox' || item.value=='department'}}
 			<!--单选下拉-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}"/>
+				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}" />
 			</div>
-			
+
 			{{else if item.value=='area'}}
 			<!--三级联动-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input wind-content-input-city" readonly name="{{item.type}}"/>
+				<input type="text" class="wind-content-input wind-content-input-city" readonly name="{{item.type}}" />
 			</div>
-			
+
 			{{else if item.value=='radio'}}
 			<!--单选-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
-				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				{{each item.dictionaryDetails option optionIdx}}
+				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label> {{each item.dictionaryDetails option optionIdx}}
 				<div class="beauty-radio">
-					<input id="radio_{{option.id}}_{{option.value}}_{{optionIdx}}" class="beauty-radio-input " type="radio" name="{{item.type}}" {{if optionIdx==1 }}checked{{/if}} value="{{option.value}}">
-					<label for="radio_{{option.id}}_{{option.value}}_{{optionIdx}}" class="beauty-radio-label wind-content-input-radio">{{option.name}}</label>
+					<!--{{if optionIdx==0}}checked{{/if}}-->
+					<input id="radio_{{option.id}}_{{option.value}}_{{optionIdx}}" class="beauty-radio-input wind-content-input wind-content-input-radiodetail" type="radio" name="{{item.type}}" value="{{option.value}}">
+					<label for="radio_{{option.id}}_{{option.value}}_{{optionIdx}}" class="beauty-radio-label wind-content-input-radio ">{{option.name}}</label>
 				</div>
 				{{/each}}
 			</div>
-			
+
 			{{else if item.value=='multiple'}}
 			<!--多选-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input wind-content-input-choose" readonly name="{{item.type}}" id="{{item.type}}" labelname="{{item.name}}"/>
+				<input type="text" class="wind-content-input wind-content-input-choose" readonly name="{{item.type}}" id="{{item.type}}" labelname="{{item.name}}" />
 			</div>
 			{{else if item.value=='text' && item.type=='WD'}}
 			<!--经度、纬度-->
 			<div class="wind-content-item wind-jd-wd" data-labelId="">
 				<label class="wind-content-label label-required">经度</label>
-				<input type="text" class="wind-content-input wind-content-input-jd" readonly id="JD" name="JD"/>
+				<input type="text" class="wind-content-input wind-content-input-jd" readonly id="JD" name="JD" />
 				<label class="wind-content-label label-required">纬度</label>
-				<input type="text" class="wind-content-input wind-content-input-wd" readonly id="WD" name="WD"/>
+				<input type="text" class="wind-content-input wind-content-input-wd" readonly id="WD" name="WD" />
 				<i class="mui-icon mui-icon-location btn_location"></i>
 			</div>
-			
+
 			{{else if item.value=='picture'}}
 			<!--照片-->
 			<div class="wind-content-item feedback" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
 				<div id='{{item.type}}' class="row image-list imgboxnum"></div>
 			</div>
-			
-			
-			
-			
-			{{/if}}
-		{{/each}}
+
+			{{/if}} {{/each}}
 		</form>
 	</script>
+
 </html>

@@ -51,14 +51,13 @@
 				shzt: "1" //1、未提交状态；2、待审核状态3，退回 4，已经审核，9未通过
 			}
 			$("body").on("tap", "div.mui-slider-handle", function() {
-
 				var de_sbbm = this.getAttribute("data-sbbm");
 				var de_id = this.getAttribute("data-id");
 				mui.openWindow({
 					url: 'device-detail.html',
 					extras: {
 						de_sbbm: de_sbbm,
-						de_title: 3, //2详情 3 编辑
+						de_title: 2, //2详情 3 编辑
 						de_status: 1,
 						de_id: de_id
 					}
@@ -70,10 +69,10 @@
 				var de_sbbm = this.getAttribute("data-sbbm");
 				var de_id = this.getAttribute("data-id");
 				mui.openWindow({
-					url: '/device-add.html', //'device-add.html',
+					url: 'device-add.html', //'device-add.html',
 					extras: {
 						de_sbbm: de_sbbm,
-						de_title: 3, 
+						de_title: 2, //2详情 3 编辑
 						de_status: 1,
 						de_id: de_id
 					}

@@ -8,9 +8,10 @@ $(function() {
 					return {
 						name: $(obj).text().trim(),
 						id: $(obj).attr('data-value'),
-						checkname:$(obj).attr('data-name')
+						checkname: $(obj).attr('data-name')
 					}
 				}).toArray();
+				alert(JSON.stringify(cameraType))
 				mui.fire(plus.webview.getWebviewById('device-add.html'), 'getChooseData', cameraType);
 			}
 		}

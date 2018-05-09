@@ -200,7 +200,8 @@
 			"js/mui/mui.min.js"
 		],
 		"refer": [
-			"device-add.html"
+			"device-add.html",
+			"device-detail.html"
 		],
 		"priority": 0
 	},

@@ -140,16 +140,17 @@ if(mui.os.plus) {
 });*/
 //左滑"发送审核"
 $("body").on("tap", "a.del-upload", function() {
-    var de_detail = this.getAttribute("data-id");
+    var de_sbbm = this.getAttribute("data-sbbm");
+    var thisValue = $(this);
     var btnArray = ['否', '是'];
     mui.confirm('是否确定发送审核？', '提示', btnArray, function(e) {
         //是 为1
         if(e.index == 1) {
-            mui.ajax(app.host + '/VIID/CamerasToSync.action?shzt=2&SBBM=' + de_detail, {
+            mui.ajax(app.host + '/VIID/CamerasToSync.action?shzt=2&SBBM=' + de_sbbm, {
                 type: 'post',
                 timeout: 10000,
                 success: function(data) {
-                    $('li[data-id=' + de_detail + ']').remove();
+                	thisValue.closest("li").remove();
                 },
                 error: function(xhr, type, errorThrown) {
                 }
@@ -160,7 +161,8 @@ $("body").on("tap", "a.del-upload", function() {
 
 //左滑"删除"
 $("body").on("tap", "a.del-device", function() {
-    var de_detail = this.getAttribute("data-id");
+    var de_sbbm = this.getAttribute("data-sbbm");
+    var thisValue = $(this);
     //删除
     var delFlag = 0;
     var btnArray = ['否', '是'];
@@ -172,9 +174,9 @@ $("body").on("tap", "a.del-device", function() {
     })
 
     var delAjax = function() {
-        getAjax('/VIID/CamerasDelete.action?SBBM=' + de_detail, {}, function(msg) {
+        getAjax('/VIID/CamerasDelete.action?SBBM=' + de_sbbm, {}, function(msg) {
             if(msg.ResponseStatusList.StatusCode == 0) {
-                $('li[data-id=' + de_detail + ']').remove();
+               thisValue.closest("li").remove();
                 mui.toast("删除成功");
             } else {
                 mui.toast("删除失败");

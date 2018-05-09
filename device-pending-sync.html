@@ -19,9 +19,9 @@
             <li class="mui-table-view-cell mui-media"  data-id="{{$value.SBBM}}">
             	<div class="mui-slider-right mui-disabled">
 					<!--<a class="mui-btn mui-btn-grey copy-device" data-id="{{$value.SBBM}}">拷贝</a>-->
-					<a class="mui-btn mui-btn-grey  del-upload" style="background-color: #899397;" data-id="{{$value.SBBM}}">发送审核</a>
-					<a class="mui-btn mui-btn-grey j-tap-edit" style="background-color: #2D82FF;" data-id="{{$value.SBBM}}">编辑</a>
-					<a class="mui-btn mui-btn-red  del-device" data-id="{{$value.SBBM}}">删除</a>
+					<a class="mui-btn mui-btn-grey  del-upload" style="background-color: #899397;" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">发送审核</a>
+					<a class="mui-btn mui-btn-grey j-tap-edit" style="background-color: #2D82FF;" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">编辑</a>
+					<a class="mui-btn mui-btn-red  del-device" data-id="{{$value.id}}" data-sbbm="{{$value.SBBM}}">删除</a>
 
 				</div>
 
@@ -49,16 +49,29 @@
             $("body").on("tap", "div.mui-slider-handle", function() {
                 var de_detail = this.getAttribute("data-id");
                 var device_id = this.getAttribute("device-id");
+                alert(de_detail)
                 mui.openWindow({
                     url: 'device-add.html', //'device-add.html',
                     extras: {
                         de_detail: de_detail,
-                        de_title: 2, //2详情 3 编辑
                         de_status:3,
                         de_id:device_id
                     }
                 });
             });
+            //左滑"编辑"选项
+			$("body").on("tap", "a.j-tap-edit", function() {
+				var de_sbbm = this.getAttribute("data-sbbm");
+				var de_id = this.getAttribute("data-id");
+				mui.openWindow({
+					url: 'device-add.html', //'device-add.html',
+					extras: {
+						de_sbbm: de_sbbm,
+						de_status: 3,
+						de_id: de_id
+					}
+				});
+			});
             window.addEventListener('showsearch', function(event) {
                 console.log(JSON.stringify(param))
                 $.extend(param, event.detail.id)

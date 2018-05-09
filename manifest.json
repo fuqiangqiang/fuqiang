@@ -409,7 +409,8 @@
 				],
 				"priority": 5,
 				"refer": [
-					"device-add.html"
+					"device-add.html",
+					"device-detail.html"
 				]
 			},
 			"my.html": {
