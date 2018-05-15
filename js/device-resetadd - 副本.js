@@ -1,12 +1,12 @@
 var x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 var dataDom = null;
 var imgIdNum = 0; //自增标记
+var imgIndex = Math.floor(Math.random()*100000); //已上传的图片索引
 var imgIndex = 1; //已上传的图片索引
 var imgFiles = []; //上传图片列表
 var fileTotalSize = 0; //上传文件总大小
 var imageList = null;
 var allgldw = [];
-var imgArray = [];
 mui.plusReady(function() {
 	mui.init();
 	var self = plus.webview.currentWebview();
@@ -198,7 +198,7 @@ $(function() {
 						postData[name] = value;
 					}
 				}
-				//判断条件: input下拉框
+				//判断条件: input框
 				else {
 					var name = $(".wind-content-input").eq(i).attr("name");
 					var value = $(".wind-content-input").eq(i).val();
@@ -207,15 +207,6 @@ $(function() {
 					}
 					postData[name] = value
 				}
-			}
-			for(var j = 0; j < $('.uploaded-images').length; j++){
-				console.log('images have:--------------' + j);
-				var name = $(".uploaded-images").eq(j).attr("inheritId");
-				name = name.substring(0,name.length-4);
-				var value = $(".uploaded-images").eq(j).attr("id");
-				imgArray.push(value)
-				console.log("==================="+imgArray)
-				postData[name] = imgArray.join('/');
 			}
 			var url = app.host + '/VIID/CamerasToSync.action';
 			var uploader = plus.uploader.createUpload(url, {
@@ -232,41 +223,42 @@ $(function() {
 			postData.czr = localStorage.getItem("drsUserName");
 			postData.shzt = "1";
 			postData.id = id; //没有id无法标识记录
-			console.log(JSON.stringify(postData));
-			
 			mui.each(postData, function(index, element) {
 				//if(index !== 'images') {
 				uploader.addData(index, element)
 				//}
 			});
-
 			//添加图片
-			$('.imgboxnum').each(function(index, parent) {
-				$(parent).find('.image-item').each(function(index, item) {
-					var imgList = $(parent).attr("origionId");
-//					console.log(imgList)
-					mui.each(imgFiles, function(index, element) {
-						console.log(index)
-						var f = imgFiles[index];
-						uploader.addFile(f.path, {
-							key: imgList +'-'+ index
-						});
-					});
+			for(var i = 0; i < $(".imgboxnum").length; i++) {
+				//父元素id
+				var imgList = $(".imgboxnum").eq(i).attr("id");
+				//对应父元素下的 <img>
+				var imgList2 = $(".imgboxnum").eq(i).find(".uploaded-images").attr('inheritId');
+//				console.log("origionId=================="+imgList);
+//				console.log("children=================="+JSON.stringify(imgList2));
+//				console.log("AAAAAAAAAAAAAA" + $(".imgboxnum").eq(i).attr("id"));
+//				console.log("AAAAAAAAAAAAAA" + $(".imgboxnum").eq(i).attr("origionId"));
+//				console.log("BBBBBBBBBBBBBB" + $(".imgboxnum").eq(i).find(".uploaded-images").attr('inheritId'))
+				if($(".imgboxnum").eq(i).attr("id") == $(".imgboxnum").eq(i).find(".uploaded-images").attr('inheritId')) {
+//					console.log($(".imgboxnum").eq(i).find(".uploaded-images").eq(i).attr('inheritId'));
 					
-				})
-			})
-			/*for(var i = 0; i < $(".imgboxnum .image-item").length; i++) {
+				}
 				
-//				console.log($(".imgboxnum .image-item").length);
-				var imgList = $(".imgboxnum").attr("origionId");
-				console.log(imgList)
 				mui.each(imgFiles, function(index, element) {
-					var f = imgFiles[index];
-					uploader.addFile(f.path, {
-						key: imgList
+						var f = imgFiles[index];
+						if($(".imgboxnum").eq(i).attr("origionId") == element.sign){
+							uploader.addFile(f.path, {
+								key: imgList + "-" + f.name
+							});
+							console.log('imgFiles: --------' + JSON.stringify(imgFiles));
+						}
 					});
-				});
-			}*/
+			}
+			//			console.log('//////////////////////////////////////////////////////////')
+			//			console.log(JSON.stringify($('.uploaded-images')));
+			//			console.log('\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\')
+			//			console.log(JSON.stringify($('.bornCaptcherName')));
+
 			uploader.start();
 		})
 
@@ -321,7 +313,7 @@ $(function() {
 				uploader.addData(index, element)
 				//}
 			});
-			/*for(var i = 0; i < $(".imgboxnum").length; i++) {
+			for(var i = 0; i < $(".imgboxnum").length; i++) {
 				var imgList = $(".imgboxnum").eq(i).attr("id");
 				mui.each(imgFiles, function(index, element) {
 					var f = imgFiles[index];
@@ -329,7 +321,7 @@ $(function() {
 						key: imgList + "-" + f.name
 					});
 				});
-			}*/
+			}
 			uploader.start();
 		})
 })
@@ -479,7 +471,9 @@ function newPlaceholder(imageList) {
 	fileInput.addEventListener('tap', function(event) {
 		var self = this;
 		var index = (this.id).substr(-1);
+		console.log("点击时的 this : " + self)
 		plus.gallery.pick(function(e) {
+			console.log("点击添加图片: "+e)
 			var name = e.substr(e.lastIndexOf('/') + 1);
 			plus.zip.compressImage({
 				src: e,
@@ -492,6 +486,7 @@ function newPlaceholder(imageList) {
 					return mui.toast('文件超大,请重新选择~');
 				}
 				if(!self.parentNode.classList.contains('space')) { //已有图片
+					console.log('已有照片更新,已有照片更新')
 					imgFiles.splice(index - 1, 1, {
 						name: "images" + index,
 						path: e
@@ -499,10 +494,14 @@ function newPlaceholder(imageList) {
 				} else { //加号
 					placeholder.classList.remove('space');
 					imgFiles.push({
-						name: "",
+						name: "images" + imgIndex,
 						path: zip.target,
-						id: "img-" + imgIndex
+						id: "img-" + imgIndex,
+						sign: (function(){
+							return "bornCaptcher"
+						})()
 					});
+					console.log("新加图片: "+JSON.stringify(imgFiles));
 					imgIndex++;
 					newPlaceholder(imageList);
 				}
@@ -511,9 +510,11 @@ function newPlaceholder(imageList) {
 			}, function(zipe) {
 				mui.toast('压缩失败！')
 			});
+
 		}, function(e) {
 			//mui.toast(e.message);
 		}, {});
+
 	}, false);
 
 	placeholder.appendChild(closeButton);
@@ -532,20 +533,22 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 			'Content-Type': 'application/json'
 		},
 		success: function(data) {
+			//console.log(JSON.stringify(data))
 			var chooseall = [];
 			$.each(data, function(idx, val) {
+				//				console.log("data-idx: " + idx + '-----------' + val)
 				if(typeof $('#' + idx).attr("imgname") != "undefined") {
-					console.log('idx' + idx + '--------val------' + val);
 					if($('#' + idx).attr("imgname") === idx) {
-						console.log(JSON.stringify(idx) + '--------------' + JSON.stringify(val));
+						//						console.log(JSON.stringify(idx) + '--------------' + val);
 						mui.each(val, function(index, value) {
-							console.log("index: "+index+'-----22222222---------'+JSON.stringify(value));
+							//							console.log(index+'-----22222222---------'+value);
 							$('#' + idx).append('<div class="imagesBox"><span id="' + value.id + '" class="image-close">×</span>' +
 								'<img id="' + value.id + '" inheritId="' + idx + '" class="uploaded-images" style="width: 64px;height: 64px;" src="' + app.host + value.url + '"/>' +
 								'</div>')
 						})
 					}
 				}
+
 				if($("input[name='" + idx + "']").hasClass("wind-content-input-select") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-city") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {

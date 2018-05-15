@@ -136,7 +136,8 @@ $("#password").focus(function() {
 
 					},
 					error: function(xhr, type, errorThrown) {
-						console.log("login error")
+						console.log("login error" + type);
+						
 					}
 				});
 			}

@@ -17,6 +17,7 @@ mui.plusReady(function() {
 		type: 'get',
 		timeout: 10000,
 		success: function(msg) {
+			//渲染模板
 			$('.mui-content').html(template('device_add_wind', msg.data));
 			var dataArray = [];
 			$.each(msg.data, function(idx, val) {
@@ -45,16 +46,29 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 			'Content-Type': 'application/json'
 		},
 		success: function(data) {
-			console.log(JSON.stringify(allgldw))
-			//			alert(JSON.stringify(dataArray))
 			var chooseall = [];
 			$.each(data, function(idx, val) {
+				//详情图片显示
+				//当有图片时, 进行展示.
+//				console.log("data-idx: " + idx + '----------' + val)
+				if(typeof $('#' + idx).attr("imgname") != "undefined") {
+					if($('#' + idx).attr("imgname") === idx) {
+//						console.log(JSON.stringify(idx + '--------------' + JSON.stringify(val)));
+						mui.each(val, function(index, value) {
+							$('#' + idx).append('<div class="imagesBox">' +
+								'<img id="' + value.id + '" class="uploaded-images" style="width: 64px;height: 64px;" src="' + app.host + value.url + '"/>' +
+								'</div>')
+						})
+					}
+				}
+				
+				//条件判断: 下拉框, 三级联动, 多选项
 				if($("input[name='" + idx + "']").hasClass("wind-content-input-select") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-city") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
 					if($("input[name='" + idx + "']").attr("namedep") === "department") {
+						//所有管理单位
 						$.each(allgldw, function(index, value) {
-							//console.log(idx +"=="+ value.type +"-----"+ val +"== "+value.value)
 							if(val == value.value) {
 								$("input[name='" + idx + "']").val(value.text);
 							}
@@ -75,7 +89,6 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 							}
 						});
 					}
-
 				} else if($("input[name='" + idx + "']").hasClass("wind-content-input-radiodetail")) {
 					var valValue = val == 0 ? "已联网" : "未联网";
 					$("input[name='" + idx + "']").val(valValue)
@@ -109,5 +122,4 @@ function getGldw() {
 		},
 		error: function(xhr, type, errorThrown) {}
 	});
-
 }
