@@ -97,8 +97,39 @@
 			{{else if item.value=='picture'}}
 			<!--照片-->
 			<div class="wind-content-item feedback" data-labelId="{{item.lableId}}">
+				<style type="text/css">
+						.imagesBox {
+							display: inline-block;
+							border: 1px solid #eee;
+							border-radius: 5px;
+							position: relative;
+							margin: 0 0 0 16px;
+						}
+						.uploaded-images {
+							width: 100%;
+							border-radius: 5px;
+						}
+						.image-close {
+							margin: 0;
+							padding: 0;
+							display: inline-block;
+							font-size: 14px;
+							background-color: #f00;
+							border-radius: 10px;
+							width: 16px;
+							height: 16px;
+							line-height: 18px;
+							text-indent: 4px;
+							color: #FFF;
+							position: absolute;
+							top: 2px;
+							right: 2px;
+						}
+					</style>
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<div id='{{item.type}}' class="row image-list imgboxnum"></div>
+				<div id='{{item.type}}Name' class="row image-list imgboxnum" imgname="{{item.type}}Name">
+					<!--<img class="clsimg" style="width: 100px;height: 100px;background-color: #eee;border:none;" src=""/>-->
+				</div>
 			</div>
 			{{/if}}
 		{{/each}}

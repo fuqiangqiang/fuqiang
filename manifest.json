@@ -332,7 +332,8 @@
 				],
 				"priority": 1,
 				"refer": [
-					"device-add.html"
+					"device-add.html",
+					"device-detail.html"
 				]
 			},
 			"order.html": {
