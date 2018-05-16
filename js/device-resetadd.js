@@ -175,7 +175,9 @@ $(function() {
 
 		/*提交草稿*/
 		.on("tap", "#draft_btn", function() {
-			ruleDraft();
+			if(!ruleDraft()){
+				return;
+			}
 			var self = plus.webview.currentWebview(); //获取device-uncommitted.html所传的值
 			var id = self.de_id; //获取所传值的id
 			var postData = {};
@@ -185,7 +187,7 @@ $(function() {
 					$(".wind-content-input").eq(i).hasClass("wind-content-input-choose") ||
 					$(".wind-content-input").eq(i).hasClass("wind-content-input-city")) {
 					var name = $(".wind-content-input").eq(i).attr("name");
-					var value = $(".wind-content-input").eq(i).attr("data-value");
+					var value = $(".wind-content-input").eq(i).attr("data-value");//attr("data-value")
 					if(typeof value == "undefined") {
 						value = "";
 					}
@@ -209,12 +211,11 @@ $(function() {
 				}
 			}
 			for(var j = 0; j < $('.uploaded-images').length; j++){
-				console.log('images have:--------------' + j);
+				//处理上传时的 name的值, 其后不能加 Name.
 				var name = $(".uploaded-images").eq(j).attr("inheritId");
 				name = name.substring(0,name.length-4);
 				var value = $(".uploaded-images").eq(j).attr("id");
 				imgArray.push(value)
-				console.log("==================="+imgArray)
 				postData[name] = imgArray.join('/');
 			}
 			var url = app.host + '/VIID/CamerasToSync.action';
@@ -233,7 +234,7 @@ $(function() {
 			postData.shzt = "1";
 			postData.id = id; //没有id无法标识记录
 			console.log(JSON.stringify(postData));
-			
+//			return
 			mui.each(postData, function(index, element) {
 				//if(index !== 'images') {
 				uploader.addData(index, element)
@@ -246,7 +247,6 @@ $(function() {
 					var imgList = $(parent).attr("origionId");
 //					console.log(imgList)
 					mui.each(imgFiles, function(index, element) {
-						console.log(index)
 						var f = imgFiles[index];
 						uploader.addFile(f.path, {
 							key: imgList +'-'+ index
@@ -425,6 +425,7 @@ function ruleDraft() {
 		mui.toast("请输入管理单位");
 		return false;
 	}
+	return true;
 }
 
 /*提交发送审核验证规则
@@ -459,7 +460,7 @@ function newPlaceholder(imageList) {
 	//删除图片
 	var closeButton = document.createElement('div');
 	closeButton.setAttribute('class', 'image-close');
-	closeButton.innerHTML = 'X';
+	closeButton.innerHTML = '×';
 	closeButton.id = "img-" + imgIndex;
 	//小X的点击事件
 	closeButton.addEventListener('tap', function(event) {
@@ -535,11 +536,8 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 			var chooseall = [];
 			$.each(data, function(idx, val) {
 				if(typeof $('#' + idx).attr("imgname") != "undefined") {
-					console.log('idx' + idx + '--------val------' + val);
 					if($('#' + idx).attr("imgname") === idx) {
-						console.log(JSON.stringify(idx) + '--------------' + JSON.stringify(val));
 						mui.each(val, function(index, value) {
-							console.log("index: "+index+'-----22222222---------'+JSON.stringify(value));
 							$('#' + idx).append('<div class="imagesBox"><span id="' + value.id + '" class="image-close">×</span>' +
 								'<img id="' + value.id + '" inheritId="' + idx + '" class="uploaded-images" style="width: 64px;height: 64px;" src="' + app.host + value.url + '"/>' +
 								'</div>')
@@ -567,7 +565,8 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 									$("input[name='" + idx + "']").val(chooseall.join("/"));
 								}
 							} else if(idx == value.type && val == value.value) {
-								$("input[name='" + idx + "']").val(value.text);
+								//.attr('data-value',value.value) 在之前动态增加的 data-value 属性.
+								$("input[name='" + idx + "']").val(value.text).attr('data-value',value.value);
 							}
 						});
 					}

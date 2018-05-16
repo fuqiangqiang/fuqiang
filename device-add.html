@@ -28,7 +28,6 @@
 		<script src="js/device-resetadd.js"></script>
 		<!--<script src="js/device-edit.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
-
 	<body>
 		<header class="mui-bar mui-bar-nav hidden" id="listHeader">
 			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
@@ -64,7 +63,11 @@
 			<!--单选下拉-->
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
-				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}" />
+				<!--namedep="{{item.value}}"-->
+				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}" value=""/>
+				<!--<div id="">
+					{{item}}
+				</div>-->
 			</div>
 
 			{{else if item.value=='area'}}
@@ -107,35 +110,6 @@
 			<div class="wind-content-item feedback" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>.
 				<div id='{{item.type}}Name' origionId='{{item.type}}' class="row image-list imgboxnum image" imgname="{{item.type}}Name">
-					<style type="text/css">
-						.imagesBox {
-							display: inline-block;
-							border: 1px solid #eee;
-							border-radius: 5px;
-							position: relative;
-							margin: 0 0 0 16px;
-						}
-						.uploaded-images {
-							width: 100%;
-							border-radius: 5px;
-						}
-						.image-close {
-							margin: 0;
-							padding: 0;
-							display: inline-block;
-							font-size: 14px;
-							background-color: #f00;
-							border-radius: 10px;
-							width: 16px;
-							height: 16px;
-							line-height: 18px;
-							text-indent: 4px;
-							color: #FFF;
-							position: absolute;
-							top: 2px;
-							right: 2px;
-						}
-					</style>
 					<!--<div class="imagesBox">
 						<span class="image-close">×</span>
 						<img class="uploaded-images" style="width: 64px;height: 64px;" src=""/>
@@ -143,9 +117,7 @@
 				</div>
 			</div>
 			</div>
-
 			{{/if}} {{/each}}
 		</form>
 	</script>
-
 </html>
