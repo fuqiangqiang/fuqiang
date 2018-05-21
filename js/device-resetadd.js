@@ -7,6 +7,8 @@ var fileTotalSize = 0; //上传文件总大小
 var imageList = null;
 var allgldw = [];
 var imgArray = [];
+var regionArray = [];
+var regionText = '';
 mui.plusReady(function() {
 	mui.init();
 	var self = plus.webview.currentWebview();
@@ -49,6 +51,14 @@ $(function() {
 			}
 		});
 	$("body")
+		/*设备编码 blur*/
+		.on("blur", "input[name=SBBM]", function(){
+			regionArray = [];
+			var thisCode = $('input[name=SBBM]').val();
+			var prefix6 = thisCode.substr(0,6).toString();
+			getRegionName(prefix6);
+			$('.wind-content-input-city').val(regionText).attr('data-value',prefix6);
+		})
 		/*日期选择*/
 		.on("tap", ".wind-content-input-date", function() {
 			var _self = this;
@@ -64,7 +74,6 @@ $(function() {
 				_self.picker = null;
 			});
 		})
-
 		/*select下拉*/
 		.on("tap", ".wind-content-input-select", function() {
 			var typeName = $(this).attr("name");
@@ -90,7 +99,6 @@ $(function() {
 				thisVlue.val(selectItems[0].text).attr('data-value', selectItems[0].value);
 			})
 		})
-
 		/*多选*/
 		.on("tap", ".wind-content-input-choose", function() {
 			var chooseType = [];
@@ -115,7 +123,6 @@ $(function() {
 				}
 			});
 		})
-
 		/*省市区三级联动*/
 		.on("tap", ".wind-content-input-city", function() {
 			var thisValue = $(this);
@@ -132,7 +139,6 @@ $(function() {
 				//return false;
 			});
 		})
-
 		/*地图*/
 		.on("tap", ".btn_location", function() {
 			var lng = 117;
@@ -146,7 +152,6 @@ $(function() {
 				extras: location
 			});
 		})
-
 		/*图片处理*/
 		.on("tap", ".wind-content-input-camera", function() {
 			galleryImgsMaximum();
@@ -172,7 +177,6 @@ $(function() {
 				}
 			})
 		})
-
 		/*提交草稿*/
 		.on("tap", "#draft_btn", function() {
 			if(!ruleDraft()){
@@ -225,7 +229,7 @@ $(function() {
 				// 上传完成
 				if(status == 200) {
 					mui.toast("提交草稿成功");
-					//mui.back();
+					mui.back();
 				} else {
 					mui.toast("提交草稿失败: " + status);
 				}
@@ -269,10 +273,11 @@ $(function() {
 			}*/
 			uploader.start();
 		})
-
 		/*发送审核*/
 		.on("tap", "#examine_btn", function() {
-			ruleVerification();
+			if(!ruleVerification()){
+				return;
+			}
 			var self = plus.webview.currentWebview(); //获取device-uncommitted.html所传的值
 			var id = self.de_id; //获取所传值的id
 			var postData = {};
@@ -307,10 +312,10 @@ $(function() {
 			}, function(t, status) {
 				// 上传完成
 				if(status == 200) {
-					mui.toast("提交草稿成功");
-					//mui.back();
+					mui.toast("发送审核成功");
+					mui.back();
 				} else {
-					mui.toast("提交草稿失败: " + status);
+					mui.toast("发送审核失败: " + status);
 				}
 			});
 			postData.czr = localStorage.getItem("drsUserName");
@@ -441,6 +446,7 @@ function ruleVerification() {
 			return false;
 		}
 	}
+	return true;
 }
 
 /*照片展示*/
@@ -478,6 +484,12 @@ function newPlaceholder(imageList) {
 	fileInput.setAttribute('class', 'file');
 	fileInput.setAttribute('id', 'image-' + imgIdNum);
 	fileInput.addEventListener('tap', function(event) {
+		var imagesLength = $('.imagesBox').length + $('.image-item').length
+		console.log(imagesLength);
+		if(imagesLength >= 4){
+			mui.toast("最多只能上传3张图片");
+			return
+		}
 		var self = this;
 		var index = (this.id).substr(-1);
 		plus.gallery.pick(function(e) {
@@ -545,12 +557,11 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 					}
 				}
 				if($("input[name='" + idx + "']").hasClass("wind-content-input-select") ||
-					$("input[name='" + idx + "']").hasClass("wind-content-input-city") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
 					if($("input[name='" + idx + "']").attr("namedep") === "department") {
 						$.each(allgldw, function(index, value) {
 							if(val == value.value) {
-								$("input[name='" + idx + "']").val(value.text);
+								$("input[name='" + idx + "']").val(value.text).attr('data-value',value.value);
 							}
 						})
 					} else {
@@ -577,9 +588,13 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 						}
 					});
 				} else {
-					$("input[name='" + idx + "']").val(val)
+					if(idx == "XZQY") {
+						getRegionName(val);//得到 区域 code 转换为 名字
+						$("input[name='" + idx + "']").val(regionText).attr('data-value',val);//.attr('data-value',value.value)
+					} else {
+						$("input[name='" + idx + "']").val(val);
+					}
 				}
-
 			});
 
 			/*未审核和已审核的拷贝功能*/
@@ -588,7 +603,6 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 				$("input[name='JD']").val("");
 				$("input[name='WD']").val("");
 			}
-
 		},
 		error: function(xhr, type, errorThrown) {
 			//异常处理；
@@ -596,3 +610,34 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 		}
 	});
 }
+
+//地区三级联动显示
+function getRegionName(code) {
+	//Level-1 循环省份
+	for(var i = 0; i <= cityData3.length - 1; i++) {
+		if(cityData3[i].value == code.substr(0, 2) + '0000') {
+			regionArray.push(cityData3[i].text);
+		}
+
+		//Level-2 循环城市
+		for(var j = 0; j < cityData3[i].children.length; j++) {
+			if(cityData3[i].children[j].value == code.substr(0, 4) + '00') {
+				regionArray.push(cityData3[i].children[j].text);
+			}
+
+			//筛选第二级(城市)非 undefined.
+			if('undefined' != typeof cityData3[i].children[j].children) {
+				//Level-3 第三级循环
+				for(var m = 0; m < cityData3[i].children[j].children.length; m++) {
+					if(cityData3[i].children[j].children[m].value == code) {
+						regionArray.push(cityData3[i].children[j].children[m].text);
+						regionText = regionArray.join('-');//格式化显示
+						console.log(regionText);
+						return
+					}
+				} //--END Level-3 第三级循环 --
+			} //--END 二级非 undefined
+
+		} //--END Level-2 循环城市--
+	} //--END Level-1 循环省份--
+} //--END getRegionName

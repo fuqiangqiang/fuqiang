@@ -480,7 +480,10 @@
 					"css/device-add.css",
 					"js/mui/mui.min.js",
 					"js/plugins/jquery-3.2.1.js",
-					"js/plugins/template-web.js"
+					"js/plugins/template-web.js",
+					"js/plugins/baidumapv2/map_city.js",
+					"js/plugins/baidumapv2/map_plus.js",
+					"js/plugins/baidumapv2/map.js"
 				],
 				"priority": 3,
 				"refer": [
@@ -584,6 +587,33 @@
 				"resources": [
 					"/images/qihoo.png",
 					"js/plugins/baidumapv2/images/blank.gif"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"device-detail.html": {
+				"resources": [
+					"js/plugins/jquery-3.2.1.js",
+					"js/mui/mui.previewimage.js",
+					"js/mui/mui.zoom.js",
+					"js/device-detail.js",
+					"js/plugins/baidumapv2/tools/TextIconOverlay_min.js",
+					"js/city.data-3.js",
+					"css/mui/mui.picker.min.css",
+					"css/iconfont/iconfont.css",
+					"js/plugins/template-web.js",
+					"js/mui/mui.min.js",
+					"js/common.js",
+					"css/mui/mui.poppicker.css",
+					"css/common.css",
+					"js/plugins/baidumapv2/map_load.js",
+					"css/mui/feedback.css",
+					"js/mui/mui.picker.min.js",
+					"js/plugins/baidumapv2/tools/InfoBox_min.js",
+					"css/device-detail.css",
+					"css/mui/mui.min.css",
+					"js/plugins/baidumapv2/tools/MarkerClusterer_min.js",
+					"js/mui/mui.poppicker.js"
 				],
 				"refer": [],
 				"priority": 0

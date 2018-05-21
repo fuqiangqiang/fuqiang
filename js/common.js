@@ -308,6 +308,31 @@ var validate = function () {
             return true;
         }
     }
+    function getRegionName(code) {
+    var province = regionCode.filter(function (obj) {
+        return obj.code == code.substr(0, 2) + '0000'
+    });
+    var city = regionCode.filter(function (obj) {
+        return obj.code == code.substr(0, 4) + '00'
+    });
+    var area = regionCode.filter(function (obj) {
+        return obj.code == code
+    });
+    provinceName = province.length > 0 ? province[0].name : '';
+    cityName = city.length > 0 ? city[0].name : '';
+    areaName = area.length > 0 ? area[0].name : '';
+    var data = [];
+    if (provinceName) {
+        data.push(provinceName);
+    }
+    if (cityName) {
+        data.push(cityName);
+    }
+    if (areaName) {
+        data.push(areaName);
+    }
+    return data;
+}
     /**
      * 字符长度限制 不可大于200字符
      * @param value

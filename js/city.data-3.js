@@ -11538,8 +11538,8 @@ var cityData3 = [{
 		value: "820200",
 		text: "离岛"
 	}]
-}, {
-	value: '990000',
+}
+, {	value: '990000',
 	text: '海外',
 	children: [{
 		value: "990100",

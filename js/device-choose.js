@@ -11,7 +11,6 @@ $(function() {
 						checkname: $(obj).attr('data-name')
 					}
 				}).toArray();
-				alert(JSON.stringify(cameraType))
 				mui.fire(plus.webview.getWebviewById('device-add.html'), 'getChooseData', cameraType);
 			}
 		}
