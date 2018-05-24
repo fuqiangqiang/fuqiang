@@ -107,11 +107,13 @@ $(function() {
 			var thisVlue = $(this);
 			picker.show(function(selectItems) {
 				thisVlue.val(selectItems[0].text).attr('data-value', selectItems[0].value);
+				//编辑状态关联必填项.
+				//value → typecustom
 				$.each(typecustom,function(index,value){
 					if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum){
 						$('input[name='+value.linktype+']').siblings('label').addClass('label-required');
 					}
-				})
+				})//--END 编辑状态关联必填项 --
 				
 			})
 		})
