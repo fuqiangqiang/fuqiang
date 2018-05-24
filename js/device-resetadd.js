@@ -9,6 +9,7 @@ var allgldw = [];
 var imgArray = [];
 var regionArray = [];
 var regionText = '';
+var typecustom = [];
 mui.plusReady(function() {
 	mui.init();
 	var self = plus.webview.currentWebview();
@@ -52,12 +53,12 @@ $(function() {
 		});
 	$("body")
 		/*设备编码 blur*/
-		.on("blur", "input[name=SBBM]", function(){
+		.on("blur", "input[name=SBBM]", function() {
 			regionArray = [];
 			var thisCode = $('input[name=SBBM]').val();
-			var prefix6 = thisCode.substr(0,6).toString();
+			var prefix6 = thisCode.substr(0, 6).toString();
 			getRegionName(prefix6);
-			$('.wind-content-input-city').val(regionText).attr('data-value',prefix6);
+			$('.wind-content-input-city').val(regionText).attr('data-value', prefix6);
 		})
 		/*日期选择*/
 		.on("tap", ".wind-content-input-date", function() {
@@ -78,10 +79,19 @@ $(function() {
 		.on("tap", ".wind-content-input-select", function() {
 			var typeName = $(this).attr("name");
 			var dataArray = [];
+			typecustom = [];
 			$.each(dataDom, function(idx, val) {
 				if(typeName == "GLDW") {
 					dataArray = allgldw;
 				} else {
+					if(val.dependence){
+						typecustom.push({
+							"type": val.dependence.split("-")[1],
+							"idnum": val.dependence.split("-")[2],
+							"linktype": val.type,
+							"isrequired": val.required
+						})
+					}
 					if(typeName == val.type) {
 						$.each(val.dictionaryDetails, function(i, value) {
 							dataArray.push({
@@ -97,6 +107,12 @@ $(function() {
 			var thisVlue = $(this);
 			picker.show(function(selectItems) {
 				thisVlue.val(selectItems[0].text).attr('data-value', selectItems[0].value);
+				$.each(typecustom,function(index,value){
+					if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum){
+						$('input[name='+value.linktype+']').siblings('label').addClass('label-required');
+					}
+				})
+				
 			})
 		})
 		/*多选*/
@@ -179,7 +195,7 @@ $(function() {
 		})
 		/*提交草稿*/
 		.on("tap", "#draft_btn", function() {
-			if(!ruleDraft()){
+			if(!ruleDraft()) {
 				return;
 			}
 			var self = plus.webview.currentWebview(); //获取device-uncommitted.html所传的值
@@ -191,7 +207,7 @@ $(function() {
 					$(".wind-content-input").eq(i).hasClass("wind-content-input-choose") ||
 					$(".wind-content-input").eq(i).hasClass("wind-content-input-city")) {
 					var name = $(".wind-content-input").eq(i).attr("name");
-					var value = $(".wind-content-input").eq(i).attr("data-value");//attr("data-value")
+					var value = $(".wind-content-input").eq(i).attr("data-value"); //attr("data-value")
 					if(typeof value == "undefined") {
 						value = "";
 					}
@@ -214,10 +230,50 @@ $(function() {
 					postData[name] = value
 				}
 			}
-			for(var j = 0; j < $('.uploaded-images').length; j++){
+			//【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证 暂时
+			for(var i = 0; i < $('input[type=text]').length; i++) {
+				if('' != $('input').eq(i).val()) {
+					if('SBBM' == $('input').eq(i).attr('name')) {
+						var deviceSNReg = /^\d{20}$/
+						if(!deviceSNReg.test($('input').eq(i).val())) {
+							mui.toast("设备编码 格式不正确");
+							return;
+						}
+					}
+					if('IPV4' == $('input').eq(i).attr('name')) {
+						var IPV4Reg = /^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$/;
+						if(!IPV4Reg.test($('input').eq(i).val())) {
+							mui.toast("IPV4地址 格式不正确");
+							return;
+						}
+					}
+					if('IPV6' == $('input').eq(i).attr('name')) {
+						var IPV6Reg = /^\s*((([0-9A-Fa-f]{1,4}[:-]){7}(([0-9A-Fa-f]{1,4})|[:-]))|(([0-9A-Fa-f]{1,4}[:-]){6}([:-]|((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})|([:-][0-9A-Fa-f]{1,4})))|(([0-9A-Fa-f]{1,4}[:-]){5}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-]){4}([:-][0-9A-Fa-f]{1,4}){0,1}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-]){3}([:-][0-9A-Fa-f]{1,4}){0,2}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-]){2}([:-][0-9A-Fa-f]{1,4}){0,3}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-])([:-][0-9A-Fa-f]{1,4}){0,4}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|([:-]([:-][0-9A-Fa-f]{1,4}){0,5}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})))(%.+)?\s*$/;
+						if(!IPV6Reg.test($('input').eq(i).val())) {
+							mui.toast("IPV6地址 格式不正确");
+							return;
+						}
+					}
+					if('MACDZ' == $('input').eq(i).attr('name')) {
+						var macAddrReg = /^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$/;
+						if(!macAddrReg.test($('input').eq(i).val())) {
+							mui.toast("MAC地址 格式不正确");
+							return;
+						}
+					}
+					if('LXBCTS' == $('input').eq(i).attr('name')) {
+						var recordingDaysReg = /^\d+$/;
+						if(!recordingDaysReg.test($('input').eq(i).val())) {
+							mui.toast("录像保存天数 格式不正确");
+							return;
+						}
+					}
+				}
+			} // --END 【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证--
+			for(var j = 0; j < $('.uploaded-images').length; j++) {
 				//处理上传时的 name的值, 其后不能加 Name.
 				var name = $(".uploaded-images").eq(j).attr("inheritId");
-				name = name.substring(0,name.length-4);
+				name = name.substring(0, name.length - 4);
 				var value = $(".uploaded-images").eq(j).attr("id");
 				imgArray.push(value)
 				postData[name] = imgArray.join('/');
@@ -237,8 +293,8 @@ $(function() {
 			postData.czr = localStorage.getItem("drsUserName");
 			postData.shzt = "1";
 			postData.id = id; //没有id无法标识记录
-			console.log(JSON.stringify(postData));
-//			return
+//			console.log(JSON.stringify(postData));
+			//			return
 			mui.each(postData, function(index, element) {
 				//if(index !== 'images') {
 				uploader.addData(index, element)
@@ -249,18 +305,17 @@ $(function() {
 			$('.imgboxnum').each(function(index, parent) {
 				$(parent).find('.image-item').each(function(index, item) {
 					var imgList = $(parent).attr("origionId");
-//					console.log(imgList)
+					//					console.log(imgList)
 					mui.each(imgFiles, function(index, element) {
 						var f = imgFiles[index];
 						uploader.addFile(f.path, {
-							key: imgList +'-'+ index
+							key: imgList + '-' + index
 						});
 					});
-					
+
 				})
 			})
 			/*for(var i = 0; i < $(".imgboxnum .image-item").length; i++) {
-				
 //				console.log($(".imgboxnum .image-item").length);
 				var imgList = $(".imgboxnum").attr("origionId");
 				console.log(imgList)
@@ -275,7 +330,7 @@ $(function() {
 		})
 		/*发送审核*/
 		.on("tap", "#examine_btn", function() {
-			if(!ruleVerification()){
+			if(!ruleVerification()) {
 				return;
 			}
 			var self = plus.webview.currentWebview(); //获取device-uncommitted.html所传的值
@@ -337,7 +392,24 @@ $(function() {
 			}*/
 			uploader.start();
 		})
-})
+	//		.on('tap', '.j-captureImage', function() {
+	//			var camera = plus.camera.getCamera();
+	//			var res = camera.supportedImageResolutions[0];
+	//			var fmt = camera.supportedImageFormats[0];
+	//			camera.captureImage(function(path) {
+	//				console.log('拍照文件路径' + path);
+	//				mui.toast("拍照成功");
+	//			}, function() {
+	//				mui.toast("拍照失败");
+	//			}, {
+	//				resolution: res,
+	//				format: fmt
+	//			});
+	//		})
+	//		.on('tap', '.j-fromGallery', function() {
+	//			captureImageflag = true;
+	//		});
+}) //--END --
 
 /*经纬度转换
  * fuqiang
@@ -480,16 +552,20 @@ function newPlaceholder(imageList) {
 		}, 0);
 		return false;
 	}, false);
+
 	var fileInput = document.createElement('div');
+
 	fileInput.setAttribute('class', 'file');
 	fileInput.setAttribute('id', 'image-' + imgIdNum);
 	fileInput.addEventListener('tap', function(event) {
 		var imagesLength = $('.imagesBox').length + $('.image-item').length
-		console.log(imagesLength);
-		if(imagesLength >= 4){
+		if(imagesLength >= 4) {
 			mui.toast("最多只能上传3张图片");
 			return
 		}
+
+		//		mui('#popover').popover('toggle', document.getElementById("openPopover"));
+
 		var self = this;
 		var index = (this.id).substr(-1);
 		plus.gallery.pick(function(e) {
@@ -527,6 +603,7 @@ function newPlaceholder(imageList) {
 		}, function(e) {
 			//mui.toast(e.message);
 		}, {});
+
 	}, false);
 
 	placeholder.appendChild(closeButton);
@@ -561,7 +638,7 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 					if($("input[name='" + idx + "']").attr("namedep") === "department") {
 						$.each(allgldw, function(index, value) {
 							if(val == value.value) {
-								$("input[name='" + idx + "']").val(value.text).attr('data-value',value.value);
+								$("input[name='" + idx + "']").val(value.text).attr('data-value', value.value);
 							}
 						})
 					} else {
@@ -577,7 +654,7 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 								}
 							} else if(idx == value.type && val == value.value) {
 								//.attr('data-value',value.value) 在之前动态增加的 data-value 属性.
-								$("input[name='" + idx + "']").val(value.text).attr('data-value',value.value);
+								$("input[name='" + idx + "']").val(value.text).attr('data-value', value.value);
 							}
 						});
 					}
@@ -589,8 +666,8 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 					});
 				} else {
 					if(idx == "XZQY") {
-						getRegionName(val);//得到 区域 code 转换为 名字
-						$("input[name='" + idx + "']").val(regionText).attr('data-value',val);//.attr('data-value',value.value)
+						getRegionName(val); //得到 区域 code 转换为 名字
+						$("input[name='" + idx + "']").val(regionText).attr('data-value', val); //.attr('data-value',value.value)
 					} else {
 						$("input[name='" + idx + "']").val(val);
 					}
@@ -631,7 +708,7 @@ function getRegionName(code) {
 				for(var m = 0; m < cityData3[i].children[j].children.length; m++) {
 					if(cityData3[i].children[j].children[m].value == code) {
 						regionArray.push(cityData3[i].children[j].children[m].text);
-						regionText = regionArray.join('-');//格式化显示
+						regionText = regionArray.join('-'); //格式化显示
 						console.log(regionText);
 						return
 					}

@@ -7,7 +7,22 @@ try {
 		plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 			currentAPPVersion = inf.version;
 		});
-
+		
+		/*点击选择部门*/
+		var departmentButton = document.getElementById("department");
+		departmentButton.addEventListener('tap', function(event) {
+			mui.openWindow({
+				url: 'choose_department.html',
+				id: 'choose_department',
+				show: {
+					aniShow: 'fade-in'
+				},
+				waiting: {
+					autoShow: true
+				}
+			});
+		});
+		
 		/*点击修改密码*/
 		var psdButton = document.getElementById("psd_jump");
 		psdButton.addEventListener('tap', function(event) {

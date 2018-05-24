@@ -29,9 +29,9 @@ function pullupRefresh() {
         var table = document.body.querySelector('.mui-table-view');
         var cells = document.body.querySelectorAll('.mui-table-view-cell');
         if(cells.length == 0){
-        	param.offset = 0;
+        	param.offset = 0;//offset 当前页, limit 单页中条目数量
         }else{
-        	param.offset = (cells.length)/5;
+        	param.offset = Math.ceil(cells.length/5);//分页向上取整
         }
         getAjax('/VIID/CamerasQuery.action', param, function(msg) {
         	var datalistval = [];
@@ -75,7 +75,7 @@ function pulldownRefresh() {
             if(msg.CameraList.length > 0) {
                 $('#submit_order_list').children().remove();
                 $('#submit_order_list').append($(template('temp_submit_order_list', dataall)));
-                mui('#pullrefresh').pullRefresh().endPulldown(); //结束
+                mui('#pullrefresh').pullRefresh().endPulldown();//结束
 
             } else {
                 $('#submit_order_list').children().remove();

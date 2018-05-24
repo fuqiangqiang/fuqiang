@@ -439,7 +439,8 @@
 					"device-pending-checked.html",
 					"login.html",
 					"about.html",
-					"change-psd.html"
+					"change-psd.html",
+					"choose_department.html"
 				],
 				"priority": 1
 			},
@@ -616,6 +617,13 @@
 					"js/mui/mui.poppicker.js"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"choose_department.html": {
+				"resources": [],
+				"refer": [
+					"my.html"
+				],
 				"priority": 0
 			}
 		},

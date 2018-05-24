@@ -99,7 +99,8 @@
 			"device-uncommitted.html",
 			"device-pending-checked.html",
 			"change-psd.html",
-			"about.html"
+			"about.html",
+			"choose_department.html"
 		],
 		"resources": [
 			"css/iconfont/iconfont.css",
@@ -265,6 +266,11 @@
 			"css/mui/mui.min.css",
 			"js/plugins/baidumapv2/tools/MarkerClusterer_min.js",
 			"js/mui/mui.poppicker.js"
+		]
+	},
+	"choose_department.html": {
+		"refer": [
+			"my.html"
 		]
 	}
 }

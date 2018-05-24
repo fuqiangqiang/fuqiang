@@ -62,7 +62,7 @@ function sendData() {
                 localStorage.removeItem("drsToken");
                 setTimeout(function() {
                     plus.runtime.restart();
-                    //                  localStorage.clear();
+                    //localStorage.clear();
                     mui.openWindow({
                         url: 'login.html',
                         id: 'login',

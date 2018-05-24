@@ -94,7 +94,7 @@ $("#password").focus(function() {
 				mui.toast("请输入密码");
 				return false;
 			}
-
+			console.log("setIP-----------"+setIp)
 			if(!setIp) {
 				flag = 0;
 				mui.toast("请配置服务器IP");

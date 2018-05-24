@@ -25,9 +25,13 @@
 		<script src="js/plugins/baidumapv2/tools/InfoBox_min.js"></script>
 		<script src="js/plugins/baidumapv2/tools/TextIconOverlay_min.js"></script>
 		<script src="js/plugins/baidumapv2/tools/MarkerClusterer_min.js"></script>
+		<script src="js/plugins/validate/validateExtent.js"></script>
+		<script src="js/plugins/validate/jquery.validate.js"></script>
+		<script src="js/plugins/validate/messages_zh.js"></script>
 		<script src="js/device-resetadd.js"></script>
 		<!--<script src="js/device-edit.js" type="text/javascript" charset="utf-8"></script>-->
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav hidden" id="listHeader">
 			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
@@ -42,6 +46,13 @@
 			<input type="button" class="btnclass" value="提交草稿" id="draft_btn" />
 			<input type="button" class="btnclass" value="发送审核" id="examine_btn" />
 		</div>
+		<div id="popover" class="mui-popover">
+			<ul class="mui-table-view"><!---->
+				<li class="mui-table-view-cell j-captureImage">拍摄照片</li>
+				<li class="mui-table-view-cell j-fromGallery">相册中选择</li>
+			</ul>
+		</div>
+		
 	</body>
 	<!--添加设备-->
 	<script id="device_add_wind" type="text/html">
@@ -64,7 +75,7 @@
 			<div class="wind-content-item" data-labelId="{{item.lableId}}">
 				<label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label>
 				<!--namedep="{{item.value}}"-->
-				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}" value=""/>
+				<input type="text" class="wind-content-input wind-content-input-select" readonly name="{{item.type}}" namedep="{{item.value}}" value="" />
 			</div>
 
 			{{else if item.value=='area'}}
@@ -112,9 +123,11 @@
 						<img class="uploaded-images" style="width: 64px;height: 64px;" src=""/>
 					</div>-->
 				</div>
+				<a href="#popover" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block" style="display: none;">拍摄/选择图片</a>
 			</div>
 			</div>
 			{{/if}} {{/each}}
 		</form>
 	</script>
+
 </html>
