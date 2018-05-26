@@ -100,7 +100,8 @@
 			"device-pending-checked.html",
 			"change-psd.html",
 			"about.html",
-			"choose_department.html"
+			"choose_department.html",
+			"departments.html"
 		],
 		"resources": [
 			"css/iconfont/iconfont.css",

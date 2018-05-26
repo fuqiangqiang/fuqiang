@@ -66,7 +66,6 @@ $("#password").focus(function() {
 				});
 			}, 20);
 		};
-
 		setTimeout(function() {
 			//关闭 splash
 			plus.navigator.closeSplashscreen();
@@ -75,13 +74,11 @@ $("#password").focus(function() {
 		var usernameBox = doc.getElementById('username');
 		var passwordBox = doc.getElementById('password');
 		//var setIpBox = doc.getElementById('setIpValue');
-
 		var tokenSet = usernameBox.value + passwordBox.value;
 		//          console.log(localToken +"=="+ tokenSet)
 		if(localToken == tokenSet) {
 			checkLogin(usernameBox.value, passwordBox.value, setIp);;
 		}
-
 		loginButton.addEventListener('tap', function() {
 			var userName = usernameBox.value;
 			var pwd = passwordBox.value;
@@ -94,7 +91,6 @@ $("#password").focus(function() {
 				mui.toast("请输入密码");
 				return false;
 			}
-			console.log("setIP-----------"+setIp)
 			if(!setIp) {
 				flag = 0;
 				mui.toast("请配置服务器IP");

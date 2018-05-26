@@ -12,8 +12,8 @@ try {
 		var departmentButton = document.getElementById("department");
 		departmentButton.addEventListener('tap', function(event) {
 			mui.openWindow({
-				url: 'choose_department.html',
-				id: 'choose_department',
+				url: 'departments.html',
+				id: 'departments',
 				show: {
 					aniShow: 'fade-in'
 				},

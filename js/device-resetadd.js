@@ -10,6 +10,7 @@ var imgArray = [];
 var regionArray = [];
 var regionText = '';
 var typecustom = [];
+var notCamera = false;
 mui.plusReady(function() {
 	mui.init();
 	var self = plus.webview.currentWebview();
@@ -84,7 +85,7 @@ $(function() {
 				if(typeName == "GLDW") {
 					dataArray = allgldw;
 				} else {
-					if(val.dependence){
+					if(val.dependence) {
 						typecustom.push({
 							"type": val.dependence.split("-")[1],
 							"idnum": val.dependence.split("-")[2],
@@ -107,14 +108,15 @@ $(function() {
 			var thisVlue = $(this);
 			picker.show(function(selectItems) {
 				thisVlue.val(selectItems[0].text).attr('data-value', selectItems[0].value);
-				//编辑状态关联必填项.
-				//value → typecustom
-				$.each(typecustom,function(index,value){
-					if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum){
-						$('input[name='+value.linktype+']').siblings('label').addClass('label-required');
+				//[编辑]状态关联必填项.
+				$.each(typecustom, function(index, value) {
+					if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum) {
+						$('input[name=' + value.linktype + ']').siblings('label').addClass('label-required');
+					} else {
+						$('input[name=' + value.linktype + ']').siblings('label').removeClass('label-required');
 					}
-				})//--END 编辑状态关联必填项 --
-				
+				}) //--END 编辑状态关联必填项 --
+
 			})
 		})
 		/*多选*/
@@ -272,6 +274,7 @@ $(function() {
 					}
 				}
 			} // --END 【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证--
+
 			for(var j = 0; j < $('.uploaded-images').length; j++) {
 				//处理上传时的 name的值, 其后不能加 Name.
 				var name = $(".uploaded-images").eq(j).attr("inheritId");
@@ -295,8 +298,8 @@ $(function() {
 			postData.czr = localStorage.getItem("drsUserName");
 			postData.shzt = "1";
 			postData.id = id; //没有id无法标识记录
-//			console.log(JSON.stringify(postData));
-			//			return
+			console.log(JSON.stringify(postData));
+			//return
 			mui.each(postData, function(index, element) {
 				//if(index !== 'images') {
 				uploader.addData(index, element)
@@ -304,12 +307,16 @@ $(function() {
 			});
 
 			//添加图片
+			//遍历图片条目
 			$('.imgboxnum').each(function(index, parent) {
+				//				console.log("第 " + index + "parent: " + "--------" + JSON.stringify(parent));
 				$(parent).find('.image-item').each(function(index, item) {
 					var imgList = $(parent).attr("origionId");
-					//					console.log(imgList)
+					//console.log(imgList)
 					mui.each(imgFiles, function(index, element) {
+						//						console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
 						var f = imgFiles[index];
+						//						console.log("f 是: " + JSON.stringify(f));
 						uploader.addFile(f.path, {
 							key: imgList + '-' + index
 						});
@@ -394,23 +401,28 @@ $(function() {
 			}*/
 			uploader.start();
 		})
-	//		.on('tap', '.j-captureImage', function() {
-	//			var camera = plus.camera.getCamera();
-	//			var res = camera.supportedImageResolutions[0];
-	//			var fmt = camera.supportedImageFormats[0];
-	//			camera.captureImage(function(path) {
-	//				console.log('拍照文件路径' + path);
-	//				mui.toast("拍照成功");
-	//			}, function() {
-	//				mui.toast("拍照失败");
-	//			}, {
-	//				resolution: res,
-	//				format: fmt
-	//			});
-	//		})
-	//		.on('tap', '.j-fromGallery', function() {
-	//			captureImageflag = true;
-	//		});
+		.on('tap', '.j-captureImage', function() {
+			notCamera = true; //是否是拍摄照片的标识: false-相册添加; true-拍摄添加
+			var camera = plus.camera.getCamera();
+			var res = camera.supportedImageResolutions[0];
+			var fmt = camera.supportedImageFormats[0];
+			camera.captureImage(function(e) {
+				console.log('e : ' + e);
+				mui.toast("拍照成功");
+				var captureFragment = '<div id="" class="imagesBox file"><span class="image-close">×</span>' +
+					'<img id="" inheritId="viewCaptcherName" class="uploaded-images" style="width: 64px;height: 64px;" src="https://www.baidu.com/img/bd_logo1.png"/>' +
+					'</div></div>'
+				$('.imgboxnum').append(captureFragment);
+			}, function() {
+				mui.toast("操作取消/失败");
+			}, {
+				resolution: res,
+				format: fmt
+			});
+		})
+		.on('tap', '.j-fromGallery', function() {
+
+		});
 }) //--END --
 
 /*经纬度转换
@@ -439,6 +451,21 @@ function getDom(id, sbbm, shztStauts) {
 		timeout: 10000,
 		success: function(msg) {
 			dataDom = msg.data;
+
+			$.each(dataDom, function(index1, value1) {
+				//console.log("data -- index1 : " + index1 + "--------00000000-------- " + JSON.stringify(value1));
+				
+				//在获取所有 Dom 检查项目是否有 [关联必填项]
+				if(value1.dependence) {
+					typecustom.push({
+						"type": value1.dependence.split("-")[1],
+						"idnum": value1.dependence.split("-")[2],
+						"linktype": value1.type,
+						"isrequired": value1.required
+					})
+				}//-- END if --
+			})//--END $.each --
+
 			$('.mui-content').html(template('device_add_wind', msg.data));
 			for(var i = 0; i < $(".imgboxnum").length; i++) {
 				var imgList = $(".imgboxnum").eq(i).attr("id");
@@ -532,18 +559,20 @@ function newPlaceholder(imageList) {
 		return;
 	};
 	imgIdNum++;
+
 	var placeholder = document.createElement('div');
 	placeholder.setAttribute('class', 'image-item space');
 
 	var up = document.createElement("div");
 	up.setAttribute('class', 'image-up');
+
 	//删除图片
 	var closeButton = document.createElement('div');
 	closeButton.setAttribute('class', 'image-close');
 	closeButton.innerHTML = '×';
 	closeButton.id = "img-" + imgIndex;
-	//小X的点击事件
 	closeButton.addEventListener('tap', function(event) {
+		//小X的点击事件
 		setTimeout(function() {
 			for(var temp = 0; temp < imgFiles.length; temp++) {
 				if(imgFiles[temp].id == closeButton.id) {
@@ -555,10 +584,11 @@ function newPlaceholder(imageList) {
 		return false;
 	}, false);
 
+	//新建图片
 	var fileInput = document.createElement('div');
-
 	fileInput.setAttribute('class', 'file');
 	fileInput.setAttribute('id', 'image-' + imgIdNum);
+	console.log("imgIdNum 的值: " + imgIdNum);
 	fileInput.addEventListener('tap', function(event) {
 		var imagesLength = $('.imagesBox').length + $('.image-item').length
 		if(imagesLength >= 4) {
@@ -566,7 +596,8 @@ function newPlaceholder(imageList) {
 			return
 		}
 
-		//		mui('#popover').popover('toggle', document.getElementById("openPopover"));
+		mui('#popover').popover('toggle', document.getElementById("openPopover"));
+		return
 
 		var self = this;
 		var index = (this.id).substr(-1);
@@ -597,7 +628,9 @@ function newPlaceholder(imageList) {
 					imgIndex++;
 					newPlaceholder(imageList);
 				}
+
 				up.classList.remove('image-up');
+				//为照片添加地址
 				placeholder.style.backgroundImage = 'url(' + zip.target + ')';
 			}, function(zipe) {
 				mui.toast('压缩失败！')
@@ -612,6 +645,7 @@ function newPlaceholder(imageList) {
 	placeholder.appendChild(up);
 	placeholder.appendChild(fileInput);
 	imageList.appendChild(placeholder);
+	console.log($('.imgboxnum').html());
 }
 /*数据获取函数
  * fuqiang
@@ -637,6 +671,7 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 				}
 				if($("input[name='" + idx + "']").hasClass("wind-content-input-select") ||
 					$("input[name='" + idx + "']").hasClass("wind-content-input-choose")) {
+
 					if($("input[name='" + idx + "']").attr("namedep") === "department") {
 						$.each(allgldw, function(index, value) {
 							if(val == value.value) {
@@ -654,12 +689,23 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 									});
 									$("input[name='" + idx + "']").val(chooseall.join("/"));
 								}
+							//遍历 单选下拉框 select
 							} else if(idx == value.type && val == value.value) {
+								//为有 [关联必填项] 的元素 增加 class label-required
+								$.each(typecustom, function(index2, value2) {
+									if(value.type == value2.type && value.value == value2.idnum) {
+										console.log("select - index: " + index + "--------" + JSON.stringify(value));
+										console.log(JSON.stringify(typecustom));
+										$('input[name=' + value2.linktype + ']').siblings('label').addClass('label-required');
+									}
+								}) //--END 关联必填项 --
+
 								//.attr('data-value',value.value) 在之前动态增加的 data-value 属性.
 								$("input[name='" + idx + "']").val(value.text).attr('data-value', value.value);
 							}
 						});
 					}
+
 				} else if($("input[name='" + idx + "']").hasClass("wind-content-input-radiodetail")) {
 					$("input[name='" + idx + "']").each(function() {
 						if($(this).val() == val) {
