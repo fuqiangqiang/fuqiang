@@ -314,9 +314,9 @@ $(function() {
 					var imgList = $(parent).attr("origionId");
 					//console.log(imgList)
 					mui.each(imgFiles, function(index, element) {
-						//						console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
+//						console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
 						var f = imgFiles[index];
-						//						console.log("f 是: " + JSON.stringify(f));
+//						console.log("f 是: " + JSON.stringify(f));
 						uploader.addFile(f.path, {
 							key: imgList + '-' + index
 						});

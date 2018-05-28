@@ -9,7 +9,7 @@ try {
 		});
 		
 		/*点击选择部门*/
-		var departmentButton = document.getElementById("department");
+		var departmentButton = document.getElementById("departments_jump");
 		departmentButton.addEventListener('tap', function(event) {
 			mui.openWindow({
 				url: 'departments.html',

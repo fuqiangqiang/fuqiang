@@ -12,17 +12,32 @@ function getDepartments() {
 	//
 	$.ajax({
 		type: "GET",
-		url: app.host + "/VIID/Dicts.action?userName=",
+		url: 'http://10.10.16.124:8080/drs/VIID/Depts.action?userName=system',
 		data: "",
 		success: function(msg) {
 			var listFragment = '';
-			$.each(msg.DictList, function(index, msgItems){
-				if('GLDW' == msgItems.Dict.LXBM){
-					//console.log("第 " + index + ": " + " -------- " + JSON.stringify(msgItems.Dict.ZDXMC));
-					listFragment += '<li class="mui-table-view-cell">'+msgItems.Dict.ZDXMC+'</li>'
+//			console.log(JSON.stringify(msg))
+			//临时
+			$.each(msg.DictList,function(index,allDepts){
+//				console.log("第" + index + ": " + "----00---- " + JSON.stringify(allDepts));
+				if(-1 == allDepts.parentId){
+					listFragment +='<li class="mui-table-view-cell topNode">'+allDepts.name+'</li>'
 				}
-				$('#departments').html(listFragment);
+				$.each(allDepts.children,function(index2,allSubDepts){
+					listFragment += '<li class="mui-table-view-cell level1Node">'+allSubDepts.name+'</li>'
+					if(allSubDepts.children != 0){
+						$.each(allSubDepts.children,function(index3,l3Depts){
+							if(allSubDepts.id == l3Depts.parentId){
+								listFragment += '<li class="mui-table-view-cell level2Node">'+l3Depts.name+'</li>'
+							}
+						})
+					}
+				})
 			})
+			$('#departments').html(listFragment);
+		},
+		error:function(err){
+			console.log("错误: " + JSON.stringify(err));
 		}
 	});
 }
