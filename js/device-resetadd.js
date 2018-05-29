@@ -5,12 +5,16 @@ var imgIndex = 1; //已上传的图片索引
 var imgFiles = []; //上传图片列表
 var fileTotalSize = 0; //上传文件总大小
 var imageList = null;
-var allgldw = [];
-var imgArray = [];
-var regionArray = [];
-var regionText = '';
+var allgldw = []; //保存所有管理单位
+var imgArray = []; //保存上传的图片
+var regionArray = []; //三级联动展示
+var regionText = ''; //三级联动文本
 var typecustom = [];
-var notCamera = false;
+var compareFlagJDWD = 0; //比较经纬度偏差
+localStorage.setItem("clearJDWD", "1");
+localStorage.setItem("sjzpGeolocationJD", '');
+localStorage.setItem("sjzpGeolocationWD", '');
+
 mui.plusReady(function() {
 	mui.init();
 	var self = plus.webview.currentWebview();
@@ -24,6 +28,37 @@ mui.plusReady(function() {
 	} else {
 		$("#pageTitle").html("录入");
 	}
+	plus.geolocation.getCurrentPosition(function(p) {
+		/*localStorage.setItem("sjzpGeolocationJD", p.coords.longitude);
+		localStorage.setItem("sjzpGeolocationWD", p.coords.latitude);*/
+		//alert("存储经度：" + localStorage.getItem("sjzpGeolocationJD"));
+		//alert("存储纬度：" + localStorage.getItem("sjzpGeolocationWD"));
+		//alert("存储纬度：" +p.coords.longitude + " - "+ p.coords.latitude);
+		//坐标转换
+		var points = [new BMap.Point(p.coords.longitude, p.coords.latitude)];
+		//地图初始化
+		var bm = new BMap.Map();
+		//坐标转换完之后的回调函数
+		/*translateCallback = function(data) {
+		    if(data.status === 0) {
+		        alert(data.points.length)
+		        for(var i = 0; i < data.points.length; i++) {
+		            console.log(JSON.stringify(data.points[i]));
+		            localStorage.setItem("sjzpGeolocationJD", data.points[i].lng);
+		            localStorage.setItem("sjzpGeolocationWD", data.points[i].lat);
+		        }
+		    }
+		}*/
+		var convertor = new BMap.Convertor();
+		convertor.translate(points, 1, 5, bd_encrypt(p.coords.longitude, p.coords.latitude))
+
+	}, function(e) {
+		//alert('Geolocation error: ' + e.message);
+	}, {
+		provider: 'baidu',
+		enableHighAccuracy: true
+	});
+
 	getDom(id, sbbm, shztStauts);
 	getGldw();
 })
@@ -309,14 +344,14 @@ $(function() {
 			//添加图片
 			//遍历图片条目
 			$('.imgboxnum').each(function(index, parent) {
-				//				console.log("第 " + index + "parent: " + "--------" + JSON.stringify(parent));
+				//console.log("第 " + index + "parent: " + "--------" + JSON.stringify(parent));
 				$(parent).find('.image-item').each(function(index, item) {
 					var imgList = $(parent).attr("origionId");
 					//console.log(imgList)
 					mui.each(imgFiles, function(index, element) {
-//						console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
+						//						console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
 						var f = imgFiles[index];
-//						console.log("f 是: " + JSON.stringify(f));
+						//						console.log("f 是: " + JSON.stringify(f));
 						uploader.addFile(f.path, {
 							key: imgList + '-' + index
 						});
@@ -370,6 +405,47 @@ $(function() {
 					postData[name] = value
 				}
 			}
+			//【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证 暂时
+			for(var i = 0; i < $('input[type=text]').length; i++) {
+				if('' != $('input').eq(i).val()) {
+					if('SBBM' == $('input').eq(i).attr('name')) {
+						var deviceSNReg = /^\d{20}$/
+						if(!deviceSNReg.test($('input').eq(i).val())) {
+							mui.toast("设备编码 格式不正确");
+							return;
+						}
+					}
+					if('IPV4' == $('input').eq(i).attr('name')) {
+						var IPV4Reg = /^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$/;
+						if(!IPV4Reg.test($('input').eq(i).val())) {
+							mui.toast("IPV4地址 格式不正确");
+							return;
+						}
+					}
+					if('IPV6' == $('input').eq(i).attr('name')) {
+						var IPV6Reg = /^\s*((([0-9A-Fa-f]{1,4}[:-]){7}(([0-9A-Fa-f]{1,4})|[:-]))|(([0-9A-Fa-f]{1,4}[:-]){6}([:-]|((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})|([:-][0-9A-Fa-f]{1,4})))|(([0-9A-Fa-f]{1,4}[:-]){5}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-]){4}([:-][0-9A-Fa-f]{1,4}){0,1}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-]){3}([:-][0-9A-Fa-f]{1,4}){0,2}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-]){2}([:-][0-9A-Fa-f]{1,4}){0,3}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}[:-])([:-][0-9A-Fa-f]{1,4}){0,4}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|([:-]([:-][0-9A-Fa-f]{1,4}){0,5}(([:-]((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|(([:-][0-9A-Fa-f]{1,4}){1,2})))|(((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})))(%.+)?\s*$/;
+						if(!IPV6Reg.test($('input').eq(i).val())) {
+							mui.toast("IPV6地址 格式不正确");
+							return;
+						}
+					}
+					if('MACDZ' == $('input').eq(i).attr('name')) {
+						var macAddrReg = /^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$/;
+						if(!macAddrReg.test($('input').eq(i).val())) {
+							mui.toast("MAC地址 格式不正确");
+							return;
+						}
+					}
+					if('LXBCTS' == $('input').eq(i).attr('name')) {
+						var recordingDaysReg = /^\d+$/;
+						if(!recordingDaysReg.test($('input').eq(i).val())) {
+							mui.toast("录像保存天数 格式不正确");
+							return;
+						}
+					}
+				}
+			} // --END 【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证--
+
 			var url = app.host + '/VIID/CamerasToSync.action';
 			var uploader = plus.uploader.createUpload(url, {
 				method: 'POST',
@@ -390,6 +466,24 @@ $(function() {
 				uploader.addData(index, element)
 				//}
 			});
+			//添加图片
+			//遍历图片条目
+			$('.imgboxnum').each(function(index, parent) {
+				//console.log("第 " + index + "parent: " + "--------" + JSON.stringify(parent));
+				$(parent).find('.image-item').each(function(index, item) {
+					var imgList = $(parent).attr("origionId");
+					//console.log(imgList)
+					mui.each(imgFiles, function(index, element) {
+						//console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
+						var f = imgFiles[index];
+						//console.log("f 是: " + JSON.stringify(f));
+						uploader.addFile(f.path, {
+							key: imgList + '-' + index
+						});
+					});
+
+				})
+			})
 			/*for(var i = 0; i < $(".imgboxnum").length; i++) {
 				var imgList = $(".imgboxnum").eq(i).attr("id");
 				mui.each(imgFiles, function(index, element) {
@@ -401,33 +495,9 @@ $(function() {
 			}*/
 			uploader.start();
 		})
-		.on('tap', '.j-captureImage', function() {
-			notCamera = true; //是否是拍摄照片的标识: false-相册添加; true-拍摄添加
-			var camera = plus.camera.getCamera();
-			var res = camera.supportedImageResolutions[0];
-			var fmt = camera.supportedImageFormats[0];
-			camera.captureImage(function(e) {
-				console.log('e : ' + e);
-				mui.toast("拍照成功");
-				var captureFragment = '<div id="" class="imagesBox file"><span class="image-close">×</span>' +
-					'<img id="" inheritId="viewCaptcherName" class="uploaded-images" style="width: 64px;height: 64px;" src="https://www.baidu.com/img/bd_logo1.png"/>' +
-					'</div></div>'
-				$('.imgboxnum').append(captureFragment);
-			}, function() {
-				mui.toast("操作取消/失败");
-			}, {
-				resolution: res,
-				format: fmt
-			});
-		})
-		.on('tap', '.j-fromGallery', function() {
-
-		});
 }) //--END --
 
-/*经纬度转换
- * fuqiang
- */
+// 经纬度转换 fuqiang
 function bd_encrypt(gg_lat, gg_lon) {
 	var bd_lat;
 	var bd_lon;
@@ -441,9 +511,7 @@ function bd_encrypt(gg_lat, gg_lon) {
 	localStorage.setItem("sjzpGeolocationWD", bd_lon);
 }
 
-/*获取布局信息
- * fuqiang
- */
+// 获取布局信息 fuqiang
 function getDom(id, sbbm, shztStauts) {
 	mui.ajax(app.host + '/deviceDictionary/getDeviceDictonary', {
 		dataType: 'json',
@@ -454,7 +522,7 @@ function getDom(id, sbbm, shztStauts) {
 
 			$.each(dataDom, function(index1, value1) {
 				//console.log("data -- index1 : " + index1 + "--------00000000-------- " + JSON.stringify(value1));
-				
+
 				//在获取所有 Dom 检查项目是否有 [关联必填项]
 				if(value1.dependence) {
 					typecustom.push({
@@ -463,8 +531,8 @@ function getDom(id, sbbm, shztStauts) {
 						"linktype": value1.type,
 						"isrequired": value1.required
 					})
-				}//-- END if --
-			})//--END $.each --
+				} //-- END if --
+			}) //--END $.each --
 
 			$('.mui-content').html(template('device_add_wind', msg.data));
 			for(var i = 0; i < $(".imgboxnum").length; i++) {
@@ -490,9 +558,7 @@ function getDom(id, sbbm, shztStauts) {
 	});
 }
 
-/*获取管理单位
- * fuqiang
- */
+// 获取管理单位  fuqiang
 function getGldw() {
 	mui.ajax(app.host + '/VIID/Dicts.action?userName=' + localStorage.getItem("drsUserName"), {
 		dataType: 'json',
@@ -515,10 +581,8 @@ function getGldw() {
 
 }
 
-/*提交草稿验证规则
- * 只验证设备编码和管理单位必填
- * fuqiang
- * */
+// 提交草稿验证规则 fuqiang
+// 只验证设备编码和管理单位必填
 function ruleDraft() {
 	if($("input[name=SBBM]").val() == "") {
 		mui.toast("请输入设备编码");
@@ -534,11 +598,8 @@ function ruleDraft() {
 	return true;
 }
 
-/*提交发送审核验证规则
- * 发送审核的
- * 目前只验证了必填项，没有验证动态必填
- * fuqiang
- * */
+// 提交发送审核验证规则  fuqiang
+// 发送审核的. 目前只验证了必填项，没有验证动态必填
 function ruleVerification() {
 	for(var i = 0; i < $(".label-required").length; i++) {
 		var textValue = $(".label-required").eq(i).closest(".wind-content-item").find("input[type=text]");
@@ -550,7 +611,7 @@ function ruleVerification() {
 	return true;
 }
 
-/*照片展示*/
+// 照片展示
 function newPlaceholder(imageList) {
 	var fileInputArray = [].slice.call(imageList.querySelectorAll('.file'));
 	if(fileInputArray &&
@@ -572,6 +633,13 @@ function newPlaceholder(imageList) {
 	closeButton.innerHTML = '×';
 	closeButton.id = "img-" + imgIndex;
 	closeButton.addEventListener('tap', function(event) {
+
+		if(imgFiles.length > 1) {
+			compareFlagJDWD = 1;
+		} else {
+			compareFlagJDWD = 0;
+		}
+
 		//小X的点击事件
 		setTimeout(function() {
 			for(var temp = 0; temp < imgFiles.length; temp++) {
@@ -588,68 +656,129 @@ function newPlaceholder(imageList) {
 	var fileInput = document.createElement('div');
 	fileInput.setAttribute('class', 'file');
 	fileInput.setAttribute('id', 'image-' + imgIdNum);
-	console.log("imgIdNum 的值: " + imgIdNum);
 	fileInput.addEventListener('tap', function(event) {
 		var imagesLength = $('.imagesBox').length + $('.image-item').length
 		if(imagesLength >= 4) {
 			mui.toast("最多只能上传3张图片");
 			return
 		}
-
-		mui('#popover').popover('toggle', document.getElementById("openPopover"));
-		return
-
 		var self = this;
 		var index = (this.id).substr(-1);
-		plus.gallery.pick(function(e) {
-			var name = e.substr(e.lastIndexOf('/') + 1);
-			plus.zip.compressImage({
-				src: e,
-				dst: '_doc/' + name,
-				overwrite: true,
-				quality: 50
-			}, function(zip) {
-				fileTotalSize += zip.size
-				if(fileTotalSize > (10 * 1024 * 1024)) {
-					return mui.toast('文件超大,请重新选择~');
-				}
-				if(!self.parentNode.classList.contains('space')) { //已有图片
-					imgFiles.splice(index - 1, 1, {
-						name: "images" + index,
-						path: e
-					});
-				} else { //加号
-					placeholder.classList.remove('space');
-					imgFiles.push({
-						name: "",
-						path: zip.target,
-						id: "img-" + imgIndex
-					});
-					imgIndex++;
-					newPlaceholder(imageList);
-				}
+		//		弹出选择菜单:【拍摄照片】||【相册选择】.  device-add.html :126 <a>
+		mui('#popover').popover('toggle', document.getElementById("openPopover"));
 
-				up.classList.remove('image-up');
-				//为照片添加地址
-				placeholder.style.backgroundImage = 'url(' + zip.target + ')';
-			}, function(zipe) {
-				mui.toast('压缩失败！')
-			});
-		}, function(e) {
-			//mui.toast(e.message);
-		}, {});
+		//		为但出菜单增加事件.  off() 方法移除用.on()绑定的事件处理程序.  
+		mui('body #popover').off().on('tap', '.mui-table-view-cell', function() {
 
+			//判断: 点击【拍摄照片】时 :609
+			if($(this).is('.j-captureImage')) {
+				//				
+				plus.camera.getCamera().captureImage(function(e) {
+					var name = e.substr(e.lastIndexOf('/') + 1);
+					plus.zip.compressImage({
+						src: e,
+						dst: '_doc/' + name,
+						overwrite: true,
+						quality: 50
+					}, function(zip) {
+						fileTotalSize += zip.size
+						if(fileTotalSize > (10 * 1024 * 1024)) {
+							return mui.toast('文件超大,请重新选择~');
+						}
+						if(!self.parentNode.classList.contains('space')) { //已有图片
+							imgFiles.splice(index - 1, 1, {
+								name: "images" + index,
+								path: e
+							});
+							compareFlagJDWD = 1;
+						} else { //加号
+							placeholder.classList.remove('space');
+							imgFiles.push({
+								name: "images" + imgIndex,
+								path: zip.target,
+								id: "img-" + imgIndex
+							});
+							imgIndex++;
+							newPlaceholder(imageList);
+							compareFlagJDWD = 1;
+						}
+						up.classList.remove('image-up');
+						placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+
+					}, function(zipe) {
+						mui.toast('压缩失败！')
+					});
+//					拍摄照片后保存 经度&纬度
+					if(compareFlagJDWD = 1) {
+						//拍摄照片后 比较坐标偏差
+						var comSelJD = $("#JD").val();
+						var comSelWd = $("#WD").val();
+						if(comSelJD != '' && comSelWd != '') {
+							//提示偏离
+							JDWDDisparity();
+						}
+					}
+				}, function(e) {
+					mui.toast('取消拍照');
+				}, {});
+				//在点击后关闭 遮罩
+				mui('#popover').popover('toggle', document.getElementById("openPopover"));
+				//			点击【相册选择】时触发
+			} else {
+				//				MUI API plus.gallery.pick()--从相册选择照片
+				plus.gallery.pick(function(e) {
+					var name = e.substr(e.lastIndexOf('/') + 1);
+					plus.zip.compressImage({
+						src: e,
+						dst: '_doc/' + name,
+						overwrite: true,
+						quality: 50
+					}, function(zip) {
+						fileTotalSize += zip.size
+						if(fileTotalSize > (10 * 1024 * 1024)) {
+							return mui.toast('文件超大,请重新选择~');
+						}
+						if(!self.parentNode.classList.contains('space')) { //已有图片
+							imgFiles.splice(index - 1, 1, {
+								name: "images" + index,
+								path: e
+							});
+						} else { //加号
+							placeholder.classList.remove('space');
+							imgFiles.push({
+								name: "",
+								path: zip.target,
+								id: "img-" + imgIndex
+							});
+							imgIndex++;
+							newPlaceholder(imageList);
+						}
+
+						up.classList.remove('image-up');
+						//为照片添加地址
+						placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+					}, function(zipe) {
+						mui.toast('压缩失败！')
+					});
+				}, function(e) {
+					mui.toast('操作取消');
+				}, {});
+				//在点击后关闭 遮罩
+				mui('#popover').popover('toggle', document.getElementById("openPopover"));
+			} // --END else --
+		})
+		return
 	}, false);
 
 	placeholder.appendChild(closeButton);
 	placeholder.appendChild(up);
 	placeholder.appendChild(fileInput);
 	imageList.appendChild(placeholder);
-	console.log($('.imgboxnum').html());
-}
-/*数据获取函数
- * fuqiang
- * */
+	//	console.log($('.imgboxnum').html());//打印图片标签
+
+} //-- END function newPlaceholder(){} --
+
+// 数据获取函数 fuqiang
 function getDeviceData(sbbm, shztStauts, dataArray) {
 	mui.ajax(app.host + '/VIID/Camera.action?SBBM=' + sbbm + "&shzt=" + shztStauts, {
 		dataType: 'json', //服务器返回json格式数据
@@ -689,13 +818,13 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 									});
 									$("input[name='" + idx + "']").val(chooseall.join("/"));
 								}
-							//遍历 单选下拉框 select
+								//遍历 单选下拉框 select
 							} else if(idx == value.type && val == value.value) {
 								//为有 [关联必填项] 的元素 增加 class label-required
 								$.each(typecustom, function(index2, value2) {
 									if(value.type == value2.type && value.value == value2.idnum) {
-										console.log("select - index: " + index + "--------" + JSON.stringify(value));
-										console.log(JSON.stringify(typecustom));
+										//										console.log("select - index: " + index + "--------" + JSON.stringify(value));
+										//										console.log(JSON.stringify(typecustom));
 										$('input[name=' + value2.linktype + ']').siblings('label').addClass('label-required');
 									}
 								}) //--END 关联必填项 --
@@ -736,6 +865,69 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
 	});
 }
 
+//
+function bd_encrypt(gg_lat, gg_lon) {
+	var bd_lat;
+	var bd_lon;
+	var x = gg_lon;
+	var y = gg_lat;
+	var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+	var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+	bd_lon = z * Math.cos(theta) + 0.0065;
+	bd_lat = z * Math.sin(theta) + 0.006;
+	localStorage.setItem("sjzpGeolocationJD", bd_lat);
+	localStorage.setItem("sjzpGeolocationWD", bd_lon);
+}
+
+//
+function JDWDDisparity() {
+	//如果定位失败直接返回
+	if(localStorage.getItem("sjzpGeolocationJD") == '' || localStorage.getItem("sjzpGeolocationWD") == '') {
+		mui.toast("请打开GPS定位")
+		return;
+	}
+	//坐标转换
+
+	//使用并保留小数点后两位
+	var gap = getDistance(localStorage.getItem("sjzpGeolocationJD"), localStorage.getItem("sjzpGeolocationWD"), localStorage.getItem("drsSelJD"), localStorage.getItem("drsSelWD")).toFixed(2);
+	var btnArray = ['否', '是'];
+	mui.confirm('\n 图片坐标:' + localStorage.getItem("sjzpGeolocationJD") + ',' + localStorage.getItem("sjzpGeolocationWD") + ' \n 定位坐标:' + localStorage.getItem("drsSelJD") + ',' + localStorage.getItem("drsSelWD") + ' \n 坐标误差：' + gap + '米 \n \n 纠正后将以图片坐标为准\n', '坐标纠正', btnArray, function(e) {
+		if(e.index == 1) {
+			//更新JD WD
+			$("#JD").val(localStorage.getItem("sjzpGeolocationJD"));
+			$("#WD").val(localStorage.getItem("sjzpGeolocationWD"));
+			localStorage.setItem("drsSelJD", localStorage.getItem("sjzpGeolocationJD"));
+			localStorage.setItem("drsSelWD", localStorage.getItem("sjzpGeolocationWD"));
+			return false;
+		} else {
+			return;
+		}
+	})
+}
+
+//
+function OD(a, b, c) {
+    while(a > c) a -= c - b;
+    while(a < b) a += c - b;
+    return a;
+}
+
+//
+function SD(a, b, c) {
+    b != null && (a = Math.max(a, b));
+    c != null && (a = Math.min(a, c));
+    return a;
+}
+
+//
+function getDistance(a_lat, a_lng, b_lat, b_lng) {
+    var a = Math.PI * OD(a_lat, -180, 180) / 180;
+    var b = Math.PI * OD(b_lat, -180, 180) / 180;
+    var c = Math.PI * SD(a_lng, -74, 74) / 180;
+    var d = Math.PI * SD(b_lng, -74, 74) / 180;
+    return 6370996.81 * Math.acos(Math.sin(c) * Math.sin(d) + Math.cos(c) * Math.cos(d) * Math.cos(b - a));
+}
+
 //地区三级联动显示
 function getRegionName(code) {
 	//Level-1 循环省份
@@ -756,8 +948,8 @@ function getRegionName(code) {
 				for(var m = 0; m < cityData3[i].children[j].children.length; m++) {
 					if(cityData3[i].children[j].children[m].value == code) {
 						regionArray.push(cityData3[i].children[j].children[m].text);
-						regionText = regionArray.join('-'); //格式化显示
-						console.log(regionText);
+						regionText = regionArray.join('-'); //格式化显示.例:山东省-济南市-高新区
+						//						console.log(regionText);
 						return
 					}
 				} //--END Level-3 第三级循环 --

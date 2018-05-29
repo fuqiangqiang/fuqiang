@@ -30,6 +30,16 @@ function getDepartments() {
 							if(allSubDepts.id == l3Depts.parentId){
 								listFragment += '<li class="mui-table-view-cell level2Node">'+l3Depts.name+'</li>'
 							}
+							$.each(l3Depts.children, function(index4, l4Depts){
+								if(l3Depts.id == l4Depts.parentId){
+									listFragment += '<li class="mui-table-view-cell level3Node">'+l4Depts.name+'</li>'
+								}
+								$.each(l4Depts.children, function(index5, l5Depts){
+									if(l4Depts.id == l5Depts.parentId){
+										listFragment += '<li class="mui-table-view-cell level4Node">'+l5Depts.name+'</li>'
+									}
+								})
+							})
 						})
 					}
 				})

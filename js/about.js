@@ -31,7 +31,7 @@ function getNewVersionInfo() {
 		data: "",
 		success: function(msg) {
 			var newVersion = parseInt(msg.appVersion.split('.').join(""));
-			alert("Data Saved: " + JSON.stringify(msg));
+//			alert("Data Saved: " + JSON.stringify(msg));
 			$('.copy_num').html(msg.appVersion);
 			if(newVersion > oldeVersion) {
 				window.location = app.host + '/VIID/drs.apk';

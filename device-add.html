@@ -33,6 +33,7 @@
 	</head>
 
 	<body>
+		</style>
 		<header class="mui-bar mui-bar-nav hidden" id="listHeader">
 			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
                 <span class="mui-icon mui-icon-left-nav" style="color: #08DAC4;line-height: 54px;"></span>
@@ -40,18 +41,33 @@
 			<h1 class="mui-title new-title" id="pageTitle"></h1>
 			<!--<i class="icon-bianji editpen hidden" id="editpen"></i>-->
 		</header>
-		<div class="mui-content" id="mui-openwind">
-		</div>
+		<div class="mui-content" id="mui-openwind"></div>
+		
 		<div class="btn-upload">
 			<input type="button" class="btnclass" value="提交草稿" id="draft_btn" />
 			<input type="button" class="btnclass" value="发送审核" id="examine_btn" />
 		</div>
+		<!--SET: 点击 "+"上传图片时的 弹出菜单-->
 		<div id="popover" class="mui-popover">
-			<ul class="mui-table-view"><!---->
+			<style type="text/css">
+				#popover{
+					width: 16em;
+					height: 5em;
+					margin: 60% 16%;
+				}
+				.mui-table-view-cell{
+					text-align: center;
+				}
+				.mui-popover-arrow{
+					display: none;
+				}
+				
+			</style>
+			<ul class="mui-table-view">
 				<li class="mui-table-view-cell j-captureImage">拍摄照片</li>
-				<li class="mui-table-view-cell j-fromGallery">相册中选择</li>
+				<li class="mui-table-view-cell j-fromGallery">相册选择</li>
 			</ul>
-		</div>
+		</div><!--END SET:图片 弹出菜单-->
 		
 	</body>
 	<!--添加设备-->
