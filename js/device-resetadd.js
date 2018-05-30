@@ -664,10 +664,10 @@ function newPlaceholder(imageList) {
 		}
 		var self = this;
 		var index = (this.id).substr(-1);
-		//		弹出选择菜单:【拍摄照片】||【相册选择】.  device-add.html :126 <a>
+		//弹出选择菜单:【拍摄照片】||【相册选择】.  device-add.html :126 <a>
 		mui('#popover').popover('toggle', document.getElementById("openPopover"));
 
-		//		为但出菜单增加事件.  off() 方法移除用.on()绑定的事件处理程序.  
+		//为但出菜单增加事件.  off() 方法移除用.on()绑定的事件处理程序.  
 		mui('body #popover').off().on('tap', '.mui-table-view-cell', function() {
 
 			//判断: 点击【拍摄照片】时 :609
@@ -723,9 +723,9 @@ function newPlaceholder(imageList) {
 				}, {});
 				//在点击后关闭 遮罩
 				mui('#popover').popover('toggle', document.getElementById("openPopover"));
-				//			点击【相册选择】时触发
+				//点击【相册选择】时触发
 			} else {
-				//				MUI API plus.gallery.pick()--从相册选择照片
+				//MUI API plus.gallery.pick()--从相册选择照片
 				plus.gallery.pick(function(e) {
 					var name = e.substr(e.lastIndexOf('/') + 1);
 					plus.zip.compressImage({
@@ -893,7 +893,7 @@ function JDWDDisparity() {
 	var btnArray = ['否', '是'];
 	mui.confirm('\n 图片坐标:' + localStorage.getItem("sjzpGeolocationJD") + ',' + localStorage.getItem("sjzpGeolocationWD") + ' \n 定位坐标:' + localStorage.getItem("drsSelJD") + ',' + localStorage.getItem("drsSelWD") + ' \n 坐标误差：' + gap + '米 \n \n 纠正后将以图片坐标为准\n', '坐标纠正', btnArray, function(e) {
 		if(e.index == 1) {
-			//更新JD WD
+			//更新 经度 纬度
 			$("#JD").val(localStorage.getItem("sjzpGeolocationJD"));
 			$("#WD").val(localStorage.getItem("sjzpGeolocationWD"));
 			localStorage.setItem("drsSelJD", localStorage.getItem("sjzpGeolocationJD"));
