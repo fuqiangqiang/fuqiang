@@ -10,6 +10,8 @@ var imgArray = []; //保存上传的图片
 var regionArray = []; //三级联动展示
 var regionText = ''; //三级联动文本
 var typecustom = [];
+var captureLONG = 0;
+var captureLAT = 0;
 var compareFlagJDWD = 0; //比较经纬度偏差
 localStorage.setItem("clearJDWD", "1");
 localStorage.setItem("sjzpGeolocationJD", '');
@@ -891,15 +893,14 @@ function JDWDDisparity() {
 	//使用并保留小数点后两位
 	var gap = getDistance(localStorage.getItem("sjzpGeolocationJD"), localStorage.getItem("sjzpGeolocationWD"), localStorage.getItem("drsSelJD"), localStorage.getItem("drsSelWD")).toFixed(2);
 	var btnArray = ['否', '是'];
-	mui.confirm('\n 图片坐标:' + localStorage.getItem("sjzpGeolocationJD") + ',' + localStorage.getItem("sjzpGeolocationWD") + ' \n 定位坐标:' + localStorage.getItem("drsSelJD") + ',' + localStorage.getItem("drsSelWD") + ' \n 坐标误差：' + gap + '米 \n \n 纠正后将以图片坐标为准\n', '坐标纠正', btnArray, function(e) {
+	mui.confirm('\n 图片坐标: \n' + localStorage.getItem("sjzpGeolocationJD") + ', \n' + localStorage.getItem("sjzpGeolocationWD") + ' \n\n 定位坐标: \n' + localStorage.getItem("drsSelJD") + ', \n' + localStorage.getItem("drsSelWD") + '\n\n 坐标误差: ' + gap + '米 \n \n 纠正后将以图片坐标为准\n', '坐标纠正', btnArray, function(e) {
 		if(e.index == 1) {
-			//更新 经度 纬度
-			var Jd = localStorage.getItem("sjzpGeolocationJD");
-			var Wd = localStorage.getItem("sjzpGeolocationWD");
-			console.log("--------经度-------- " + Jd);
-			console.log("--------纬度-------- " + Wd);
-			$("#JD").val(Jd.toFixed(6));
-			$("#WD").val(Wd.toFixed(6));
+			//获取经度
+			captureLONG = localStorage.getItem("sjzpGeolocationJD");
+			//获取纬度
+			captureLAT = localStorage.getItem("sjzpGeolocationWD");
+			$("#JD").val(parseInt(captureLONG).toFixed(6));
+			$("#WD").val(parseInt(captureLAT).toFixed(6));
 			localStorage.setItem("drsSelJD", localStorage.getItem("sjzpGeolocationJD"));
 			localStorage.setItem("drsSelWD", localStorage.getItem("sjzpGeolocationWD"));
 			return false;
