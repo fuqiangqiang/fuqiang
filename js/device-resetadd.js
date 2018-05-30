@@ -894,8 +894,12 @@ function JDWDDisparity() {
 	mui.confirm('\n 图片坐标:' + localStorage.getItem("sjzpGeolocationJD") + ',' + localStorage.getItem("sjzpGeolocationWD") + ' \n 定位坐标:' + localStorage.getItem("drsSelJD") + ',' + localStorage.getItem("drsSelWD") + ' \n 坐标误差：' + gap + '米 \n \n 纠正后将以图片坐标为准\n', '坐标纠正', btnArray, function(e) {
 		if(e.index == 1) {
 			//更新 经度 纬度
-			$("#JD").val(localStorage.getItem("sjzpGeolocationJD"));
-			$("#WD").val(localStorage.getItem("sjzpGeolocationWD"));
+			var Jd = localStorage.getItem("sjzpGeolocationJD");
+			var Wd = localStorage.getItem("sjzpGeolocationWD");
+			console.log("--------经度-------- " + Jd);
+			console.log("--------纬度-------- " + Wd);
+			$("#JD").val(Jd.toFixed(6));
+			$("#WD").val(Wd.toFixed(6));
 			localStorage.setItem("drsSelJD", localStorage.getItem("sjzpGeolocationJD"));
 			localStorage.setItem("drsSelWD", localStorage.getItem("sjzpGeolocationWD"));
 			return false;
