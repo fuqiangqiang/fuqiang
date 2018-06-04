@@ -12,11 +12,10 @@ function getDepartments() {
 	//
 	$.ajax({
 		type: "GET",
-		url: 'http://10.10.16.124:8080/drs/VIID/Depts.action?userName=system',
+		url: app.host + '/VIID/Depts.action?userName=' + localStorage.getItem("drsUserName"),//localStorage.getItem("drsUserName") 从 localStorage 中获取登录的用户名.
 		data: "",
 		success: function(msg) {
 			var listFragment = '';
-//			console.log(JSON.stringify(msg))
 			//临时
 			$.each(msg.DictList,function(index,allDepts){
 //				console.log("第" + index + ": " + "----00---- " + JSON.stringify(allDepts));
@@ -47,7 +46,7 @@ function getDepartments() {
 			$('#departments').html(listFragment);
 		},
 		error:function(err){
-			console.log("错误: " + JSON.stringify(err));
+			console.log("列表获取失败 " + JSON.stringify(err));
 		}
 	});
 }

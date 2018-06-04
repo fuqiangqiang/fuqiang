@@ -145,13 +145,17 @@ $(function() {
 			var thisVlue = $(this);
 			picker.show(function(selectItems) {
 				thisVlue.val(selectItems[0].text).attr('data-value', selectItems[0].value);
+				console.log(thisVlue.attr('data-value'));
+				console.log(thisVlue.attr('name'));
 				//[编辑]状态关联必填项.
 				$.each(typecustom, function(index, value) {
 					if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum) {
+						console.log(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum);
 						$('input[name=' + value.linktype + ']').siblings('label').addClass('label-required');
-					} else {
+					} 
+					/*else {
 						$('input[name=' + value.linktype + ']').siblings('label').removeClass('label-required');
-					}
+					}*/
 				}) //--END 编辑状态关联必填项 --
 
 			})
