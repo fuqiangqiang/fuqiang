@@ -9,7 +9,7 @@ $(function() {
 				paramData.SBZT = $('#devict_state_box .mui-icon-checkmarkempty').attr('data-value');
 				paramData.SXJLX = $('#device_type_box .mui-icon-checkmarkempty').attr('data-value');
 				paramData.SBZTName = $('#devict_state_box .mui-icon-checkmarkempty').text();
-                paramData.SXJLXName = $('#device_type_box .mui-icon-checkmarkempty').text();
+        paramData.SXJLXName = $('#device_type_box .mui-icon-checkmarkempty').text();
 				/*paramData.AZSJ = $('#install_date').val().trim();*/
 				mui.fire(plus.webview.getWebviewById(paramData.target), 'getQueryParam', paramData);
 				mui.fire(plus.webview.getWebviewById('main.html'), 'getQueryParam', paramData);
@@ -20,7 +20,7 @@ $(function() {
 });
 mui.plusReady(function() {
 	var self = plus.webview.currentWebview();
-
+//	console.log("self 是 : " + JSON.stringify(self))
 	paramData.target = self.target //目标页面
 
 	if(typeof self.SBMC !== 'undefined') { //设备名称
@@ -55,7 +55,7 @@ function initEvents() {
 		//搜索
 		.on('tap', '#btn_search', function() {
 			isSearch = true;
-			localStorage.setItem("getsearch","1111");
+			localStorage.setItem("getsearch","");
 			mui.back();
 		})
 		//起始日期选择

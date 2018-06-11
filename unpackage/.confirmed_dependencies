@@ -84,7 +84,8 @@
 			"js/plugins/baidumapv2/tools/MarkerClusterer_min.js",
 			"js/plugins/baidumapv2/images/openhand.cur",
 			"js/plugins/baidumapv2/images/panorama/indoor_exit.png",
-			"js/plugins/baidumapv2/images/panorama/close.png"
+			"js/plugins/baidumapv2/images/panorama/close.png",
+			"images/camera/yaoganqiangji1.png"
 		],
 		"refer": [
 			"maps_map_sub.html"

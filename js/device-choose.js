@@ -29,7 +29,7 @@ mui.plusReady(function() {
 	$("#sxjul").html("");
 	var plist = "";
 	$.each(self.datacheckbox, function(idx, val) {
-		console.log("第" + idx + ": " + "--------" + JSON.stringify(val));
+//		console.log("第" + idx + ": " + "--------" + JSON.stringify(val));
 		plist += '<li class="mui-table-view-cell mui-col-xs-6 mui-col-sm-4">' +
 			'<div class="mui-icon filter-item" data-name="' + self.checkname + '" data-value="' + val.value + '">' + val.name + '</div></li>'
 	})

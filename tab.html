@@ -2,78 +2,76 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>DRS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="css/mui/mui.min.css">
-    <link rel="stylesheet" href="css/iconfont/iconfont.css">
-    <link rel="stylesheet" href="css/tools.css">
-    <link rel="stylesheet" href="css/tab.css">
-    <style>
-        .mui-bar-tab .mui-tab-item .mui-tab-label {
-            font-size: 11px;
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+  <title>DRS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="css/mui/mui.min.css">
+  <link rel="stylesheet" href="css/iconfont/iconfont.css">
+  <link rel="stylesheet" href="css/tools.css">
+  <link rel="stylesheet" href="css/tab.css">
+  <style>
+    .mui-bar-tab .mui-tab-item .mui-tab-label {
+      font-size: 11px;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mui-bar [class*="icon-"] {
+      font-size: 22px;
+      position: relative;
+      z-index: 20;
+      top: 3px;
+      width: 24px;
+      height: 24px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .mui-bar .mui-tab-item .mui-icon-plusempty {
+      width: 40px;
+      height: 40px;
+      font-size: 30px;
+      font-weight: bold;
+      background: #2685FF;
+      border-radius: 50%;
+      color: white;
+      top: 0;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .mui-bar [class*="icon-"] {
-            font-size: 22px;
-            position: relative;
-            z-index: 20;
-            top: 3px;
-            width: 24px;
-            height: 24px;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        .mui-bar .mui-tab-item .mui-icon-plusempty {
-            width: 40px;
-            height: 40px;
-            font-size: 30px;
-            font-weight: bold;
-            background: #2685FF;
-            border-radius: 50%;
-            color: white;
-            top: 0;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /*覆盖底部TAB样式*/
-        .mui-bar-tab .mui-tab-item.mui-active {
-            color: #00CDC5;
-        }
-        /*.mui-bar-tab .mui-tab-item.mui-active2 {
-            color: #00CDC5;
-        }*/
-    </style>
+    /*覆盖底部TAB样式*/
+    .mui-bar-tab .mui-tab-item.mui-active {
+      color: #00CDC5;
+    }
+    /* .mui-bar-tab .mui-tab-item.mui-active2 {
+      color: #00CDC5;
+    } */
+  </style>
 </head>
 
 <body>
-<nav class="mui-bar mui-bar-tab" id="tabBottom">
+  <nav class="mui-bar mui-bar-tab" id="tabBottom">
     <a id="defaultTab" class="mui-tab-item mui-active" href="main.html">
-        <i class="iconfont icon-shebei1"></i>
-        <span class="mui-tab-label">设备</span>
+      <i class="iconfont icon-shebei1"></i>
+      <span class="mui-tab-label">设备</span>
     </a>
-    <a id="map" class="mui-tab-item" href="map.html" >
-        <i class="iconfont icon-dingwei1"></i>
-        <span class="mui-tab-label">定位</span>
+    <a id="map" class="mui-tab-item" href="map.html">
+      <i class="iconfont icon-dingwei1"></i>
+      <span class="mui-tab-label">定位</span>
     </a>
 
 
     <a id="myTab" class="mui-tab-item" href="my.html">
-        <i class="iconfont icon-wode"></i>
-        <span class="mui-tab-label">我的</span>
+      <i class="iconfont icon-wode"></i>
+      <span class="mui-tab-label">我的</span>
     </a>
-</nav>
-<script src="js/mui/mui.min.js"></script>
-<script src="js/plugins/jquery-3.2.1.js"></script>
-<script src="js/tab.js"></script>
+  </nav>
+  <script src="js/mui/mui.min.js"></script>
+  <script src="js/plugins/jquery-3.2.1.js"></script>
+  <script src="js/tab.js"></script>
 
 </body>
 

@@ -1,265 +1,243 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <title></title>
-        <link href="css/mui/mui.min.css" rel="stylesheet" />
-        <link href="css/mui/mui.css" rel="stylesheet" />
-        <link href="css/iconfont/iconfont.css" rel="stylesheet" />
-        <link rel="stylesheet" href="css/common.css" />
-        <link rel="stylesheet" href="css/main.css">
-        <!--<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
-        <script src="js/common.min.js" type="text/javascript" charset="utf-8"></script>
-        <style>
-        	a{
-        		text-decoration: none;
-        	}
-            ul {
-                font-size: 14px;
-                color: #8f8f94;
-            }
+<head>
+  <title></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link href="css/mui/mui.min.css" rel="stylesheet" />
+  <link href="css/mui/mui.css" rel="stylesheet" />
+  <link href="css/iconfont/iconfont.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/main.css">
+  <!--<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
+  <script src="js/common.min.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+    a {
+      text-decoration: none;
+    }
+    ul {
+      font-size: 14px;
+      color: #8f8f94;
+    }
+    .mui-btn {
+      padding: 10px;
+    }
+    .top-box {
+      height: 60px;
+      background: #17284F;
+      padding-top: 10px;
+    }
+    .top-box .left {
+      float: left;
+      padding-left: 10px;
+    }
+    .top-box .mid {
+      float: left;
+      color: #FFFFFF;
+      padding-left: 10px;
+      padding-top: 5px;
+    }
+    .top-box .mid li {
+      list-style: none;
+      margin-top: 5px;
+    }
+    .top-box .mid li.user {
+      font-size: 16px;
+      float: left;
+    }
+    .top-box .mid li.role {
+      font-size: 14px;
+      float: left;
+      padding-left: 10px;
+      padding-top: 1px;
+    }
+    .top-box .right {
+      float: right;
+      color: #FFFFFF;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+    .top-box .right span {
+      font-weight: 100;
+      padding-left: 20px;
+      font-size: 24px;
+    }
+    .img-radius {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid #eee;
+      overflow: hidden;
+      float: left;
+      background: url(images/policeman.png) center no-repeat;
+      background-size: 40px;
+    }
+    header {
+      width: 100%;
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+    }
+    .mui-slider {
+      background-color: #FFFFFF;
+      height: 36px;
+      width: 95%;
+      margin: 0 auto;
+      border: 1px solid #00CDC5;
+      border-radius: 5px;
+      -moz-border-radius: 5px;
+      /* Old Firefox */
+    }
+    .mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
+      color: #52E3C3;
+    }
+    .mui-content {
+      background: #FFFFFF;
+    }
+    .mui-badge-blue,
+    .mui-badge-primary {
+      color: #9B9B9B;
+      background-color: #111F40;
+    }
+    .mui-input-row {
+      margin-left: 10px;
+      margin-right: 10px;
+      border-radius: 6px;
+      padding-top: 6.8px;
+    }
+    .mui-input-row .keyname {
+      border-radius: 7px;
+      font-size: 14px;
+      height: 38px;
+    }
+    .search {
+      position: relative;
+    }
+    .search-btn {
+      position: absolute;
+      top: 13.5px;
+      right: 15px;
+      cursor: pointer;
+    }
+    .search-btn:hover {
+      cursor: pointer;
+      color: #00CDC5;
+    }
+    .keyname {
+      border: solid 1px red;
+      width: 300px;
+      height: 50px;
+    }
+    .m-top {
+      margin-top: 5px;
+    }
 
-            .mui-btn {
-                padding: 10px;
-            }
+    /*yangfy*/
+    .search-show {
+      width: 100%;
+      height: 15px;
+      margin-top: 60px;
+      margin-bottom: 0;
+      list-style: none;
+      padding-left: 10px;
+    }
+    .searchactive {
+      margin-top: 60px;
+    }
+    .search-show li {
+      float: left;
+      width: 90px;
+      background: #ddd;
+      margin-left: 0;
+      margin-right: 10px;
+      height: 20px;
+      /*margin-top: 5px;*/
+      display: none;
+    }
+    .search-show li div {
+      float: left;
+      text-indent: 10px;
+      width: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .search-show li span {
+      float: right;
+      margin-right: 5px;
+      font-size: 15px;
+      display: inline-block;
+      height: 20px;
+      width: 15px;
+    }
+  </style>
+</head>
 
-            .top-box {
-                height: 60px;
-                background: #17284F;
-                padding-top: 10px;
-            }
-
-            .top-box .left {
-                float: left;
-                padding-left: 10px;
-            }
-
-            .top-box .mid {
-                float: left;
-                color: #FFFFFF;
-                padding-left: 10px;
-                padding-top: 5px;
-            }
-
-            .top-box .mid li {
-                list-style: none;
-                margin-top: 5px;
-            }
-
-            .top-box .mid li.user {
-                font-size: 16px;
-                float: left;
-            }
-
-            .top-box .mid li.role {
-                font-size: 14px;
-                float: left;
-                padding-left: 10px;
-                padding-top: 1px;
-            }
-
-            .top-box .right {
-                float: right;
-                color: #FFFFFF;
-                margin-right: 10px;
-                margin-top: 10px;
-            }
-
-            .top-box .right span {
-                font-weight: 100;
-                padding-left: 20px;
-                font-size: 24px;
-            }
-
-            .img-radius {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                border: 3px solid #eee;
-                overflow: hidden;
-                float: left;
-                background: url(images/policeman.png) center no-repeat;
-                background-size: 40px;
-            }
-
-            header {
-                width: 100%;
-                height: 60px;
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 9999;
-            }
-
-            .mui-slider {
-                background-color: #FFFFFF;
-                height: 36px;
-                width: 95%;
-                margin: 0 auto;
-                border: 1px solid #00CDC5;
-                border-radius: 5px;
-                -moz-border-radius: 5px;
-                /* Old Firefox */
-            }
-
-            .mui-segmented-control.mui-segmented-control-inverted .mui-control-item {
-                color: #52E3C3;
-            }
-
-            .mui-content {
-                background: #FFFFFF;
-            }
-
-            .mui-badge-blue,
-            .mui-badge-primary {
-                color: #9B9B9B;
-                background-color: #111F40;
-            }
-
-            .mui-input-row {
-                margin-left: 10px;
-                margin-right: 10px;
-                border-radius: 6px;
-                padding-top: 6.8px;
-            }
-
-            .mui-input-row .keyname {
-                border-radius: 7px;
-                font-size: 14px;
-                height: 38px;
-            }
-
-            .search {
-                position: relative;
-            }
-
-            .search-btn {
-                position: absolute;
-                top: 13.5px;
-                right: 15px;
-                cursor: pointer;
-            }
-
-            .search-btn:hover {
-                cursor: pointer;
-                color: #00CDC5;
-            }
-
-            .keyname {
-                border: solid 1px red;
-                width: 300px;
-                height: 50px;
-            }
-            .m-top {
-                margin-top: 5px;
-            }
-            /*yangfy*/
-            .search-show {
-                width: 100%;
-                height: 15px;
-                margin-top: 60px;
-                margin-bottom: 0;
-                list-style: none;
-                padding-left: 10px;
-            }
-            .searchactive{
-                margin-top: 60px;
-            }
-
-            .search-show li {
-                float: left;
-                width: 90px;
-                background: #ddd;
-                margin-left: 0;
-                margin-right: 10px;
-                height: 20px;
-                /*margin-top: 5px;*/
-               display: none;
-            }
-
-            .search-show li div {
-                float: left;
-                text-indent: 10px;
-                width: 70px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .search-show li span {
-                float: right;
-                margin-right: 5px;
-                font-size: 15px;
-                display: inline-block;
-                height: 20px;
-                width: 15px;
-            }
-        </style>
-    </head>
-
-    <body>
-        <header id="header">
-            <div class="top-box">
-                <div>
-                    <div class="left">
-                        <div class="img-radius">
-                        </div>
-                        <div class="mid">
-                            <li class="user" id="userName"></li>
-                            <li class="role" id="roleName"><span class="mui-badge mui-badge-primary">12</span></li>
-                        </div>
-                    </div>
-                    <div class="right">
-                        <span class="iconfont icon-chazhao" id="btn_search"></span>
-                        <span class="iconfont icon-xinjian" id="device_add"></span>
-                        <span class="iconfont icon-saomiao" id="barcode.html" onclick="clicked(this.id)"></span>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div>
-            <!--yangfy-->
-            <ul class="search-show">
-                <li class="searchinput">
-                    <div data-id></div>
-                    <span>×</span>
-                </li>
-                <li class="searchstatus">
-                    <div data-id></div>
-                    <span>×</span>
-                </li>
-                <li class="searchtype">
-                    <div data-id></div>
-                    <span>×</span>
-                </li>
-
-            </ul>
-            <div class="mui-content m-top">
-                <div id="slider" class="mui-slider ">
-                    <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-                        <div class="mui-scroll">
-                            <a class="mui-control-item mui-active" data-wid="device-uncommitted.html">草稿
-                                <!--<span class="mui-badge mui-badge-danger mui-hidden" id="toDoCnt"></span>-->
-                            </a>
-                            <a class="mui-control-item" data-wid="device-pending-sync.html">退回</a>
-                            <a class="mui-control-item" data-wid="device-pending-checked.html">未审核</a>
-                            <a class="mui-control-item" data-wid="device-sync.html">已审核</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body>
+  <header id="header">
+    <div class="top-box">
+      <div>
+        <div class="left">
+          <div class="img-radius"></div>
+          <div class="mid">
+            <li class="user" id="userName"></li>
+            <li class="role" id="roleName">
+              <span class="mui-badge mui-badge-primary">12</span>
+            </li>
+          </div>
         </div>
-        <script src="js/mui/mui.js"></script>
-        <script src="js/mui/webviewGroup.js"></script>
-        <script src="js/plugins/jquery-3.2.1.js"></script>
-        <script src="js/plugins/template-web.js"></script>
-        <script src="js/common.js"></script>
-        <script src="js/main.js"></script>
-        <!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
-    </body>
+        <div class="right">
+          <span class="iconfont icon-chazhao" id="btn_search"></span>
+          <span class="iconfont icon-xinjian" id="device_add"></span>
+          <span class="iconfont icon-saomiao" id="barcode.html" onclick="clicked(this.id)"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div>
+    <!--yangfy-->
+    <ul class="search-show">
+      <li class="j-searchItem searchinput">
+        <div data-id class="j-searchinput"></div>
+        <span>×</span>
+      </li>
+      <li class="j-searchItem searchstatus">
+        <div data-id class="j-searchstatus"></div>
+        <span>×</span>
+      </li>
+      <li class="j-searchItem searchtype">
+        <div data-id class="j-searchtype"></div>
+        <span>×</span>
+      </li>
+    </ul>
+    <div class="mui-content m-top">
+      <div id="slider" class="mui-slider ">
+        <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+          <!--选项卡-->
+          <div class="mui-scroll">
+            <a class="mui-control-item mui-active" data-wid="device-uncommitted.html">草稿
+              <!--<span class="mui-badge mui-badge-danger mui-hidden" id="toDoCnt"></span>-->
+            </a>
+            <a class="mui-control-item" data-wid="device-pending-sync.html">退回</a>
+            <a class="mui-control-item" data-wid="device-pending-checked.html">未审核</a>
+            <a class="mui-control-item" data-wid="device-sync.html">已审核</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/mui/mui.js"></script>
+  <script src="js/mui/webviewGroup.js"></script>
+  <script src="js/plugins/jquery-3.2.1.js"></script>
+  <script src="js/plugins/template-web.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/main.js"></script>
+  <!--<script type="text/javascript" src="js/bootstrap.min.js"></script>-->
+</body>
 
 </html>
