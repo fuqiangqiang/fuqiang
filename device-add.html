@@ -112,12 +112,8 @@
       
       <label class="wind-content-label {{if item.required}}label-required{{/if}}">{{item.name}}</label> {{each item.dictionaryDetails option optionIdx}}
       <div class="beauty-radio">
-        <!--{{if optionIdx==0}}checked{{/if}}-->
-<!--        <div id="" style="font-size: 8px;overflow: auto;">
-          {{option}}
-        </div>-->
         <input id="radio_{{option.id}}_{{option.value}}_{{optionIdx}}" class="beauty-radio-input wind-content-input wind-content-input-radiodetail"
-          type="radio" name="{{item.type}}" value="{{option.value}}" checked='true'>
+          type="radio" name="{{item.type}}" value="{{option.value}}" {{if optionIdx==0}}checked{{/if}}>
         <label for="radio_{{option.id}}_{{option.value}}_{{optionIdx}}" class="beauty-radio-label wind-content-input-radio ">{{option.name}}</label>
       </div>
       {{/each}}

@@ -1,18 +1,16 @@
 var x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 var dataDom = null;
-var imgIdNum = 0; //自增标记
 var imgIndex = 1; //已上传的图片索引
 var imgFiles = []; //上传图片列表
 var fileTotalSize = 0; //上传文件总大小
 var imageList = null;
 var allgldw = []; //保存所有管理单位
-var imgArray = []; //保存上传的图片
 var regionArray = []; //三级联动展示
 var regionText = ''; //三级联动文本
 var typecustom = [];
 var captureLONG = 0;
 var captureLAT = 0;
-var compareFlagJDWD = 0; //比较经纬度偏差
+var compareFlagJDWD = 0;//比较经纬度偏差标识
 localStorage.setItem("clearJDWD", "1");
 localStorage.setItem("sjzpGeolocationJD", '');
 localStorage.setItem("sjzpGeolocationWD", '');
@@ -143,17 +141,20 @@ $(function() {
       var picker = new mui.PopPicker();
       picker.setData(dataArray);
       var thisVlue = $(this);
+      
       picker.show(function(selectItems) {
+        
         //MUI API: picker.show(), 类似于onchange, 但是实在效果显示之后的回调.
         thisVlue.val(selectItems[0].text).attr('data-value', selectItems[0].value);
+        
         //[编辑]状态关联必填项.
         $.each(typecustom, function(index, value) {
           //当前项目名与关联名匹配 并且 当前值与关联值匹配
           if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') == value.idnum) {
             $('input[name=' + value.linktype + ']').siblings('label').addClass('label-required');
             //判断: 当前项目名与关联名匹配 并且 当前值与关联值不!匹!配!的
-          } else if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') != value.idnum){
-          	$('input[name=' + value.linktype + ']').siblings('label').removeClass('label-required');
+          } else if(thisVlue.attr('name') == value.type && thisVlue.attr('data-value') != value.idnum) {
+            $('input[name=' + value.linktype + ']').siblings('label').removeClass('label-required');
           }
         }) //--END 编辑状态关联必填项 --
 
@@ -245,6 +246,8 @@ $(function() {
       var self = plus.webview.currentWebview(); //获取device-uncommitted.html所传的值
       var id = self.de_id; //获取所传值的id
       var postData = {};
+
+      // 除 图片 文件以外的传值
       for(var i = 0; i < $(".wind-content-input").length; i++) {
         //判断条件: 下拉框, 多选框, 三级联动
         if($(".wind-content-input").eq(i).hasClass("wind-content-input-select") ||
@@ -273,7 +276,8 @@ $(function() {
           }
           postData[name] = value
         }
-      }
+      } //-- END 除 图片 文件以外的传值 --
+
       //【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证 暂时
       for(var i = 0; i < $('input[type=text]').length; i++) {
         if('' != $('input').eq(i).val()) {
@@ -315,15 +319,9 @@ $(function() {
         }
       } // --END 【设备编码】【IPV4】【IPV6】【MAC地址】【录像保存天数】格式验证--
 
-      for(var j = 0; j < $('.uploaded-images').length; j++) {
-        //处理上传时的 name的值, 其后不能加 Name.
-        var name = $(".uploaded-images").eq(j).attr("inheritId");
-        name = name.substring(0, name.length - 4);
-        var value = $(".uploaded-images").eq(j).attr("id");
-        imgArray.push(value)
-        postData[name] = imgArray.join('/');
-      }
+      //[保存草稿]接口
       var url = app.host + '/VIID/CamerasToSync.action';
+      //新建上传对象
       var uploader = plus.uploader.createUpload(url, {
         method: 'POST',
       }, function(t, status) {
@@ -334,70 +332,56 @@ $(function() {
         } else {
           mui.toast("提交草稿失败: " + status);
         }
-      });
+      }); //--END 新建上传对象 --
+
+      //新添加的图片(拍摄或者相册选择)
+      $('.imgboxnum').each(function(index, parent) {
+        $(parent).find('.image-item').each(function(index, item) {
+          var imgList = $(parent).attr("origionId");
+          mui.each(imgFiles, function(index, element) {
+            //防止多组照片时出现互相影响的问题.
+            if(element.type === imgList) {
+              uploader.addFile(element.path, {
+                key: imgList + '-' + index
+              });
+            } //--END 防止多组照片时出现互相影响的问题. --
+          });
+        })
+      }) //-- END 新添加的图片(拍摄 或 相册选择) --
+
+      //对于 已有图片 的处理方式
+      if($(".imgboxnum").length > 0) {
+        //图片类目个数. 例: 实景图片, 出场图片...
+        for(var n = 0; n < $(".imgboxnum").length; n++) {
+          //如果该条目下有 回显的图片
+          if($(".imgboxnum").eq(n).find(".uploaded-images").length > 0) {
+            //新建一个数组存放遍历后的图片id
+            var imageArray = [];
+            for(var m = 0; m < $(".imgboxnum").eq(n).find(".uploaded-images").length; m++) {
+              var name = $(".imgboxnum").eq(n).find(".uploaded-images").eq(m).attr("inheritId");
+              name = name.substring(0, name.length - 4);
+              var value = $(".imgboxnum").eq(n).find(".uploaded-images").eq(m).attr("id");
+              imageArray.push(value)
+            }
+            postData[name] = imageArray.join('/');
+          }
+        }
+      } // --　END 对于 已有图片 的处理方式 --
+
+      //czr -- 操作人?
       postData.czr = localStorage.getItem("drsUserName");
       postData.shzt = "1";
       postData.id = id; //没有id无法标识记录
-      console.log(JSON.stringify(postData));
-      //return
       mui.each(postData, function(index, element) {
         //if(index !== 'images') {
         uploader.addData(index, element)
         //}
       });
 
-      //添加图片
-      //遍历图片条目
-      $('.imgboxnum').each(function(index, parent) {
-        //console.log("第 " + index + "parent: " + "--------" + JSON.stringify(parent));
-        $(parent).find('.image-item').each(function(index, item) {
-          var imgList = $(parent).attr("origionId");
-          
-          
-          
-          
-          
-          
-          
-          
-          //console.log(imgList)
-          mui.each(imgFiles, function(index, element) {
-            console.log("element: -------- " + JSON.stringify(element));
-            //防止多组照片时出现互相影响的问题.
-            if(element.type===imgList){
-              //console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
-              var f = imgFiles[index];
-              //console.log("f 是: " + JSON.stringify(f));
-              uploader.addFile(f.path, {
-                key: imgList + '-' + index
-              }); 
-            }
-
-          });
-          
-          
-          
-          
-          
-          
-          
-          
-
-        })
-      })
-      /*for(var i = 0; i < $(".imgboxnum .image-item").length; i++) {
-//				console.log($(".imgboxnum .image-item").length);
-				var imgList = $(".imgboxnum").attr("origionId");
-				console.log(imgList)
-				mui.each(imgFiles, function(index, element) {
-					var f = imgFiles[index];
-					uploader.addFile(f.path, {
-						key: imgList
-					});
-				});
-			}*/
+      //    执行上传
       uploader.start();
     })
+
     /*发送审核*/
     .on("tap", "#examine_btn", function() {
       if(!ruleVerification()) {
@@ -492,33 +476,28 @@ $(function() {
         uploader.addData(index, element)
         //}
       });
-      //添加图片
-      //遍历图片条目
+
+      //该部分与[编辑]中新增图片完全相同, 如修改, 确保保持同步修改.
+      //新添加的图片(拍摄或者相册选择)
       $('.imgboxnum').each(function(index, parent) {
         //console.log("第 " + index + "parent: " + "--------" + JSON.stringify(parent));
         $(parent).find('.image-item').each(function(index, item) {
           var imgList = $(parent).attr("origionId");
           //console.log(imgList)
           mui.each(imgFiles, function(index, element) {
-            //console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
-            var f = imgFiles[index];
-            //console.log("f 是: " + JSON.stringify(f));
-            uploader.addFile(f.path, {
-              key: imgList + '-' + index
-            });
+            //console.log("element: -------- " + JSON.stringify(element));
+            //防止多组照片时出现互相影响的问题.
+            if(element.type === imgList) {
+              //console.log("第" + index + ": " +'-------- '+ JSON.stringify(element));
+              var f = imgFiles[index];
+              //console.log("f 是: " + JSON.stringify(f));
+              uploader.addFile(f.path, {
+                key: imgList + '-' + index
+              });
+            } //--END 防止多组照片时出现互相影响的问题. --
           });
-
         })
-      })
-      /*for(var i = 0; i < $(".imgboxnum").length; i++) {
-      	var imgList = $(".imgboxnum").eq(i).attr("id");
-      	mui.each(imgFiles, function(index, element) {
-      		var f = imgFiles[index];
-      		uploader.addFile(f.path, {
-      			key: imgList + "-" + f.name
-      		});
-      	});
-      }*/
+      }) //-- END 新添加的图片(拍摄或者相册选择) --
       uploader.start();
     })
 }) //--END --
@@ -628,7 +607,7 @@ function ruleDraft() {
 // 发送审核的. 目前只验证了必填项，没有验证动态必填
 function ruleVerification() {
   for(var i = 0; i < $(".label-required").length; i++) {
-    var textValue = $(".label-required").eq(i).closest(".wind-content-item").find("input");//input[text]
+    var textValue = $(".label-required").eq(i).closest(".wind-content-item").find("input"); //input[text]
     if(textValue.val() == "") {
       mui.toast("请输入 " + $(".label-required").eq(i).text());
       return false;
@@ -636,6 +615,7 @@ function ruleVerification() {
   }
   return true;
 }
+
 
 // 照片展示
 function newPlaceholder(imageList) {
@@ -645,61 +625,43 @@ function newPlaceholder(imageList) {
     fileInputArray[fileInputArray.length - 1].parentNode.classList.contains('space')) {
     return;
   };
-  imgIdNum++;
 
+  imgIndex++;
+
+  //  <div class="image-item space">
+  //    ...
+  //  </div>
   var placeholder = document.createElement('div');
   placeholder.setAttribute('class', 'image-item space');
-
+  //  <div class="image-item space">
+  //    <div class="image-up"></div>
+  //  </div>
   var up = document.createElement("div");
   up.setAttribute('class', 'image-up');
 
-  //删除图片
-  var closeButton = document.createElement('div');
-  closeButton.setAttribute('class', 'image-close');
-  closeButton.innerHTML = '×';
-  closeButton.id = "img-" + imgIndex;
-  closeButton.addEventListener('tap', function(event) {
-    if(imgFiles.length > 1) {
-      compareFlagJDWD = 1;
-    } else {
-      compareFlagJDWD = 0;
-    }
-
-    //小X的点击事件
-    //此处同样需要增加 confirm, 与之后已存在图片删除时做区分.
-    mui.confirm('确定删除该图片？', '提示', ['取消', '确定'], function(e) {
-      if(e.index == 1) {
-        //原有删除逻辑
-        setTimeout(function() {
-          for(var temp = 0; temp < imgFiles.length; temp++) {
-            if(imgFiles[temp].id == closeButton.id) {
-              imgFiles.splice(temp, 1);
-            }
-          }
-          imageList.removeChild(placeholder);
-        }, 0);
-      } else {
-        //如果用户"取消"则保留图片.
-        return;
-      }
-    })
-    return false;
-  }, false);
-
-  //新建图片
+  //添加图片
+  //  <div class="image-item space">
+  //    <div class="image-up"></div>
+  //    <div id="image-imgIdNum" class="file"></div>
+  //  </div>
   var fileInput = document.createElement('div');
   fileInput.setAttribute('class', 'file');
-  fileInput.setAttribute('id', 'image-' + imgIdNum);
+  fileInput.setAttribute('id', 'image-' + imgIndex);
+  //element : <div id="image-imgIdNum" class="file"></div>
+  //event: tap(点击)
   fileInput.addEventListener('tap', function(event) {
-    //图片类型(多组图片互相印象bug)
-    var fileType=$(this).closest('.image-list').attr('origionId');
+    //图片类型(多组图片互相影响bug)
+    var fileType = $(this).closest('.image-list').attr('origionId');
+    
     //判断当前类目中超过三张图片时, 禁止上传.
     if($(this).parent().siblings().length >= 3) {
       mui.toast("最多只能上传3张图片");
       return
-    }
+    }// -- END 判断上传张数 --
+    
     var self = this;
     var index = (this.id).substr(-1);
+    
     //弹出选择菜单:【拍摄照片】||【相册选择】.  device-add.html :126 <a>
     mui('#popover').popover('toggle', document.getElementById("openPopover"));
 
@@ -708,7 +670,8 @@ function newPlaceholder(imageList) {
 
       //判断: 点击【拍摄照片】时 :609
       if($(this).is('.j-captureImage')) {
-        //
+        
+        //MUI_API: plus.camera.getCamera().captureImage() -- 调取相机
         plus.camera.getCamera().captureImage(function(e) {
           var name = e.substr(e.lastIndexOf('/') + 1);
           plus.zip.compressImage({
@@ -721,34 +684,36 @@ function newPlaceholder(imageList) {
             if(fileTotalSize > (10 * 1024 * 1024)) {
               return mui.toast('文件超大,请重新选择~');
             }
-            if(!self.parentNode.classList.contains('space')) { //已有图片
+            //点击已有图片替换
+            if(!self.parentNode.classList.contains('space')) {
               imgFiles.splice(index - 1, 1, {
                 name: "images" + index,
                 path: e,
-                type:fileType//图片类型(多组图片互相印象bug)
+                type: fileType //图片类型(多组图片互相影响bug)
               });
               compareFlagJDWD = 1;
-            } else { //加号
+              //点击 "+" 增加新图片
+            } else {
               placeholder.classList.remove('space');
               imgFiles.push({
                 name: "images" + imgIndex,
                 path: zip.target,
-                id: "img-" + imgIndex,
-                type:fileType//图片类型(多组图片互相印象bug)
+                //多组,多张图片时第一张删除有问题.
+                //问题原因 删除按钮与图片对应错误
+                id: "img-" + placeholder.getAttribute('data-index'),
+                //图片类型(多组图片互相影响bug)
+                type: fileType
               });
-              imgIndex++;
               newPlaceholder(imageList);
               compareFlagJDWD = 1;
-            }
+            } // -- END 点击 "+" 增加新图片--
+
             up.classList.remove('image-up');
             placeholder.style.backgroundImage = 'url(' + zip.target + ')';
 
           }, function(zipe) {
             mui.toast('压缩失败！')
           });
-          
-          
-          
           //拍摄照片后保存 经度&纬度
           if(compareFlagJDWD = 1) {
             //拍摄照片后 比较坐标偏差
@@ -766,9 +731,10 @@ function newPlaceholder(imageList) {
         }, {});
         //在点击后关闭 遮罩
         mui('#popover').popover('toggle', document.getElementById("openPopover"));
-        //点击【相册选择】时触发
+
+        //点击【相册选择】时
       } else {
-        //MUI API plus.gallery.pick()--从相册选择照片
+        //MUI API plus.gallery.pick() -- 从相册选择新增照片
         plus.gallery.pick(function(e) {
           var name = e.substr(e.lastIndexOf('/') + 1);
           plus.zip.compressImage({
@@ -781,27 +747,35 @@ function newPlaceholder(imageList) {
             if(fileTotalSize > (10 * 1024 * 1024)) {
               return mui.toast('文件超大,请重新选择~');
             }
-            if(!self.parentNode.classList.contains('space')) { //已有图片
+            //点击已有图片替换
+            if(!self.parentNode.classList.contains('space')) {
               imgFiles.splice(index - 1, 1, {
                 name: "images" + index,
                 path: e,
-                type:fileType//图片类型(多组图片互相印象bug)
+                //图片类型(多组图片互相影响bug)
+                type: fileType
               });
-            } else { //加号
+              //点击 "+" 增加新图片
+            } else {
               placeholder.classList.remove('space');
               imgFiles.push({
-                name: "",
+                name: "", //?
                 path: zip.target,
-                id: "img-" + imgIndex,
-                type:fileType//图片类型(多组图片互相印象bug)
+                //多组图集时,除第一组图片外的其他图集第一张无法删除问题.
+                //问题原因 删除按钮与图片对应错误
+                id: "img-" + placeholder.getAttribute('data-index'),
+                //图片类型(多组图片互相印象bug)
+                type: fileType 
               });
-              imgIndex++;
+              
               newPlaceholder(imageList);
-            }
+            } //--END 点击 "+" 增加新图片--
 
             up.classList.remove('image-up');
+            
             //为照片添加地址
             placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+            
           }, function(zipe) {
             mui.toast('压缩失败！')
           });
@@ -815,13 +789,60 @@ function newPlaceholder(imageList) {
     return
   }, false);
 
+  //删除图片
+  //  <div class="image-item space">
+  //    <div class="image-up"></div>
+  //    <div id="image-imgIdNum" class="file"></div>
+  //    <div id="img-imgIndex" class="image-close"></div>
+  //  </div>
+  var closeButton = document.createElement('div');
+  closeButton.setAttribute('class', 'image-close');
+  closeButton.innerHTML = '×';
+  closeButton.id = "img-" + imgIndex;
+  //element : <div id="img-imgIndex" class="image-close"> × </div>
+  //event : tap(点击)
+  closeButton.addEventListener('tap', function(event) {
+    //判断是否进行 经度 纬度 的标识
+    if(imgFiles.length > 1) {
+      compareFlagJDWD = 1;
+    } else {
+      compareFlagJDWD = 0;
+    }// --END 判断是否进行 经度 纬度 的标识--
+
+    
+    //此处同样需要增加 confirm, 与之后已存在图片删除时做区分.
+    mui.confirm('确定删除该图片？', '提示', ['取消', '确定'], function(e) {
+      //e.index == 1  确定
+      if(e.index == 1) {
+        setTimeout(function() {
+          for(var temp = 0; temp < imgFiles.length; temp++) {
+            if(imgFiles[temp].id == closeButton.id) {
+              imgFiles.splice(temp, 1);
+            }
+          }
+          imageList.removeChild(placeholder);
+        }, 0);
+        //如果用户"取消"则保留图片.
+      } else {
+        return;
+      }
+    })
+    return false;
+  }, false);
+  //对应查找 placeholder.getAttribute('data-index'),
+  //解决关闭按钮和预删除图片不对应问题.
+  placeholder.setAttribute('data-index',imgIndex);
+//  <div class="image-item space">
+//    <div class="image-up"></div>
+//    <div id="image-imgIdNum" class="file"></div>
+//    <div id="img-imgIndex" class="image-close"></div>
+//  </div>
   placeholder.appendChild(closeButton);
   placeholder.appendChild(up);
   placeholder.appendChild(fileInput);
   imageList.appendChild(placeholder);
-  //	console.log($('.imgboxnum').html());//打印图片标签
-
 } //-- END function newPlaceholder(){} --
+
 
 // 数据获取函数 fuqiang
 function getDeviceData(sbbm, shztStauts, dataArray) {
@@ -900,17 +921,17 @@ function getDeviceData(sbbm, shztStauts, dataArray) {
         }
       });
 
-//    未审核和已审核的拷贝功能
-//    拷贝功能中清除唯一的必填项目
-//    状态 2 : 未审核; 状态 4 : 已审核
+      //未审核和已审核的拷贝功能
+      //拷贝功能中清除唯一的必填项目
+      //状态 2 : 未审核; 状态 4 : 已审核
       if(shztStauts == 2 || shztStauts == 4) {
-        $("input[name='SBBM']").val("");//重置设备编码
-        $("input[name='IPV4']").val("");//重置 ipv4
-        $("input[name='IPV6']").val("");//重置 ipv6
-        $("input[name='MACDZ']").val("");// 重置 MAC地址
-        $("input[name='JD']").val("");//重置经度
-        $("input[name='WD']").val("");//重置纬度
-        $(".imgboxnum").children('.imagesBox').remove();//清除图片
+        $("input[name='SBBM']").val(""); //重置设备编码
+        $("input[name='IPV4']").val(""); //重置 ipv4
+        $("input[name='IPV6']").val(""); //重置 ipv6
+        $("input[name='MACDZ']").val(""); // 重置 MAC地址
+        $("input[name='JD']").val(""); //重置经度
+        $("input[name='WD']").val(""); //重置纬度
+        $(".imgboxnum").children('.imagesBox').remove(); //清除图片
       }
     },
     error: function(xhr, type, errorThrown) {

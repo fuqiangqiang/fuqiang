@@ -137,14 +137,14 @@ mui.plusReady(function() {
   }); //--END 删除--
 
   //选项卡
-  mui('.mui-scroll').on('tap', '.mui-control-item', function(e) {
+mui('.mui-scroll').on('tap', '.mui-control-item', function(e) {
     var wid = this.getAttribute('data-wid');
     var wbb = plus.webview.getWebviewById(wid);
     //      if (wbb) {
     //          group.switchTab(wid);
     //      }
     group.switchTab(wid);
-  }); //-- END 选项卡 --
+}); //-- END 选项卡 --
 
   //
   function getdatasearch(obj, num) {
@@ -223,7 +223,6 @@ mui.plusReady(function() {
 
 //
 function initEvents() {
-  //alert(localStorage.getItem("getsearch"))
   //获取搜索页面传递的参数
   window.addEventListener('getQueryParam', function(e) {
     switch(e.detail.target) {
@@ -240,8 +239,7 @@ function initEvents() {
         sync = e.detail;
         break;
     }
-    
-    
+
     if(e.detail.SBMC != "" || e.detail.SBZTName != "所有状态" || e.detail.SXJLXName != "所有类型") {
       //设备状态名称不是"所有状态"的时候
       //view: 标签显示
@@ -285,7 +283,6 @@ function initEvents() {
       $(".searchtype").hide();
       $(".searchstatus").hide();
     }
-//  console.log('从 search 页面传回来的数据  : ' + JSON.stringify(e.detail));
   }) //--END addEventListener --
   
   //增加 监听绑定
@@ -323,15 +320,14 @@ function initEvents() {
       }
       //--END [搜索框], [设备状态], [摄像机类型]校验. --
       
-//    console.log("点击搜索页面时 : " + JSON.stringify(paramData));
       mui.openWindow({
         url: 'search.html',
-        //paramData
         extras: paramData
       });
 
     })
 }
+
 // 查询信息??????
 function queryToDoCnt() {
   postAjax('/mobile/task/queryToDoCnt.action', {}, function(msg) {
@@ -383,16 +379,18 @@ function loadInit() {
       },
       extras: {}
     }],
-
+    // @param obj:{index:X}; 
     onChange: function(obj) {
       var element = document.querySelector('.mui-control-item.mui-active');
       if(element) {
         element.classList.remove('mui-active');
       }
+      //parseInt(obj.index) + 1) -- 下一个标签
       document.querySelector('.mui-scroll .mui-control-item:nth-child(' + (parseInt(obj.index) + 1) + ')').classList.add('mui-active');
       //刷新点击页面 去掉点击工单tab刷新页面
       var wid = document.querySelector('.mui-scroll .mui-control-item:nth-child(' + (parseInt(obj.index) + 1) + ')').getAttribute('data-wid');
       mui.fire(plus.webview.getWebviewById(wid), 'refresh', {});
+      //@param obj.index: 0-草稿; 1-退回; 2-未审核; 3-已审核
       if(obj.index == 0) {
         getLocalsearchdata("uncommitted")
       } else if(obj.index == 2) {
@@ -419,7 +417,6 @@ function getLocalsearchdata(obj) {
     $(".searchtype").show();
     //本地缓存获得 obj,逗号隔开
     var a = localStorage.getItem(obj).split(",");
-    console.log("554: 变量 a, obj... :" + a);
     $(".searchinput div").text(a[0]);
     $(".searchstatus div").text(a[1]);
     $(".searchtype div").text(a[2]);

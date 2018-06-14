@@ -58,7 +58,7 @@ function getRegionName(code) {
 					if(cityData3[i].children[j].children[m].value == code) {
 						regionArray.push(cityData3[i].children[j].children[m].text);
 						regionText = regionArray.join('-');//格式化显示
-						console.log(regionText);
+//						console.log(regionText);
 						return
 					}
 				} //--END Level-3 第三级循环 --
